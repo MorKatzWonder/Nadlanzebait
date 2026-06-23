@@ -142,8 +142,8 @@ ul { list-style: none; }
   text-decoration: none;
 }
 .logo-svg {
-  width: 48px;
-  height: 66px;
+  width: 44px;
+  height: 62px;
 }
 .logo { display: none; }
 .logo--light { color: var(--white); }
