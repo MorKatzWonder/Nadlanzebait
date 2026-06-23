@@ -183,7 +183,7 @@ ul { list-style: none; }
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(15,45,26,.82) 0%, rgba(15,45,26,.65) 60%, rgba(15,45,26,.5) 100%);
+  background: linear-gradient(to left, rgba(15,45,26,.35) 0%, rgba(15,45,26,.65) 100%);
 }
 
 .hero__content {
