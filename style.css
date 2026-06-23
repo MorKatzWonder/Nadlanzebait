@@ -139,13 +139,18 @@ ul { list-style: none; }
 .logo-wrap {
   display: flex;
   align-items: center;
+  gap: 10px;
   text-decoration: none;
 }
 .logo-svg {
   width: 44px;
-  height: 62px;
+  height: 44px;
 }
-.logo { display: none; }
+.logo-text {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--dark);
+}
 .logo--light { color: var(--white); }
 
 .nav { display: flex; align-items: center; gap: 32px; }
