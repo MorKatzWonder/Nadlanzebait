@@ -177,15 +177,13 @@ ul { list-style: none; }
 .hero__bg {
   position: absolute;
   inset: 0;
-  background: var(--dark);
+  background: url('hero.jpg') center/cover no-repeat;
 }
 .hero__bg::after {
   content: '';
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(ellipse 60% 50% at 20% 30%, rgba(29,191,115,.18) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 40% at 80% 70%, rgba(29,191,115,.1) 0%, transparent 60%);
+  background: linear-gradient(135deg, rgba(15,45,26,.82) 0%, rgba(15,45,26,.65) 60%, rgba(15,45,26,.5) 100%);
 }
 
 .hero__content {
