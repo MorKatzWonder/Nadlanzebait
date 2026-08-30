@@ -1,0 +1,69 @@
+{
+  "meta": {
+    "title": "Nadlanzebait Real Estate",
+    "description": "Nadlanzebait Real Estate — residential sales, rentals, and property consulting."
+  },
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "listings": "Listings",
+    "testimonials": "Testimonials",
+    "contact": "Contact"
+  },
+  "common": {
+    "viewOnYad2": "View on Yad2",
+    "callNow": "Call Now",
+    "whatsapp": "WhatsApp",
+    "currentListings": "Current Listings",
+    "previousListings": "Previous Listings",
+    "readMore": "Read More",
+    "price": "Price",
+    "rooms": "Rooms",
+    "size": "Size"
+  },
+  "home": {
+    "heroTitle": "Find Your Next Home with Nadlanzebait",
+    "heroSubtitle": "Trusted local expertise in residential real estate — sales, rentals, and consulting.",
+    "ctaListings": "Browse Listings",
+    "ctaContact": "Get in Touch",
+    "introTitle": "Why Nadlanzebait",
+    "introBody": "We help buyers, sellers, and renters navigate the local market with personal attention and years of experience."
+  },
+  "services": {
+    "title": "Our Services",
+    "intro": "A full range of real estate services tailored to your needs.",
+    "items": [
+      { "title": "Property Sales", "desc": "Guidance through every step of buying or selling a home." },
+      { "title": "Rentals", "desc": "Finding the right tenants or the right rental for you." },
+      { "title": "Property Consulting", "desc": "Market insights and advice to help you make the right decision." },
+      { "title": "Property Management", "desc": "Ongoing support for property owners." }
+    ]
+  },
+  "listings": {
+    "title": "Listings",
+    "intro": "Browse current and previous listings. Each listing links out to its full details on Yad2.",
+    "currentTitle": "Current Listings",
+    "previousTitle": "Previous Listings",
+    "emptyCurrent": "New listings will appear here soon.",
+    "emptyPrevious": "Previous listings will appear here soon."
+  },
+  "testimonials": {
+    "title": "Customer Feedback",
+    "intro": "What our clients say about working with us."
+  },
+  "contact": {
+    "title": "Contact Us",
+    "intro": "Reach out to Arik directly — by phone, WhatsApp, or the form below.",
+    "nameLabel": "Name",
+    "phoneLabel": "Phone",
+    "messageLabel": "Message",
+    "send": "Send",
+    "officeOwner": "Office Owner",
+    "phone": "Phone",
+    "whatsapp": "WhatsApp",
+    "email": "Email"
+  },
+  "footer": {
+    "rights": "All rights reserved."
+  }
+}
