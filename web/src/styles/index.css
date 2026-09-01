@@ -215,37 +215,74 @@ img {
   box-shadow: inset 0 0 0 1px rgba(92, 255, 122, 0.55);
 }
 
-.navright {
+.site-header__actions {
   display: flex;
-  flex-direction: column;
+  align-items: center;
   gap: var(--s2);
-  padding-block-start: var(--s2);
-  border-top: 1px solid var(--line);
-  margin-block-start: var(--s1);
 }
 
-.lang {
-  display: flex;
-  flex-wrap: wrap;
+.lang-menu {
+  position: relative;
+}
+
+.lang-menu__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
   border: 1px solid var(--line);
-  border-radius: 999px;
-  overflow: hidden;
-  width: fit-content;
-}
-
-.lang button {
-  padding: 8px 12px;
-  font-size: 13px;
-  background: transparent;
-  border: 0;
+  border-radius: var(--r);
+  background: var(--paper);
+  color: var(--ink);
   cursor: pointer;
-  color: var(--ink-3);
-  min-height: 36px;
 }
 
-.lang button.active {
-  background: var(--g-900);
-  color: var(--neon);
+.lang-menu__button:hover {
+  border-color: var(--g-200);
+}
+
+.lang-menu__icon {
+  width: 20px;
+  height: 20px;
+}
+
+.lang-menu__list {
+  position: absolute;
+  inset-inline-end: 0;
+  top: calc(100% + 8px);
+  z-index: 50;
+  min-width: 160px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: 0 12px 30px -12px rgba(27, 46, 24, 0.35);
+  padding: 6px;
+  list-style: none;
+}
+
+.lang-menu__item {
+  display: block;
+  width: 100%;
+  text-align: start;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: var(--r);
+  background: transparent;
+  color: var(--ink-2);
+  font-size: 14px;
+  cursor: pointer;
+  min-height: 40px;
+}
+
+.lang-menu__item:hover {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.lang-menu__item.active {
+  background: var(--g-100);
+  color: var(--g-900);
 }
 
 /* --- buttons --- */
@@ -402,6 +439,7 @@ img {
 
 .sec {
   padding-block: var(--s5);
+  scroll-margin-top: 84px;
 }
 
 .sec-head {
@@ -483,6 +521,7 @@ img {
   color: var(--ink-3);
   font-size: 12px;
   position: relative;
+  text-decoration: none;
 }
 
 .card .ph .st {
@@ -554,6 +593,9 @@ img {
   cursor: pointer;
   padding: 6px;
   min-height: 44px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
 }
 .more:hover {
   color: var(--g-900);
@@ -598,6 +640,53 @@ img {
 .desc {
   font-size: 14px;
   color: var(--ink-2);
+}
+
+/* --- gallery --- */
+
+.gallery-main {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--line);
+  object-fit: cover;
+  background: var(--paper);
+}
+
+.gallery-main--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-3);
+  font-size: 14px;
+}
+
+.gallery-thumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s1);
+  margin-block-start: var(--s2);
+}
+
+.gallery-thumb {
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  border-radius: var(--r);
+  border: 2px solid transparent;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--paper);
+}
+
+.gallery-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gallery-thumb.active {
+  border-color: var(--g-400);
 }
 
 /* --- filters --- */
@@ -805,37 +894,17 @@ select.input {
     padding-inline: var(--s5);
   }
 
-  .nav-toggle {
-    display: none;
-  }
-
   .main-nav {
-    display: flex !important;
-    flex-direction: row;
-    align-items: center;
-    gap: var(--s4);
-    border-top: none;
-    padding-block: 0;
-    margin-inline-start: var(--s4);
-    flex: 1;
-  }
-
-  .navlinks {
-    flex-direction: row;
-    gap: var(--s1);
-  }
-
-  .navlink {
-    min-height: auto;
-  }
-
-  .navright {
-    flex-direction: row;
-    align-items: center;
-    padding-block-start: 0;
-    border-top: none;
-    margin-block-start: 0;
-    margin-inline-start: auto;
+    width: 260px;
+    position: absolute;
+    inset-inline-end: var(--s5);
+    top: 100%;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    box-shadow: 0 12px 30px -12px rgba(27, 46, 24, 0.35);
+    padding: var(--s2);
+    margin-block-start: 8px;
   }
 
   .hero h1 {

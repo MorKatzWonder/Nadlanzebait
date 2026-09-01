@@ -2,8 +2,16 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { PropertyCard } from "../components/PropertyCard";
 import { listings } from "../data/listings";
+import { testimonials } from "../data/testimonials";
 import { localize } from "../data/localize";
-import { FEATURED_HEAD, HOME_HERO, HOME_STATS, HOME_STEPS, HOME_STEPS_HEAD } from "../data/content";
+import {
+  FEATURED_HEAD,
+  HOME_HERO,
+  HOME_STATS,
+  HOME_STEPS,
+  HOME_STEPS_HEAD,
+  TESTIMONIALS_HEAD,
+} from "../data/content";
 import type { SupportedLanguage } from "../i18n";
 
 export function Home() {
@@ -80,6 +88,23 @@ export function Home() {
         <div className="grid-cards">
           {featured.map((listing) => (
             <PropertyCard listing={listing} key={listing.id} />
+          ))}
+        </div>
+      </div>
+
+      <div className="container">
+        <div className="rule" />
+      </div>
+
+      <div className="container sec" id="testimonials">
+        <div className="kick">{localize(TESTIMONIALS_HEAD.kick, language)}</div>
+        <h2 className="sec-title">{localize(TESTIMONIALS_HEAD.h, language)}</h2>
+        <div className="quotes">
+          {testimonials.map((testimonial) => (
+            <figure className="quote" key={testimonial.id}>
+              <p>{localize(testimonial.quote, language)}</p>
+              <figcaption className="who">{localize(testimonial.attribution, language)}</figcaption>
+            </figure>
           ))}
         </div>
       </div>

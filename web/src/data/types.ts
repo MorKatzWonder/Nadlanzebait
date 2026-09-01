@@ -76,6 +76,8 @@ export interface Listing {
   yearBuilt: number;
   condition: Condition;
   status?: LocalizedText;
+  /** Photo URLs, in display order. Empty/omitted shows a placeholder. */
+  photos?: string[];
   characteristics: Characteristic[];
   pointsOfInterest: PointOfInterest[];
   teaser: LocalizedText;

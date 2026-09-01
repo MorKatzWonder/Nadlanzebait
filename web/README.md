@@ -31,8 +31,10 @@ npm run preview  # serve the production build locally
 
 ```
 src/
-  components/   Layout (header/nav/footer), LanguageSwitcher, PropertyCard, Logo
-  pages/        Home, Listings, Testimonials, Contact
+  components/   Layout (header/hamburger nav/footer), LanguageSwitcher (globe dropdown),
+                PropertyCard, Logo, GlobeIcon, ScrollToHash
+  pages/        Home (includes the testimonials section, linked via /#testimonials),
+                Listings, PropertyDetail (opens in a new tab from a listing card), Contact
   data/         Listing/Testimonial types, sample data, and site copy (content.ts)
                 (see data/README.md for the planned Google Sheets mapping)
   i18n/         i18next setup + one JSON file per language

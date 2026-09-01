@@ -21,6 +21,20 @@ export const LANGUAGE_LABELS: Record<SupportedLanguage, string> = {
   ru: "Русский",
 };
 
+export function applyDocumentDirection(language: string) {
+  const isRtl = RTL_LANGUAGES.includes(language as SupportedLanguage);
+  document.documentElement.dir = isRtl ? "rtl" : "ltr";
+  document.documentElement.lang = language;
+}
+
+// Registered before init(): with all resources supplied inline (no async
+// fetch), i18next resolves the initial language and fires "languageChanged"
+// synchronously from within init() itself, before a listener added after
+// init() would be attached. Attaching first — plus the explicit call below
+// once init resolves — makes sure the very first language (not just later
+// changeLanguage() calls) applies dir/lang.
+i18n.on("languageChanged", applyDocumentDirection);
+
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
@@ -39,14 +53,7 @@ i18n
       order: ["localStorage", "navigator"],
       caches: ["localStorage"],
     },
-  });
-
-export function applyDocumentDirection(language: string) {
-  const isRtl = RTL_LANGUAGES.includes(language as SupportedLanguage);
-  document.documentElement.dir = isRtl ? "rtl" : "ltr";
-  document.documentElement.lang = language;
-}
-
-i18n.on("languageChanged", applyDocumentDirection);
+  })
+  .then(() => applyDocumentDirection(i18n.resolvedLanguage ?? i18n.language));
 
 export default i18n;

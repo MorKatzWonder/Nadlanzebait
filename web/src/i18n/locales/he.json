@@ -18,14 +18,15 @@
   "listings": {
     "title": "נכסים",
     "photoPlaceholder": "תמונת הנכס",
+    "notFound": "לא מצאנו את הנכס הזה.",
     "floorOf": "קומה {{floor}} מתוך {{floors}}",
     "exposureCount": "{{count}} כיווני אוויר",
     "allDetails": "כל הפרטים",
-    "fewerDetails": "פחות פרטים",
     "yes": "יש",
     "no": "אין",
     "fields": {
       "type": "סוג",
+      "rooms": "חדרים",
       "city": "עיר",
       "neighborhood": "שכונה",
       "street": "רחוב",

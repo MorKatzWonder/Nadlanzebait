@@ -18,14 +18,15 @@
   "listings": {
     "title": "Properties",
     "photoPlaceholder": "Property photograph",
+    "notFound": "We couldn't find that property.",
     "floorOf": "Floor {{floor}} of {{floors}}",
     "exposureCount": "{{count}} exposures",
     "allDetails": "All details",
-    "fewerDetails": "Fewer details",
     "yes": "Yes",
     "no": "No",
     "fields": {
       "type": "Type",
+      "rooms": "Rooms",
       "city": "City",
       "neighborhood": "Neighbourhood",
       "street": "Street",

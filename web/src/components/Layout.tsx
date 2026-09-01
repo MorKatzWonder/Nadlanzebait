@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { Logo } from "./Logo";
@@ -22,15 +22,18 @@ export function Layout() {
             <Logo className="brand__mark" />
             <b>{t("meta.title")}</b>
           </NavLink>
-          <button
-            type="button"
-            className="nav-toggle"
-            aria-expanded={navOpen}
-            aria-controls="main-nav"
-            onClick={() => setNavOpen((open) => !open)}
-          >
-            ☰
-          </button>
+          <div className="site-header__actions">
+            <LanguageSwitcher />
+            <button
+              type="button"
+              className="nav-toggle"
+              aria-expanded={navOpen}
+              aria-controls="main-nav"
+              onClick={() => setNavOpen((open) => !open)}
+            >
+              ☰
+            </button>
+          </div>
         </div>
         <nav id="main-nav" className={`main-nav container${navOpen ? " is-open" : ""}`}>
           <div className="navlinks">
@@ -40,19 +43,16 @@ export function Layout() {
             <NavLink to="/listings" className={navLink} onClick={() => setNavOpen(false)}>
               {t("nav.listings")}
             </NavLink>
-            <NavLink to="/testimonials" className={navLink} onClick={() => setNavOpen(false)}>
+            <Link to="/#testimonials" className="navlink" onClick={() => setNavOpen(false)}>
               {t("nav.testimonials")}
-            </NavLink>
+            </Link>
             <NavLink to="/contact" className={navLink} onClick={() => setNavOpen(false)}>
               {t("nav.contact")}
             </NavLink>
           </div>
-          <div className="navright">
-            <LanguageSwitcher />
-            <a className="btn btn-primary btn-sm" href={`tel:${AGENT_PHONE_DIAL}`}>
-              {t("common.callNow")}
-            </a>
-          </div>
+          <a className="btn btn-primary" href={`tel:${AGENT_PHONE_DIAL}`}>
+            {t("common.callNow")}
+          </a>
         </nav>
       </header>
 
