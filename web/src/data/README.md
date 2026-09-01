@@ -16,7 +16,9 @@ fields in `types.ts` (`type`, `neighborhood`, `street_he`, `price`, `rooms`,
 
 **Testimonials sheet**: `id`, `quote_he`, `attribution_he`, same pattern.
 
-Only Hebrew columns for now — see "Translation" below.
+Today the sheet only needs a Hebrew column per field — see "Translation"
+below for how the other four languages get filled in until the sheet itself
+carries per-language columns.
 
 ## Wiring up the sheet (not yet built)
 
@@ -27,18 +29,23 @@ Only Hebrew columns for now — see "Translation" below.
    this folder. This alone is enough for a working, zero-cost, no-backend
    site — Arik edits the sheet from his phone and the content updates.
 
-## Translation — deliberately deferred
+## Translation
 
-We're intentionally *not* building a translation pipeline yet, to avoid any
-paid API or backend service. For now:
+All current content (the sample listings/testimonials here, plus the rest of
+the site's copy in `content.ts` and the UI strings in `i18n/locales/`) is
+translated by hand into all five languages — no translation API, backend, or
+paid service involved. English (US) and English (UK) are two distinct
+translations, not the same text twice: `content.ts`'s `L()` helper only
+reuses the US wording for GB when nothing actually differs, and writes it
+out separately wherever it does (flat vs. apartment, lift vs. elevator,
+centre vs. center, neighbourhood vs. neighborhood, etc.).
 
-- Arik only has to type Hebrew.
-- `localize()` in `localize.ts` falls back to the Hebrew text whenever a
-  language's translation is missing, so French/Russian visitors see Hebrew
-  content rather than a broken UI until real translations exist. English
-  (US and UK) currently share the same translated text.
-
-When a translation approach is chosen later (manual columns per language,
-a free-tier translation API, browser-based translation, etc.), it plugs in
-at the same two places: add columns to the sheet and/or extend `localize()`
-— no other code needs to change.
+Content added later that hasn't been translated yet (e.g. once the Google
+Sheet is wired up and Arik adds a new listing in Hebrew) will be missing
+French/Russian until someone translates it. `localize()` in `localize.ts`
+falls back to the Hebrew text in that case, so it degrades gracefully rather
+than breaking, but it's still Hebrew shown to a French/Russian visitor, not
+a real translation. Closing that gap for *future* content (a translation
+API called from a small serverless function, a free-tier service, manual
+translation as part of the sheet workflow, etc.) is a separate step from
+this pass, which only covers what's on the site today.

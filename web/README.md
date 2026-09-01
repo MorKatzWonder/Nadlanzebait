@@ -48,12 +48,15 @@ developer involved, and without any paid backend. The plan is:
 
 - **Source of truth**: a Google Sheet, edited from the Sheets mobile app,
   published as CSV and fetched by the site directly — free, no server.
-- **Translation**: deliberately deferred. Arik types Hebrew only for now;
-  `localize()` falls back to the Hebrew text for any language without a
-  translation yet (and the i18next fallback language is Hebrew too), so the
-  site works today with zero translation infrastructure. A translation
-  approach (manual columns, a free-tier API, etc.) can be decided later
-  without changing anything else.
+- **Translation**: all current content is translated by hand into all 5
+  languages (no translation API/backend needed for what's on the site
+  today). Once the sheet is wired up, Arik will type Hebrew and any new
+  listing will be missing French/Russian until translated — `localize()`
+  falls back to the Hebrew text in that case (the i18next fallback
+  language is Hebrew too), so it degrades gracefully rather than breaking.
+  A translation approach for that ongoing gap (manual columns, a free-tier
+  API called from a small serverless function, etc.) is a separate,
+  not-yet-built step — see `src/data/README.md`.
 
 None of that is implemented yet — the app currently reads from the sample
 arrays in `src/data/`, shaped to match the planned sheet columns so swapping
@@ -73,5 +76,6 @@ number — it doesn't email or store anything.
 - Real photography (listing cards currently show a placeholder box instead
   of a photo).
 - The Google Sheets CSV fetch.
-- How/when to add real French/Russian translations.
+- A translation mechanism for *new* content added after the sheet is wired
+  up (today's content is already translated by hand).
 - Hosting/deployment target.

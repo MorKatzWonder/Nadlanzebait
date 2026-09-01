@@ -1,69 +1,74 @@
 {
   "meta": {
-    "title": "Nadlanzebait Immobilier",
-    "description": "Nadlanzebait Immobilier — vente, location et conseil immobilier résidentiel."
+    "title": "Home Real Estate",
+    "description": "Home Real Estate — vente et achat d'appartements à Tel Aviv avec Arik Naim."
   },
   "nav": {
     "home": "Accueil",
-    "services": "Services",
-    "listings": "Annonces",
-    "testimonials": "Témoignages",
+    "listings": "Biens",
+    "testimonials": "Avis clients",
     "contact": "Contact"
   },
   "common": {
-    "viewOnYad2": "Voir sur Yad2",
-    "callNow": "Appeler maintenant",
+    "callNow": "Appeler",
     "whatsapp": "WhatsApp",
-    "currentListings": "Annonces actuelles",
-    "previousListings": "Annonces précédentes",
-    "readMore": "Lire la suite",
-    "price": "Prix",
-    "rooms": "Pièces",
-    "size": "Superficie"
-  },
-  "home": {
-    "heroTitle": "Trouvez votre prochain logement avec Nadlanzebait",
-    "heroSubtitle": "Une expertise locale de confiance en immobilier résidentiel — vente, location et conseil.",
-    "ctaListings": "Voir les annonces",
-    "ctaContact": "Nous contacter",
-    "introTitle": "Pourquoi Nadlanzebait",
-    "introBody": "Nous accompagnons acheteurs, vendeurs et locataires sur le marché local avec une attention personnalisée et des années d'expérience."
-  },
-  "services": {
-    "title": "Nos services",
-    "intro": "Une gamme complète de services immobiliers adaptés à vos besoins.",
-    "items": [
-      { "title": "Vente de biens", "desc": "Un accompagnement à chaque étape de l'achat ou de la vente d'un bien." },
-      { "title": "Location", "desc": "Trouver les bons locataires ou la bonne location pour vous." },
-      { "title": "Conseil immobilier", "desc": "Des analyses de marché et des conseils pour vous aider à prendre la bonne décision." },
-      { "title": "Gestion locative", "desc": "Un accompagnement continu pour les propriétaires." }
-    ]
+    "rooms": "pièces",
+    "sqm": "m²"
   },
   "listings": {
-    "title": "Annonces",
-    "intro": "Parcourez les annonces actuelles et précédentes. Chaque annonce renvoie vers sa page complète sur Yad2.",
-    "currentTitle": "Annonces actuelles",
-    "previousTitle": "Annonces précédentes",
-    "emptyCurrent": "De nouvelles annonces apparaîtront bientôt ici.",
-    "emptyPrevious": "Les annonces précédentes apparaîtront bientôt ici."
-  },
-  "testimonials": {
-    "title": "Avis clients",
-    "intro": "Ce que nos clients disent de leur expérience avec nous."
+    "title": "Biens",
+    "photoPlaceholder": "Photo du bien",
+    "notFound": "Nous n'avons pas trouvé ce bien.",
+    "floorOf": "Étage {{floor}} sur {{floors}}",
+    "exposureCount": "{{count}} expositions",
+    "allDetails": "Tous les détails",
+    "yes": "Oui",
+    "no": "Non",
+    "fields": {
+      "type": "Type",
+      "rooms": "Pièces",
+      "city": "Ville",
+      "neighborhood": "Quartier",
+      "street": "Rue",
+      "size": "Superficie",
+      "balcony": "Balcon",
+      "floor": "Étage",
+      "floors": "Étages de l'immeuble",
+      "exposure": "Exposition",
+      "parking": "Stationnement",
+      "storage": "Cave/Débarras",
+      "basement": "Sous-sol",
+      "shabbatElevator": "Ascenseur du Shabbat",
+      "accessible": "Accessible",
+      "yearBuilt": "Année de construction",
+      "condition": "État",
+      "characteristics": "Caractéristiques",
+      "nearby": "À proximité",
+      "description": "Description"
+    },
+    "filters": {
+      "neighborhood": "Quartier",
+      "priceRange": "Fourchette de prix",
+      "type": "Type de bien",
+      "any": "Tous",
+      "results": "{{count}} biens",
+      "none": "Aucun bien ne correspond à ces filtres"
+    }
   },
   "contact": {
-    "title": "Contactez-nous",
-    "intro": "Contactez Arik directement — par téléphone, WhatsApp ou via le formulaire ci-dessous.",
-    "nameLabel": "Nom",
-    "phoneLabel": "Téléphone",
-    "messageLabel": "Message",
-    "send": "Envoyer",
-    "officeOwner": "Propriétaire de l'agence",
-    "phone": "Téléphone",
-    "whatsapp": "WhatsApp",
-    "email": "E-mail"
-  },
-  "footer": {
-    "rights": "Tous droits réservés."
+    "office": "Bureau",
+    "hours": "Horaires",
+    "form": {
+      "name": "Nom complet",
+      "phone": "Téléphone",
+      "address": "Adresse du bien",
+      "propertyType": "Type de bien",
+      "message": "Un détail à nous signaler",
+      "send": "Envoyer la demande",
+      "errorName": "Veuillez indiquer un nom",
+      "errorPhone": "Numéro de téléphone invalide",
+      "errorAddress": "Veuillez indiquer une adresse",
+      "sent": "Ouverture de WhatsApp avec votre demande — envoyez le message pour nous joindre."
+    }
   }
 }
