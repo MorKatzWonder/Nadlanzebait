@@ -64,7 +64,7 @@ export function PropertyDetail() {
     return (
       <div className="container sec">
         <p>{t("listings.notFound")}</p>
-        <Link to="/listings" className="btn btn-outline">
+        <Link to="/#properties" className="btn btn-outline">
           {t("listings.title")}
         </Link>
       </div>
@@ -99,73 +99,74 @@ export function PropertyDetail() {
 
   return (
     <div className="container sec">
-      <Link to="/listings" className="muted" style={{ fontSize: 14 }}>
+      <Link to="/#properties" className="muted" style={{ fontSize: 14 }}>
         ← {t("listings.title")}
       </Link>
 
-      <div style={{ marginTop: "var(--s3)" }}>
-        <div className="type">{localize(TYPE_LABELS[listing.type], language)}</div>
-        <h1 className="sec-title" style={{ marginBlockEnd: "var(--s1)" }}>
-          {localize(NEIGHBORHOOD_LABELS[listing.neighborhood], language)} ·{" "}
-          {localize(listing.street, language)}
-        </h1>
-        <div className="price tnum" style={{ fontSize: 28 }}>
-          {formatPrice(listing.price, language)}
-        </div>
-      </div>
-
-      <div style={{ marginTop: "var(--s3)" }}>
-        <Gallery listing={listing} language={language} />
-      </div>
-
-      <div className="btn-row" style={{ marginTop: "var(--s3)" }}>
-        <a className="btn btn-primary" href={`tel:${AGENT_PHONE_DIAL}`}>
-          {t("common.callNow")}
-        </a>
-        <a
-          className="btn btn-outline"
-          href={waHref(AGENT_WHATSAPP_DIGITS, waMessage)}
-          target="_blank"
-          rel="noreferrer noopener"
-        >
-          {t("common.whatsapp")}
-        </a>
-      </div>
-
-      <p className="desc" style={{ marginTop: "var(--s4)", fontSize: 16, maxWidth: "68ch" }}>
-        {localize(listing.description, language)}
-      </p>
-
-      <div className="dl" style={{ marginTop: "var(--s4)", maxWidth: 560 }}>
-        {rows.map(([label, value]) => (
-          <div key={label}>
-            <span>{label}</span>
-            <span>{value}</span>
+      <div className="property-detail">
+        <aside className="property-detail__aside">
+          <div className="type">{localize(TYPE_LABELS[listing.type], language)}</div>
+          <h1 className="sec-title" style={{ marginBlockEnd: "var(--s1)" }}>
+            {localize(NEIGHBORHOOD_LABELS[listing.neighborhood], language)} ·{" "}
+            {localize(listing.street, language)}
+          </h1>
+          <div className="price tnum" style={{ fontSize: 28 }}>
+            {formatPrice(listing.price, language)}
           </div>
-        ))}
-      </div>
+          <div className="btn-row" style={{ marginTop: "var(--s3)" }}>
+            <a className="btn btn-primary" href={`tel:${AGENT_PHONE_DIAL}`}>
+              {t("common.callNow")}
+            </a>
+            <a
+              className="btn btn-outline"
+              href={waHref(AGENT_WHATSAPP_DIGITS, waMessage)}
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              {t("common.whatsapp")}
+            </a>
+          </div>
+        </aside>
 
-      <div style={{ marginTop: "var(--s4)" }}>
-        <div className="kick" style={{ marginBottom: 8 }}>
-          {F("characteristics")}
-        </div>
-        <div className="tags">
-          {listing.characteristics.map((c) => (
-            <span className="tag" key={c}>
-              {localize(CHARACTERISTIC_LABELS[c], language)}
-            </span>
-          ))}
-        </div>
-      </div>
+        <div className="property-detail__main">
+          <Gallery listing={listing} language={language} />
 
-      <div style={{ marginTop: "var(--s4)" }}>
-        <div className="kick" style={{ marginBottom: 8 }}>
-          {F("nearby")}
-        </div>
-        <div className="poi">
-          {listing.pointsOfInterest.map((p) => (
-            <span key={p}>{localize(POI_LABELS[p], language)}</span>
-          ))}
+          <p className="desc" style={{ marginTop: "var(--s4)", fontSize: 16, maxWidth: "68ch" }}>
+            {localize(listing.description, language)}
+          </p>
+
+          <div className="dl" style={{ marginTop: "var(--s4)", maxWidth: 560 }}>
+            {rows.map(([label, value]) => (
+              <div key={label}>
+                <span>{label}</span>
+                <span>{value}</span>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ marginTop: "var(--s4)" }}>
+            <div className="kick" style={{ marginBottom: 8 }}>
+              {F("characteristics")}
+            </div>
+            <div className="tags">
+              {listing.characteristics.map((c) => (
+                <span className="tag" key={c}>
+                  {localize(CHARACTERISTIC_LABELS[c], language)}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div style={{ marginTop: "var(--s4)" }}>
+            <div className="kick" style={{ marginBottom: 8 }}>
+              {F("nearby")}
+            </div>
+            <div className="poi">
+              {listing.pointsOfInterest.map((p) => (
+                <span key={p}>{localize(POI_LABELS[p], language)}</span>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>

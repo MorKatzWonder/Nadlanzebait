@@ -47,7 +47,7 @@ function buildValuationMessage(
     .join("\n");
 }
 
-export function Contact() {
+export function ContactSection() {
   const { t, i18n } = useTranslation();
   const language = i18n.resolvedLanguage as SupportedLanguage;
 
@@ -78,11 +78,11 @@ export function Contact() {
   }
 
   return (
-    <div className="container sec">
+    <div className="container sec" id="contact">
       <div className="about">
         <div>
           <div className="kick">{localize(ABOUT.kick, language)}</div>
-          <h1 className="sec-title">{localize(ABOUT.h, language)}</h1>
+          <h2 className="sec-title">{localize(ABOUT.h, language)}</h2>
           {ABOUT.paragraphs.map((p, idx) => (
             <p className="muted" key={idx} style={{ maxWidth: "44ch", marginBottom: "var(--s2)" }}>
               {localize(p, language)}

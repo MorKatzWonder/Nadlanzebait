@@ -3,8 +3,9 @@ import { Link, NavLink, Outlet } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { Logo } from "./Logo";
-import { AGENT_HOURS, AGENT_NAME, AGENT_OFFICE_ADDRESS, AGENT_PHONE_DIAL, AGENT_PHONE_DISPLAY, AGENT_WHATSAPP_DIGITS, waHref } from "../data/content";
+import { AGENT_HOURS, AGENT_NAME, AGENT_OFFICE_ADDRESS, AGENT_PHONE_DIAL, AGENT_PHONE_DISPLAY, AGENT_WHATSAPP_DIGITS, SOCIAL_LINKS, waHref } from "../data/content";
 import { localize } from "../data/localize";
+import { FacebookIcon, InstagramIcon, TikTokIcon } from "./SocialIcons";
 import type { SupportedLanguage } from "../i18n";
 
 export function Layout() {
@@ -40,15 +41,15 @@ export function Layout() {
             <NavLink to="/" end className={navLink} onClick={() => setNavOpen(false)}>
               {t("nav.home")}
             </NavLink>
-            <NavLink to="/listings" className={navLink} onClick={() => setNavOpen(false)}>
+            <Link to="/#properties" className="navlink" onClick={() => setNavOpen(false)}>
               {t("nav.listings")}
-            </NavLink>
+            </Link>
             <Link to="/#testimonials" className="navlink" onClick={() => setNavOpen(false)}>
               {t("nav.testimonials")}
             </Link>
-            <NavLink to="/contact" className={navLink} onClick={() => setNavOpen(false)}>
+            <Link to="/#contact" className="navlink" onClick={() => setNavOpen(false)}>
               {t("nav.contact")}
-            </NavLink>
+            </Link>
           </div>
           <a className="btn btn-primary" href={`tel:${AGENT_PHONE_DIAL}`}>
             {t("common.callNow")}
@@ -66,6 +67,17 @@ export function Layout() {
             <div className="site-footer__brand">
               <Logo className="brand__mark" />
               <b>{t("meta.title")}</b>
+            </div>
+            <div className="social-icons">
+              <a href={SOCIAL_LINKS.instagram} aria-label="Instagram" target="_blank" rel="noreferrer noopener">
+                <InstagramIcon className="social-icons__icon" />
+              </a>
+              <a href={SOCIAL_LINKS.facebook} aria-label="Facebook" target="_blank" rel="noreferrer noopener">
+                <FacebookIcon className="social-icons__icon" />
+              </a>
+              <a href={SOCIAL_LINKS.tiktok} aria-label="TikTok" target="_blank" rel="noreferrer noopener">
+                <TikTokIcon className="social-icons__icon" />
+              </a>
             </div>
           </div>
           <div>

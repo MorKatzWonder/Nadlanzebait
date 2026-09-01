@@ -1,9 +1,12 @@
 # Nadlanzebait — web
 
-Mobile-first website for **Home Real Estate** (נדל״ן זה בית) — Arik Naim's
-Tel Aviv real-estate agency: a valuation-focused selling pitch, on-site
-property listings with full detail, customer testimonials, and contact
-details, including a WhatsApp-first valuation request form.
+Mobile-first, largely single-page website for **Home Real Estate** (נדל״ן זה
+בית) — Arik Naim's Tel Aviv real-estate agency: a valuation-focused selling
+pitch, on-site property listings with full detail, customer testimonials,
+and contact details, including a WhatsApp-first valuation request form. Home
+holds the steps/properties/testimonials/contact sections, reached by
+scrolling or via `/#properties`-style nav links; each property also has its
+own permalink page (`/listings/:id`) that opens in a new tab.
 
 ## Stack
 
@@ -32,9 +35,11 @@ npm run preview  # serve the production build locally
 ```
 src/
   components/   Layout (header/hamburger nav/footer), LanguageSwitcher (globe dropdown),
-                PropertyCard, Logo, GlobeIcon, ScrollToHash
-  pages/        Home (includes the testimonials section, linked via /#testimonials),
-                Listings, PropertyDetail (opens in a new tab from a listing card), Contact
+                PropertiesSection, ContactSection (both rendered on Home; also
+                what /#properties and /#contact nav links scroll to via
+                ScrollToHash), PropertyCard, Logo, GlobeIcon, SocialIcons
+  pages/        Home (hero, steps, properties, testimonials, contact — one page),
+                PropertyDetail (opens in a new tab from a listing card)
   data/         Listing/Testimonial types, sample data, and site copy (content.ts)
                 (see data/README.md for the planned Google Sheets mapping)
   i18n/         i18next setup + one JSON file per language
@@ -65,9 +70,9 @@ in a real data source later is a small change, not a rewrite. See
 
 ## Contact form
 
-There's no backend, so the valuation form on the Contact page validates the
-input client-side and then opens a pre-filled WhatsApp message to Arik's
-number — it doesn't email or store anything.
+There's no backend, so the valuation form in the Contact section validates
+the input client-side and then opens a pre-filled WhatsApp message to
+Arik's number — it doesn't email or store anything.
 
 ## Still open
 
@@ -75,6 +80,9 @@ number — it doesn't email or store anything.
   from the design handoff — swap for Arik's actual logo when he has one).
 - Real photography (listing cards currently show a placeholder box instead
   of a photo).
+- Real Instagram/Facebook/TikTok URLs — `SOCIAL_LINKS` in `data/content.ts`
+  is currently `"#"` for all three, swap in the real profile URLs once
+  those accounts exist.
 - The Google Sheets CSV fetch.
 - A translation mechanism for *new* content added after the sheet is wired
   up (today's content is already translated by hand).

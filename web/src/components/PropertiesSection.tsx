@@ -1,13 +1,13 @@
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { PropertyCard } from "../components/PropertyCard";
+import { PropertyCard } from "./PropertyCard";
 import { listings } from "../data/listings";
 import { localize } from "../data/localize";
 import { NEIGHBORHOOD_LABELS, PRICE_BANDS, TYPE_LABELS } from "../data/content";
 import type { SupportedLanguage } from "../i18n";
 import type { Neighborhood, PropertyType } from "../data/types";
 
-export function Listings() {
+export function PropertiesSection() {
   const { t, i18n } = useTranslation();
   const language = i18n.resolvedLanguage as SupportedLanguage;
   const [neighborhood, setNeighborhood] = useState<Neighborhood | "">("");
@@ -32,8 +32,8 @@ export function Listings() {
   });
 
   return (
-    <div className="container sec">
-      <h1 className="sec-title">{t("listings.title")}</h1>
+    <div className="container sec" id="properties">
+      <h2 className="sec-title">{t("listings.title")}</h2>
 
       <div className="filters">
         <div className="field">

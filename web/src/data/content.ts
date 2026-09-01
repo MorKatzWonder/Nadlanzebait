@@ -30,6 +30,13 @@ export const AGENT_NAME: LocalizedText = L({
 export const AGENT_PHONE_DISPLAY = "050-746-4403";
 export const AGENT_PHONE_DIAL = "+972507464403";
 export const AGENT_WHATSAPP_DIGITS = "972507464403";
+
+/** Placeholder until Arik creates these accounts — swap in the real profile URLs. */
+export const SOCIAL_LINKS = {
+  instagram: "#",
+  facebook: "#",
+  tiktok: "#",
+};
 export const AGENT_OFFICE_ADDRESS: LocalizedText = L({
   he: "מרכז בעלי מלאכה 5, תל אביב",
   enUS: "Merkaz Baalei Melacha 5, Tel Aviv",
