@@ -47,6 +47,7 @@
       "description": "תיאור"
     },
     "filters": {
+      "toggle": "סינון",
       "neighborhood": "שכונה",
       "priceRange": "טווח מחיר",
       "type": "סוג נכס",

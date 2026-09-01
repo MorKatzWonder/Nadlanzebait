@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { PropertiesSection } from "../components/PropertiesSection";
 import { ContactSection } from "../components/ContactSection";
+import { Carousel } from "../components/Carousel";
 import { testimonials } from "../data/testimonials";
 import { localize } from "../data/localize";
 import { HOME_HERO, HOME_STATS, HOME_STEPS, HOME_STEPS_HEAD, TESTIMONIALS_HEAD } from "../data/content";
@@ -76,14 +77,14 @@ export function Home() {
       <div className="container sec" id="testimonials">
         <div className="kick">{localize(TESTIMONIALS_HEAD.kick, language)}</div>
         <h2 className="sec-title">{localize(TESTIMONIALS_HEAD.h, language)}</h2>
-        <div className="quotes">
+        <Carousel className="quotes">
           {testimonials.map((testimonial) => (
             <figure className="quote" key={testimonial.id}>
               <p>{localize(testimonial.quote, language)}</p>
               <figcaption className="who">{localize(testimonial.attribution, language)}</figcaption>
             </figure>
           ))}
-        </div>
+        </Carousel>
       </div>
 
       <div className="container">

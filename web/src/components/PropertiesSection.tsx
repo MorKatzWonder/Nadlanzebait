@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { PropertyCard } from "./PropertyCard";
+import { Carousel } from "./Carousel";
 import { listings } from "../data/listings";
 import { localize } from "../data/localize";
 import { NEIGHBORHOOD_LABELS, PRICE_BANDS, TYPE_LABELS } from "../data/content";
@@ -10,6 +11,7 @@ import type { Neighborhood, PropertyType } from "../data/types";
 export function PropertiesSection() {
   const { t, i18n } = useTranslation();
   const language = i18n.resolvedLanguage as SupportedLanguage;
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const [neighborhood, setNeighborhood] = useState<Neighborhood | "">("");
   const [priceBandKey, setPriceBandKey] = useState("");
   const [type, setType] = useState<PropertyType | "">("");
@@ -33,69 +35,90 @@ export function PropertiesSection() {
 
   return (
     <div className="container sec" id="properties">
-      <h2 className="sec-title">{t("listings.title")}</h2>
-
-      <div className="filters">
-        <div className="field">
-          <label htmlFor="filter-neighborhood">{t("listings.filters.neighborhood")}</label>
-          <select
-            id="filter-neighborhood"
-            className="input"
-            value={neighborhood}
-            onChange={(e) => setNeighborhood(e.target.value as Neighborhood | "")}
-          >
-            <option value="">{t("listings.filters.any")}</option>
-            {availableNeighborhoods.map((hood) => (
-              <option value={hood} key={hood}>
-                {localize(NEIGHBORHOOD_LABELS[hood], language)}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="field">
-          <label htmlFor="filter-price">{t("listings.filters.priceRange")}</label>
-          <select
-            id="filter-price"
-            className="input"
-            value={priceBandKey}
-            onChange={(e) => setPriceBandKey(e.target.value)}
-          >
-            <option value="">{t("listings.filters.any")}</option>
-            {PRICE_BANDS.map((band) => (
-              <option value={band.key} key={band.key}>
-                {localize(band.label, language)}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="field">
-          <label htmlFor="filter-type">{t("listings.filters.type")}</label>
-          <select
-            id="filter-type"
-            className="input"
-            value={type}
-            onChange={(e) => setType(e.target.value as PropertyType | "")}
-          >
-            <option value="">{t("listings.filters.any")}</option>
-            {availableTypes.map((propertyType) => (
-              <option value={propertyType} key={propertyType}>
-                {localize(TYPE_LABELS[propertyType], language)}
-              </option>
-            ))}
-          </select>
-        </div>
-        <span className="count tnum">{t("listings.filters.results", { count: filtered.length })}</span>
+      <div className="sec-head">
+        <h2 className="sec-title" style={{ marginBottom: 0 }}>
+          {t("listings.title")}
+        </h2>
+        <button
+          type="button"
+          className="btn btn-outline btn-sm"
+          aria-expanded={filtersOpen}
+          aria-controls="properties-filters"
+          onClick={() => setFiltersOpen((open) => !open)}
+        >
+          {t("listings.filters.toggle")} {filtersOpen ? "▲" : "▼"}
+        </button>
       </div>
+
+      {filtersOpen ? (
+        <div className="filters" id="properties-filters">
+          <div className="field">
+            <label htmlFor="filter-neighborhood">{t("listings.filters.neighborhood")}</label>
+            <select
+              id="filter-neighborhood"
+              className="input"
+              value={neighborhood}
+              onChange={(e) => setNeighborhood(e.target.value as Neighborhood | "")}
+            >
+              <option value="">{t("listings.filters.any")}</option>
+              {availableNeighborhoods.map((hood) => (
+                <option value={hood} key={hood}>
+                  {localize(NEIGHBORHOOD_LABELS[hood], language)}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="field">
+            <label htmlFor="filter-price">{t("listings.filters.priceRange")}</label>
+            <select
+              id="filter-price"
+              className="input"
+              value={priceBandKey}
+              onChange={(e) => setPriceBandKey(e.target.value)}
+            >
+              <option value="">{t("listings.filters.any")}</option>
+              {PRICE_BANDS.map((band) => (
+                <option value={band.key} key={band.key}>
+                  {localize(band.label, language)}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="field">
+            <label htmlFor="filter-type">{t("listings.filters.type")}</label>
+            <select
+              id="filter-type"
+              className="input"
+              value={type}
+              onChange={(e) => setType(e.target.value as PropertyType | "")}
+            >
+              <option value="">{t("listings.filters.any")}</option>
+              {availableTypes.map((propertyType) => (
+                <option value={propertyType} key={propertyType}>
+                  {localize(TYPE_LABELS[propertyType], language)}
+                </option>
+              ))}
+            </select>
+          </div>
+          <span className="count tnum">{t("listings.filters.results", { count: filtered.length })}</span>
+        </div>
+      ) : (
+        <span className="count tnum" style={{ display: "block", marginTop: "var(--s2)" }}>
+          {t("listings.filters.results", { count: filtered.length })}
+        </span>
+      )}
 
       {filtered.length === 0 ? (
         <p className="muted" style={{ marginTop: "var(--s3)" }}>
           {t("listings.filters.none")}
         </p>
       ) : (
-        <div className="grid-cards" style={{ marginTop: "var(--s3)" }}>
-          {filtered.map((listing) => (
-            <PropertyCard listing={listing} key={listing.id} />
-          ))}
+        <div style={{ marginTop: "var(--s3)" }}>
+          <Carousel className="grid-cards">
+            {filtered.map((listing) => (
+              <PropertyCard listing={listing} key={listing.id} />
+            ))}
+          </Carousel>
         </div>
       )}
     </div>

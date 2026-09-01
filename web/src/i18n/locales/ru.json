@@ -47,6 +47,7 @@
       "description": "Описание"
     },
     "filters": {
+      "toggle": "Фильтры",
       "neighborhood": "Район",
       "priceRange": "Диапазон цен",
       "type": "Тип недвижимости",

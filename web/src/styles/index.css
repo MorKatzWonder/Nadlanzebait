@@ -492,9 +492,21 @@ img {
 /* --- listing / property card --- */
 
 .grid-cards {
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
   gap: var(--s3);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.grid-cards::-webkit-scrollbar {
+  display: none;
+}
+
+.grid-cards > .card {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
 }
 
 .card {
@@ -750,9 +762,21 @@ select.input {
 /* --- testimonials --- */
 
 .quotes {
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
   gap: var(--s3);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.quotes::-webkit-scrollbar {
+  display: none;
+}
+
+.quotes > .quote {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
 }
 
 .quote {
@@ -776,6 +800,52 @@ select.input {
     0 2px 4px rgba(28, 63, 23, 0.08),
     0 18px 30px -14px rgba(62, 140, 51, 0.45),
     0 0 0 1px rgba(92, 255, 122, 0.2);
+}
+
+/* --- mobile carousel (Properties, Testimonials) --- */
+
+.carousel {
+  position: relative;
+}
+
+.carousel__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  line-height: 1;
+  color: var(--g-600);
+  cursor: pointer;
+  box-shadow: 0 4px 14px -6px rgba(28, 63, 23, 0.3);
+  z-index: 5;
+}
+
+.carousel__arrow:hover {
+  border-color: var(--g-200);
+  color: var(--g-900);
+}
+
+.carousel__arrow--prev {
+  inset-inline-start: -4px;
+}
+
+.carousel__arrow--next {
+  inset-inline-end: -4px;
+}
+
+/* The glyphs are authored for LTR (‹ points start, › points end); in RTL
+   the same characters need to point the other way to still read as
+   "back"/"forward", so mirror both buttons rather than swap characters. */
+html[dir="rtl"] .carousel__arrow {
+  transform: translateY(-50%) scaleX(-1);
 }
 
 .quote p {
@@ -817,16 +887,20 @@ select.input {
   padding: var(--s3);
 }
 
-.contact-card dt {
-  color: var(--ink-3);
-  font-size: 0.85rem;
+.contact-row {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s1);
   margin-block-start: var(--s2);
+  font-size: 15px;
+  font-weight: 500;
 }
 
-.contact-card dd {
-  margin: 0;
-  font-weight: 500;
-  font-size: 16px;
+.contact-row__label {
+  color: var(--ink-3);
+  font-weight: 400;
+  font-size: 0.85em;
 }
 
 /* --- form --- */
@@ -939,7 +1013,23 @@ select.input {
 
 @media (min-width: 640px) {
   .grid-cards,
-  .quotes,
+  .quotes {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    overflow-x: visible;
+    scroll-snap-type: none;
+  }
+
+  .grid-cards > .card,
+  .quotes > .quote {
+    flex: unset;
+    scroll-snap-align: unset;
+  }
+
+  .carousel__arrow {
+    display: none;
+  }
+
   .steps {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -956,6 +1046,20 @@ select.input {
 @media (min-width: 860px) {
   .container {
     padding-inline: var(--s5);
+  }
+
+  .contact-row {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--s2);
+  }
+
+  .contact-row li:not(:last-child)::after {
+    content: "|";
+    margin-inline-start: var(--s2);
+    color: var(--line);
+    font-weight: 400;
   }
 
   .main-nav {

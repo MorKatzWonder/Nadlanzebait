@@ -47,6 +47,7 @@
       "description": "Description"
     },
     "filters": {
+      "toggle": "Filters",
       "neighborhood": "Neighbourhood",
       "priceRange": "Price range",
       "type": "Property type",

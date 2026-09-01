@@ -47,6 +47,7 @@
       "description": "Description"
     },
     "filters": {
+      "toggle": "Filtres",
       "neighborhood": "Quartier",
       "priceRange": "Fourchette de prix",
       "type": "Type de bien",

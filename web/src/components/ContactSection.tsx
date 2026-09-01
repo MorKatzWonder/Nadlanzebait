@@ -105,16 +105,21 @@ export function ContactSection() {
         <div className="slot">{localize(ABOUT.slot, language)}</div>
       </div>
 
-      <div className="contact-card" style={{ marginTop: "var(--s4)", maxWidth: 420 }}>
+      <div className="contact-card" style={{ marginTop: "var(--s4)" }}>
         <p className="loc">{localize(AGENT_NAME, language)}</p>
-        <dl>
-          <dt>{t("common.callNow")}</dt>
-          <dd>{AGENT_PHONE_DISPLAY}</dd>
-          <dt>{t("contact.office")}</dt>
-          <dd>{localize(AGENT_OFFICE_ADDRESS, language)}</dd>
-          <dt>{t("contact.hours")}</dt>
-          <dd>{localize(AGENT_HOURS, language)}</dd>
-        </dl>
+        <ul className="contact-row">
+          <li>
+            <span className="contact-row__label">{t("common.callNow")}:</span> {AGENT_PHONE_DISPLAY}
+          </li>
+          <li>
+            <span className="contact-row__label">{t("contact.office")}:</span>{" "}
+            {localize(AGENT_OFFICE_ADDRESS, language)}
+          </li>
+          <li>
+            <span className="contact-row__label">{t("contact.hours")}:</span>{" "}
+            {localize(AGENT_HOURS, language)}
+          </li>
+        </ul>
       </div>
 
       <div style={{ marginTop: "var(--s5)" }}>
