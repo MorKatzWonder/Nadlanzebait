@@ -19,10 +19,15 @@ export function Carousel({ children, className }: { children: ReactNode; classNa
     const items = Array.from(track.children) as HTMLElement[];
     if (items.length === 0) return;
 
+    // Compare rendered edges (not offsetLeft/scrollLeft) so this works in
+    // RTL too: browsers disagree on whether scrollLeft counts up or down
+    // in RTL, but getBoundingClientRect always reflects the real on-screen
+    // position after scrolling, in either direction.
+    const trackStart = track.getBoundingClientRect().left;
     let current = 0;
     let closest = Infinity;
     items.forEach((item, i) => {
-      const diff = Math.abs(item.offsetLeft - track.scrollLeft);
+      const diff = Math.abs(item.getBoundingClientRect().left - trackStart);
       if (diff < closest) {
         closest = diff;
         current = i;
