@@ -51,9 +51,22 @@ export function Layout() {
               {t("nav.contact")}
             </Link>
           </div>
-          <a className="btn btn-primary" href={`tel:${AGENT_PHONE_DIAL}`}>
-            {t("common.callNow")}
-          </a>
+          <div className="main-nav__bottom">
+            <a className="btn btn-primary" href={`tel:${AGENT_PHONE_DIAL}`}>
+              {t("common.callNow")}
+            </a>
+            <div className="social-icons social-icons--header">
+              <a href={SOCIAL_LINKS.instagram} aria-label="Instagram" target="_blank" rel="noreferrer noopener">
+                <InstagramIcon className="social-icons__icon" />
+              </a>
+              <a href={SOCIAL_LINKS.facebook} aria-label="Facebook" target="_blank" rel="noreferrer noopener">
+                <FacebookIcon className="social-icons__icon" />
+              </a>
+              <a href={SOCIAL_LINKS.tiktok} aria-label="TikTok" target="_blank" rel="noreferrer noopener">
+                <TikTokIcon className="social-icons__icon" />
+              </a>
+            </div>
+          </div>
         </nav>
       </header>
 

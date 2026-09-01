@@ -993,6 +993,30 @@ select.input {
   height: 18px;
 }
 
+/* Header/nav variant: sits on a light background, so it needs the same
+   ink/line palette as the other header controls instead of the footer's
+   dark-background greens. */
+.social-icons--header {
+  margin-block-start: 0;
+}
+
+.social-icons--header a {
+  border-color: var(--line);
+  color: var(--ink-2);
+}
+
+.social-icons--header a:hover {
+  color: var(--g-900);
+  border-color: var(--g-200);
+}
+
+.main-nav__bottom {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  flex-wrap: wrap;
+}
+
 /* --- larger screens --- */
 
 @media (min-width: 640px) {
