@@ -6,12 +6,12 @@ export function LanguageSwitcher() {
   const current = i18n.resolvedLanguage as SupportedLanguage;
 
   return (
-    <div className="lang-switcher" role="group" aria-label="Language">
+    <div className="lang" role="group" aria-label="Language">
       {SUPPORTED_LANGUAGES.map((lang) => (
         <button
           key={lang}
           type="button"
-          className={lang === current ? "active" : ""}
+          className={lang === current ? "active" : undefined}
           onClick={() => i18n.changeLanguage(lang)}
           aria-pressed={lang === current}
         >

@@ -32,7 +32,7 @@ i18n
       fr: { translation: fr },
       ru: { translation: ru },
     },
-    fallbackLng: "en-US",
+    fallbackLng: "he",
     supportedLngs: SUPPORTED_LANGUAGES as unknown as string[],
     interpolation: { escapeValue: false },
     detection: {

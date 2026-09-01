@@ -1,75 +1,100 @@
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { PropertyCard } from "../components/PropertyCard";
 import { listings } from "../data/listings";
 import { localize } from "../data/localize";
-import type { Listing } from "../data/types";
+import { NEIGHBORHOOD_LABELS, PRICE_BANDS, TYPE_LABELS } from "../data/content";
 import type { SupportedLanguage } from "../i18n";
-
-function formatPrice(listing: Listing, language: SupportedLanguage) {
-  return new Intl.NumberFormat(language, {
-    style: "currency",
-    currency: listing.currency,
-    maximumFractionDigits: 0,
-  }).format(listing.price);
-}
-
-function ListingCard({ listing }: { listing: Listing }) {
-  const { t, i18n } = useTranslation();
-  const language = i18n.resolvedLanguage as SupportedLanguage;
-
-  return (
-    <div className={`card${listing.status === "previous" ? " card--previous" : ""}`}>
-      <img src={listing.photoUrl} alt={localize(listing.title, language)} />
-      <div className="card__body">
-        <span className="badge">{listing.city}</span>
-        <span className="card__title">{localize(listing.title, language)}</span>
-        <span className="card__meta">{localize(listing.description, language)}</span>
-        <span className="card__meta">
-          {t("common.rooms")}: {listing.rooms} · {t("common.size")}: {listing.sizeSqm} m²
-        </span>
-        <span className="card__price">{formatPrice(listing, language)}</span>
-        <a
-          className="btn btn-outline"
-          href={listing.yad2Url}
-          target="_blank"
-          rel="noreferrer noopener"
-        >
-          {t("common.viewOnYad2")}
-        </a>
-      </div>
-    </div>
-  );
-}
+import type { Neighborhood, PropertyType } from "../data/types";
 
 export function Listings() {
-  const { t } = useTranslation();
-  const current = listings.filter((listing) => listing.status === "current");
-  const previous = listings.filter((listing) => listing.status === "previous");
+  const { t, i18n } = useTranslation();
+  const language = i18n.resolvedLanguage as SupportedLanguage;
+  const [neighborhood, setNeighborhood] = useState<Neighborhood | "">("");
+  const [priceBandKey, setPriceBandKey] = useState("");
+  const [type, setType] = useState<PropertyType | "">("");
+
+  const availableNeighborhoods = useMemo(
+    () => [...new Set(listings.map((l) => l.neighborhood))],
+    [],
+  );
+  const availableTypes = useMemo(() => [...new Set(listings.map((l) => l.type))], []);
+
+  const priceBand = PRICE_BANDS.find((b) => b.key === priceBandKey);
+  const filtered = listings.filter((l) => {
+    if (neighborhood && l.neighborhood !== neighborhood) return false;
+    if (type && l.type !== type) return false;
+    if (priceBand) {
+      if (priceBand.min !== undefined && l.price < priceBand.min) return false;
+      if (priceBand.max !== undefined && l.price > priceBand.max) return false;
+    }
+    return true;
+  });
 
   return (
-    <div className="container section">
-      <h1 className="section__title">{t("listings.title")}</h1>
-      <p className="section__intro">{t("listings.intro")}</p>
+    <div className="container sec">
+      <h1 className="sec-title">{t("listings.title")}</h1>
 
-      <h2 className="section__title">{t("listings.currentTitle")}</h2>
-      {current.length === 0 ? (
-        <p className="section__intro">{t("listings.emptyCurrent")}</p>
-      ) : (
-        <div className="card-grid">
-          {current.map((listing) => (
-            <ListingCard listing={listing} key={listing.id} />
-          ))}
+      <div className="filters">
+        <div className="field">
+          <label htmlFor="filter-neighborhood">{t("listings.filters.neighborhood")}</label>
+          <select
+            id="filter-neighborhood"
+            className="input"
+            value={neighborhood}
+            onChange={(e) => setNeighborhood(e.target.value as Neighborhood | "")}
+          >
+            <option value="">{t("listings.filters.any")}</option>
+            {availableNeighborhoods.map((hood) => (
+              <option value={hood} key={hood}>
+                {localize(NEIGHBORHOOD_LABELS[hood], language)}
+              </option>
+            ))}
+          </select>
         </div>
-      )}
+        <div className="field">
+          <label htmlFor="filter-price">{t("listings.filters.priceRange")}</label>
+          <select
+            id="filter-price"
+            className="input"
+            value={priceBandKey}
+            onChange={(e) => setPriceBandKey(e.target.value)}
+          >
+            <option value="">{t("listings.filters.any")}</option>
+            {PRICE_BANDS.map((band) => (
+              <option value={band.key} key={band.key}>
+                {localize(band.label, language)}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="field">
+          <label htmlFor="filter-type">{t("listings.filters.type")}</label>
+          <select
+            id="filter-type"
+            className="input"
+            value={type}
+            onChange={(e) => setType(e.target.value as PropertyType | "")}
+          >
+            <option value="">{t("listings.filters.any")}</option>
+            {availableTypes.map((propertyType) => (
+              <option value={propertyType} key={propertyType}>
+                {localize(TYPE_LABELS[propertyType], language)}
+              </option>
+            ))}
+          </select>
+        </div>
+        <span className="count tnum">{t("listings.filters.results", { count: filtered.length })}</span>
+      </div>
 
-      <h2 className="section__title" style={{ marginTop: "2.5rem" }}>
-        {t("listings.previousTitle")}
-      </h2>
-      {previous.length === 0 ? (
-        <p className="section__intro">{t("listings.emptyPrevious")}</p>
+      {filtered.length === 0 ? (
+        <p className="muted" style={{ marginTop: "var(--s3)" }}>
+          {t("listings.filters.none")}
+        </p>
       ) : (
-        <div className="card-grid">
-          {previous.map((listing) => (
-            <ListingCard listing={listing} key={listing.id} />
+        <div className="grid-cards" style={{ marginTop: "var(--s3)" }}>
+          {filtered.map((listing) => (
+            <PropertyCard listing={listing} key={listing.id} />
           ))}
         </div>
       )}
