@@ -11,7 +11,7 @@ Russian, and is mobile-first.
 
 ## Pages
 
-- [Home](https://nadlanzebait.com/): overview, current
+- [Home](https://morkatzwonder.github.io/Nadlanzebait/): overview, current
   property listings, client testimonials, and a contact / free-valuation
   form.
 

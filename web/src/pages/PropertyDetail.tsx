@@ -70,7 +70,7 @@ export function PropertyDetail() {
             "@context": "https://schema.org",
             "@type": "RealEstateListing",
             name: `${localize(TYPE_LABELS[listing.type], language)} · ${localize(listing.street, language)}`,
-            url: `https://nadlanzebait.com/listings/${listing.id}`,
+            url: `https://morkatzwonder.github.io/Nadlanzebait/listings/${listing.id}`,
             about: {
               "@type": "Apartment",
               numberOfRooms: listing.rooms,
