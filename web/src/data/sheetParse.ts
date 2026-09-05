@@ -47,6 +47,7 @@ const LISTING_HEADERS = {
   pointsOfInterest: "נקודות עניין בסביבה",
   teaser: "משפט פתיחה",
   description: "תיאור מלא",
+  visible: "להציג באתר",
 } as const;
 
 const TESTIMONIAL_HEADERS = {
@@ -131,6 +132,13 @@ function parseBool(v: string | undefined): boolean {
   return s === "כן" || s.toUpperCase() === "TRUE" || s === "1";
 }
 
+/** Opt-out rather than opt-in: a blank/missing "Show on site" cell still shows the
+ *  listing, so forgetting to fill it in on a new row doesn't hide it by surprise. */
+function isHidden(v: string | undefined): boolean {
+  const s = (v ?? "").trim();
+  return s === "לא" || s.toUpperCase() === "FALSE" || s === "0";
+}
+
 function parseNum(v: string | undefined): number {
   const n = Number((v ?? "").replace(/,/g, "").trim());
   return Number.isFinite(n) ? n : 0;
@@ -145,6 +153,8 @@ function splitMulti(v: string | undefined): string[] {
 }
 
 function rowToListing(row: Record<string, string>, index: number): Listing | null {
+  if (isHidden(row[LISTING_HEADERS.visible])) return null;
+
   const type = TYPE_MAP.get(row[LISTING_HEADERS.type] ?? "");
   const neighborhood = NEIGHBORHOOD_MAP.get(row[LISTING_HEADERS.neighborhood] ?? "");
   const condition = CONDITION_MAP.get(row[LISTING_HEADERS.condition] ?? "");

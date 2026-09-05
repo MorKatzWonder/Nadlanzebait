@@ -59,6 +59,22 @@ Most are self-explanatory; a few notes:
   values separated by " / " (e.g. "משופצת / ממ״ד / מרפסת שמש"). The
   characteristic/point-of-interest labels must match `CHARACTERISTIC_LABELS`
   / `POI_LABELS` in `content.ts`, same rule as above.
+- **להציג באתר** (Show on site): "כן" or "לא". Leaving it blank still shows
+  the listing — it's opt-out, not opt-in, so forgetting to fill it in on a
+  new row never hides it by surprise. Only an explicit "לא" hides it.
+
+### Removing a listing
+
+Either works: delete the row entirely, or set **להציג באתר** to "לא" to
+hide it without losing the row (handy if you might relist it later — the
+data's still there to flip back on). A currently-live listing page whose
+row gets deleted or hidden will show "not found" if someone still has the
+old link — expected, same as any real-estate site retiring a listing.
+
+Note: this column doesn't exist in the sheet yet — it needs to be added by
+hand (a new column, header exactly "להציג באתר") since Claude can't safely
+edit the live sheet's content without risking overwriting whatever's
+already been changed in it.
 
 ## Translation
 
