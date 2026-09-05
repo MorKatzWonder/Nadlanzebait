@@ -73,14 +73,15 @@ feature change going forward — not just when asked.
 - A scheduled Routine periodically reviews `SEO.md` and the codebase against
   current search/AI-crawler conventions.
 
-## Known issues
+## Waiting on you
 
-- **Leads Google Sheet isn't receiving rows.** Confirmed: WhatsApp opens
-  correctly with the pre-filled message (the part that actually reaches
-  Arik), but submissions aren't showing up in the "Nadlanzebait — Leads"
-  sheet. The site-side request is constructed and fired correctly (verified
-  directly), so the fault is on the Apps Script side. Likely causes, in
-  order of likelihood:
+- **Leads Google Sheet isn't receiving rows — needs the Apps Script setup
+  steps.** Confirmed: WhatsApp opens correctly with the pre-filled message
+  (the part that actually reaches Arik), but submissions aren't showing up
+  in the "Nadlanzebait — Leads" sheet. The site-side request is constructed
+  and fired correctly (verified directly), so the fault is on the Apps
+  Script side — specifically, you haven't yet walked through
+  `APPS_SCRIPT_SETUP.md`'s deployment steps. Likely causes once you do:
   1. The live deployment is running older code that predates the GET/doGet
      fix (a code edit alone doesn't take effect until you deploy a **new
      version** of the existing deployment).
@@ -90,12 +91,13 @@ feature change going forward — not just when asked.
      re-consent after security/account changes).
   - **Fastest way to diagnose**: open the Apps Script editor for the sheet →
     **Executions** (left sidebar) → submit the form on the live site → see
-    whether a `doGet` execution shows up and whether it errored. That tells
-    us which of the above it is.
+    whether a `doGet` execution shows up and whether it errored.
   - **Fastest likely fix**: paste `src/data/leads-apps-script.gs.txt` into
-    the Apps Script editor fresh (to guarantee it matches), then
-    **Deploy → Manage deployments → edit (pencil) → Version: New version →
-    Deploy**. This keeps the same URL, so `leadsConfig.ts` doesn't change.
+    the Apps Script editor fresh, then **Deploy → Manage deployments → edit
+    (pencil) → Version: New version → Deploy**. Same URL, no site change
+    needed. Full walkthrough in `APPS_SCRIPT_SETUP.md`.
+  - You said you'd do this later — flagging here so it doesn't get lost;
+    ask any time and I'll walk through it with you live.
 
 ## Not yet implemented / open decisions
 
