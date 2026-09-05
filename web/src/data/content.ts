@@ -161,24 +161,44 @@ export interface PriceBand {
 export const PRICE_BANDS: PriceBand[] = [
   {
     key: "a",
-    label: L({ he: "עד 3 מ׳", enUS: "Up to ₪3M", fr: "Jusqu'à 3 M ₪", ru: "До 3 млн ₪" }),
+    label: L({
+      he: "עד 3 מיליון ש״ח",
+      enUS: "Up to ₪3 million",
+      fr: "Jusqu'à 3 millions ₪",
+      ru: "До 3 миллионов ₪",
+    }),
     max: 3_000_000,
   },
   {
     key: "b",
-    label: L({ he: "3–5 מ׳", enUS: "₪3–5M", fr: "3–5 M ₪", ru: "3–5 млн ₪" }),
+    label: L({
+      he: "3–5 מיליון ש״ח",
+      enUS: "₪3–5 million",
+      fr: "3–5 millions ₪",
+      ru: "3–5 миллионов ₪",
+    }),
     min: 3_000_000,
     max: 5_000_000,
   },
   {
     key: "c",
-    label: L({ he: "5–8 מ׳", enUS: "₪5–8M", fr: "5–8 M ₪", ru: "5–8 млн ₪" }),
+    label: L({
+      he: "5–8 מיליון ש״ח",
+      enUS: "₪5–8 million",
+      fr: "5–8 millions ₪",
+      ru: "5–8 миллионов ₪",
+    }),
     min: 5_000_000,
     max: 8_000_000,
   },
   {
     key: "d",
-    label: L({ he: "8 מ׳ ומעלה", enUS: "₪8M+", fr: "8 M ₪ et plus", ru: "От 8 млн ₪" }),
+    label: L({
+      he: "מעל 8 מיליון ש״ח",
+      enUS: "₪8 million and up",
+      fr: "Plus de 8 millions ₪",
+      ru: "От 8 миллионов ₪",
+    }),
     min: 8_000_000,
   },
 ];

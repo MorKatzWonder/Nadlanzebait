@@ -5,28 +5,33 @@ import { SkeletonPropertyCard } from "./SkeletonPropertyCard";
 import { Carousel } from "./Carousel";
 import { useListings } from "../data/useSheetData";
 import { localize } from "../data/localize";
-import { NEIGHBORHOOD_LABELS, PRICE_BANDS, TYPE_LABELS } from "../data/content";
+import { PRICE_BANDS, TYPE_LABELS } from "../data/content";
 import type { SupportedLanguage } from "../i18n";
-import type { Neighborhood, PropertyType } from "../data/types";
+import type { LocalizedText, PropertyType } from "../data/types";
 
 export function PropertiesSection() {
   const { t, i18n } = useTranslation();
   const language = i18n.resolvedLanguage as SupportedLanguage;
   const { items: listings, loading } = useListings();
   const [filtersOpen, setFiltersOpen] = useState(false);
-  const [neighborhood, setNeighborhood] = useState<Neighborhood | "">("");
+  const [neighborhood, setNeighborhood] = useState("");
   const [priceBandKey, setPriceBandKey] = useState("");
   const [type, setType] = useState<PropertyType | "">("");
 
-  const availableNeighborhoods = useMemo(
-    () => [...new Set(listings.map((l) => l.neighborhood))],
-    [listings],
-  );
+  // Neighborhood is free text (see data/types.ts), so "the same neighborhood" means
+  // "the same Hebrew text" — dedupe by .he, keeping one LocalizedText per unique value.
+  const availableNeighborhoods = useMemo(() => {
+    const byHebrew = new Map<string, LocalizedText>();
+    listings.forEach((l) => {
+      if (!byHebrew.has(l.neighborhood.he)) byHebrew.set(l.neighborhood.he, l.neighborhood);
+    });
+    return [...byHebrew.values()];
+  }, [listings]);
   const availableTypes = useMemo(() => [...new Set(listings.map((l) => l.type))], [listings]);
 
   const priceBand = PRICE_BANDS.find((b) => b.key === priceBandKey);
   const filtered = listings.filter((l) => {
-    if (neighborhood && l.neighborhood !== neighborhood) return false;
+    if (neighborhood && l.neighborhood.he !== neighborhood) return false;
     if (type && l.type !== type) return false;
     if (priceBand) {
       if (priceBand.min !== undefined && l.price < priceBand.min) return false;
@@ -68,12 +73,12 @@ export function PropertiesSection() {
               id="filter-neighborhood"
               className="input"
               value={neighborhood}
-              onChange={(e) => setNeighborhood(e.target.value as Neighborhood | "")}
+              onChange={(e) => setNeighborhood(e.target.value)}
             >
               <option value="">{t("listings.filters.any")}</option>
               {availableNeighborhoods.map((hood) => (
-                <option value={hood} key={hood}>
-                  {localize(NEIGHBORHOOD_LABELS[hood], language)}
+                <option value={hood.he} key={hood.he}>
+                  {localize(hood, language)}
                 </option>
               ))}
             </select>

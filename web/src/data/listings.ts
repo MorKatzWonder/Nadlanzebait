@@ -1,3 +1,4 @@
+import { NEIGHBORHOOD_LABELS } from "./content";
 import type { Listing } from "./types";
 
 /**
@@ -8,7 +9,7 @@ export const listings: Listing[] = [
   {
     id: "l1",
     type: "garden",
-    neighborhood: "center",
+    neighborhood: NEIGHBORHOOD_LABELS.center,
     street: {
       he: "רוטשילד 42",
       "en-US": "Rothschild 42",
@@ -60,7 +61,7 @@ export const listings: Listing[] = [
   {
     id: "l2",
     type: "apt",
-    neighborhood: "florentin",
+    neighborhood: NEIGHBORHOOD_LABELS.florentin,
     street: {
       he: "וייטל 8",
       "en-US": "Vital 8",
@@ -111,7 +112,7 @@ export const listings: Listing[] = [
   {
     id: "l3",
     type: "pent",
-    neighborhood: "oldnorth",
+    neighborhood: NEIGHBORHOOD_LABELS.oldnorth,
     street: {
       he: "אבן גבירול 121",
       "en-US": "Ibn Gabirol 121",
@@ -163,7 +164,7 @@ export const listings: Listing[] = [
   {
     id: "l4",
     type: "studio",
-    neighborhood: "kerem",
+    neighborhood: NEIGHBORHOOD_LABELS.kerem,
     street: {
       he: "נחליאלי 3",
       "en-US": "Nahalieli 3",
@@ -208,7 +209,7 @@ export const listings: Listing[] = [
   {
     id: "l5",
     type: "duplex",
-    neighborhood: "nevetzedek",
+    neighborhood: NEIGHBORHOOD_LABELS.nevetzedek,
     street: {
       he: "שבזי 21",
       "en-US": "Shabazi 21",
@@ -260,7 +261,7 @@ export const listings: Listing[] = [
   {
     id: "l6",
     type: "apt",
-    neighborhood: "ramataviv",
+    neighborhood: NEIGHBORHOOD_LABELS.ramataviv,
     street: {
       he: "ברודצקי 34",
       "en-US": "Brodetsky 34",

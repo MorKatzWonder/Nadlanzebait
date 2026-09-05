@@ -10,7 +10,6 @@ import type {
   Condition,
   Listing,
   LocalizedText,
-  Neighborhood,
   PointOfInterest,
   PropertyType,
   Testimonial,
@@ -152,14 +151,34 @@ function splitMulti(v: string | undefined): string[] {
     .filter(Boolean);
 }
 
+/**
+ * Unlike type/condition, a neighborhood isn't a closed set — Tel Aviv has far
+ * more of them than the handful this app ships translations for. If the text
+ * matches one of those presets, use its full 5-language label; otherwise
+ * keep the raw Hebrew as-is (same graceful fallback `localize()` already
+ * does everywhere else for untranslated content), rather than dropping the
+ * whole listing over an unrecognized neighborhood name.
+ */
+function resolveNeighborhood(raw: string | undefined): LocalizedText | null {
+  const text = (raw ?? "").trim();
+  if (!text) return null;
+  const preset = NEIGHBORHOOD_MAP.get(text);
+  return preset ? NEIGHBORHOOD_LABELS[preset] : { he: text };
+}
+
 function rowToListing(row: Record<string, string>, index: number): Listing | null {
   if (isHidden(row[LISTING_HEADERS.visible])) return null;
 
   const type = TYPE_MAP.get(row[LISTING_HEADERS.type] ?? "");
-  const neighborhood = NEIGHBORHOOD_MAP.get(row[LISTING_HEADERS.neighborhood] ?? "");
+  const neighborhood = resolveNeighborhood(row[LISTING_HEADERS.neighborhood]);
   const condition = CONDITION_MAP.get(row[LISTING_HEADERS.condition] ?? "");
   const street = row[LISTING_HEADERS.street];
-  if (!type || !neighborhood || !condition || !street) return null;
+  if (!type || !neighborhood || !condition || !street) {
+    console.warn(
+      `Skipping sheet row ${row[LISTING_HEADERS.id] || index} — unrecognized or missing value for one of: type, neighborhood, condition, street.`,
+    );
+    return null;
+  }
 
   const characteristics = splitMulti(row[LISTING_HEADERS.characteristics])
     .map((label) => CHARACTERISTIC_MAP.get(label))
@@ -174,7 +193,7 @@ function rowToListing(row: Record<string, string>, index: number): Listing | nul
   const listing: Listing = {
     id,
     type: type as PropertyType,
-    neighborhood: neighborhood as Neighborhood,
+    neighborhood,
     street: { he: street },
     price: parseNum(row[LISTING_HEADERS.price]),
     rooms: parseNum(row[LISTING_HEADERS.rooms]),

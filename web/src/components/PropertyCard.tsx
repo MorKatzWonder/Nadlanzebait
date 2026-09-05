@@ -9,7 +9,6 @@ import {
   AGENT_PHONE_DIAL,
   AGENT_WHATSAPP_DIGITS,
   CHARACTERISTIC_LABELS,
-  NEIGHBORHOOD_LABELS,
   TYPE_LABELS,
   listingWaMessage,
   waHref,
@@ -19,7 +18,7 @@ export function PropertyCard({ listing }: { listing: Listing }) {
   const { t, i18n } = useTranslation();
   const language = i18n.resolvedLanguage as SupportedLanguage;
 
-  const address = `${localize(listing.street, language)}, ${localize(NEIGHBORHOOD_LABELS[listing.neighborhood], language)}`;
+  const address = `${localize(listing.street, language)}, ${localize(listing.neighborhood, language)}`;
   const waMessage = listingWaMessage(language, address);
   const detailHref = `/listings/${listing.id}`;
 
@@ -47,7 +46,7 @@ export function PropertyCard({ listing }: { listing: Listing }) {
         >
           <div className="type">{localize(TYPE_LABELS[listing.type], language)}</div>
           <div className="loc">
-            {localize(NEIGHBORHOOD_LABELS[listing.neighborhood], language)} ·{" "}
+            {localize(listing.neighborhood, language)} ·{" "}
             {localize(listing.street, language)}
           </div>
         </Link>

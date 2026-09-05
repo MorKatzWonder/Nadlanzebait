@@ -12,7 +12,6 @@ import {
   CHARACTERISTIC_LABELS,
   CITY,
   CONDITION_LABELS,
-  NEIGHBORHOOD_LABELS,
   POI_LABELS,
   TYPE_LABELS,
   listingWaMessage,
@@ -108,7 +107,7 @@ export function PropertyDetail() {
     );
   }
 
-  const address = `${localize(listing.street, language)}, ${localize(NEIGHBORHOOD_LABELS[listing.neighborhood], language)}`;
+  const address = `${localize(listing.street, language)}, ${localize(listing.neighborhood, language)}`;
   const waMessage = listingWaMessage(language, address);
   const yes = t("listings.yes");
   const no = t("listings.no");
@@ -117,7 +116,7 @@ export function PropertyDetail() {
   const rows: [string, string | number][] = [
     [F("type"), localize(TYPE_LABELS[listing.type], language)],
     [F("city"), localize(CITY, language)],
-    [F("neighborhood"), localize(NEIGHBORHOOD_LABELS[listing.neighborhood], language)],
+    [F("neighborhood"), localize(listing.neighborhood, language)],
     [F("street"), localize(listing.street, language)],
     [F("rooms"), listing.rooms],
     [F("size"), `${listing.sizeSqm} ${t("common.sqm")}`],
@@ -144,7 +143,7 @@ export function PropertyDetail() {
         <aside className="property-detail__aside">
           <div className="type">{localize(TYPE_LABELS[listing.type], language)}</div>
           <h1 className="sec-title" style={{ marginBlockEnd: "var(--s1)" }}>
-            {localize(NEIGHBORHOOD_LABELS[listing.neighborhood], language)} ·{" "}
+            {localize(listing.neighborhood, language)} ·{" "}
             {localize(listing.street, language)}
           </h1>
           <div className="price tnum" style={{ fontSize: 28 }}>
