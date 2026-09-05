@@ -21,6 +21,7 @@ export const testimonials: Testimonial[] = [
       ru: "Продавец, Флорентин",
       es: "Vendedora, Florentin",
     },
+    audience: "seller",
   },
   {
     id: "t2",
@@ -42,6 +43,7 @@ export const testimonials: Testimonial[] = [
       ru: "Покупатели, Центр города",
       es: "Compradores, Centro de la ciudad",
     },
+    audience: "buyer",
   },
   {
     id: "t3",
@@ -63,5 +65,28 @@ export const testimonials: Testimonial[] = [
       ru: "Продавец, Старый Север",
       es: "Vendedor, Viejo Norte",
     },
+    audience: "seller",
+  },
+  {
+    id: "t4",
+    quote: {
+      he: "חיפשנו דירה ברמת אביב במשך חצי שנה בלי הצלחה. אריק הראה לנו נכס שלא היה מפורסם בשום מקום, וסגרנו תוך שבוע.",
+      "en-US":
+        "We'd been searching for an apartment in Ramat Aviv for six months with no luck. Arik showed us a property that wasn't listed anywhere, and we closed within a week.",
+      "en-GB":
+        "We'd been searching for a flat in Ramat Aviv for six months with no luck. Arik showed us a property that wasn't listed anywhere, and we closed within a week.",
+      fr: "Nous cherchions un appartement à Ramat Aviv depuis six mois sans succès. Arik nous a montré un bien qui n'était annoncé nulle part, et nous avons conclu en une semaine.",
+      ru: "Мы полгода безуспешно искали квартиру в Рамат-Авиве. Арик показал нам объект, который нигде не был опубликован, и мы закрыли сделку за неделю.",
+      es: "Llevábamos seis meses buscando un apartamento en Ramat Aviv sin éxito. Arik nos mostró una propiedad que no estaba publicada en ningún sitio, y cerramos en una semana.",
+    },
+    attribution: {
+      he: "קונים, רמת אביב",
+      "en-US": "Buyers, Ramat Aviv",
+      "en-GB": "Buyers, Ramat Aviv",
+      fr: "Acheteurs, Ramat Aviv",
+      ru: "Покупатели, Рамат-Авив",
+      es: "Compradores, Ramat Aviv",
+    },
+    audience: "buyer",
   },
 ];

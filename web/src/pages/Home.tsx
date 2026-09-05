@@ -18,6 +18,9 @@ export function Home() {
   const language = i18n.resolvedLanguage as SupportedLanguage;
   const { items: testimonials, loading: testimonialsLoading } = useTestimonials();
   const [persona, setPersona] = useState<Persona | null>(null);
+  const visibleTestimonials = persona
+    ? testimonials.filter((testimonial) => !testimonial.audience || testimonial.audience === persona)
+    : testimonials;
 
   useDocumentMeta({ title: t("meta.title"), description: t("meta.description") });
 
@@ -34,20 +37,20 @@ export function Home() {
           <p>{localize(HOME_HERO.body, language)}</p>
           <div className="cta btn-row">
             <Link
-              to="/#properties"
-              className={`btn ${persona === "buyer" ? "btn-neon" : "btn-outline"}`}
-              style={persona === "buyer" ? undefined : OUTLINE_STYLE}
-              onClick={() => setPersona("buyer")}
-            >
-              {t("persona.buyer")}
-            </Link>
-            <Link
               to="/#contact"
               className={`btn ${persona === "buyer" ? "btn-outline" : "btn-neon"}`}
               style={persona === "buyer" ? OUTLINE_STYLE : undefined}
               onClick={() => setPersona("seller")}
             >
-              {t("persona.seller")}
+              {localize(HOME_HERO.ctaValuation, language)}
+            </Link>
+            <Link
+              to="/#properties"
+              className={`btn ${persona === "buyer" ? "btn-neon" : "btn-outline"}`}
+              style={persona === "buyer" ? undefined : OUTLINE_STYLE}
+              onClick={() => setPersona("buyer")}
+            >
+              {localize(HOME_HERO.ctaProperties, language)}
             </Link>
           </div>
           <div className="stats">
@@ -111,7 +114,7 @@ export function Home() {
                   </figcaption>
                 </figure>
               ))
-            : testimonials.map((testimonial) => (
+            : visibleTestimonials.map((testimonial) => (
                 <figure className="quote" key={testimonial.id}>
                   <p>{localize(testimonial.quote, language)}</p>
                   <figcaption className="who">{localize(testimonial.attribution, language)}</figcaption>

@@ -98,4 +98,6 @@ export interface Testimonial {
   id: string;
   quote: LocalizedText;
   attribution: LocalizedText;
+  /** Which persona this quote speaks to. Omitted shows it to both. */
+  audience?: Persona;
 }

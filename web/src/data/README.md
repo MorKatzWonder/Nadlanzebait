@@ -54,7 +54,12 @@ Most are self-explanatory; a few notes:
   / `CONDITION_LABELS` in `content.ts` for the full list. An unrecognized
   value causes that row to be skipped.
 - **מחסן** / **מרתף** / **מעלית שבת** / **גישה לנכים**: "כן" or "לא".
-  Column reference (Testimonials sheet): **מזהה** / **ציטוט** / **חתימה**.
+  Column reference (Testimonials sheet): **מזהה** / **ציטוט** / **חתימה** /
+  **קהל יעד**.
+- **קהל יעד** (Testimonials — target audience): "קונה" (or "קונים") shows
+  the quote only when a visitor picked the Buyer CTA, "מוכר" (or "מוכרים")
+  only for Seller. Leave it blank to show the quote regardless of which CTA
+  was clicked — same opt-out pattern as "להציג באתר" below.
 - **קישורי תמונות** / **מאפיינים** / **נקודות עניין בסביבה**: multiple
   values separated by " / " (e.g. "משופצת / ממ״ד / מרפסת שמש"). The
   characteristic/point-of-interest labels must match `CHARACTERISTIC_LABELS`

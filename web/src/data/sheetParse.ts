@@ -10,6 +10,7 @@ import type {
   Condition,
   Listing,
   LocalizedText,
+  Persona,
   PointOfInterest,
   PropertyType,
   Testimonial,
@@ -53,7 +54,15 @@ const TESTIMONIAL_HEADERS = {
   id: "מזהה",
   quote: "ציטוט",
   attribution: "חתימה",
+  audience: "קהל יעד",
 } as const;
+
+const AUDIENCE_MAP: Record<string, Persona> = {
+  קונה: "buyer",
+  קונים: "buyer",
+  מוכר: "seller",
+  מוכרים: "seller",
+};
 
 /** Minimal RFC4180 CSV parser: handles quoted fields with embedded commas/newlines/escaped quotes. */
 export function parseCsv(text: string): string[][] {
@@ -225,7 +234,8 @@ function rowToTestimonial(row: Record<string, string>, index: number): Testimoni
   const attribution = row[TESTIMONIAL_HEADERS.attribution]?.trim();
   if (!quote || !attribution) return null;
   const id = row[TESTIMONIAL_HEADERS.id]?.trim() || `sheet-t${index}`;
-  return { id, quote: { he: quote }, attribution: { he: attribution } };
+  const audience = AUDIENCE_MAP[row[TESTIMONIAL_HEADERS.audience]?.trim() ?? ""];
+  return { id, quote: { he: quote }, attribution: { he: attribution }, audience };
 }
 
 export function parseListingsCsv(csv: string): Listing[] {

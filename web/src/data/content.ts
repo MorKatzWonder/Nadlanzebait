@@ -342,6 +342,20 @@ export const HOME_HERO = {
     ru: "Реальная оценка, маркетинг, который показывает квартиру такой, какая она есть на самом деле, и переговоры вплоть до подписания. Двенадцать лет в одних и тех же районах.",
     es: "Una tasación real, un marketing que muestra el apartamento tal como es, y una negociación llevada hasta la firma. Doce años en los mismos barrios.",
   }),
+  ctaValuation: L({
+    he: "להערכת שווי חינם",
+    enUS: "Free valuation",
+    fr: "Estimation gratuite",
+    ru: "Бесплатная оценка",
+    es: "Tasación gratuita",
+  }),
+  ctaProperties: L({
+    he: "לצפייה בנכסים",
+    enUS: "Browse properties",
+    fr: "Voir les biens",
+    ru: "Смотреть объекты",
+    es: "Ver propiedades",
+  }),
 };
 
 export const HOME_STATS: { n: string; l: LocalizedText }[] = [
