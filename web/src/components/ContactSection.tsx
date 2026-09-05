@@ -1,0 +1,331 @@
+import { useState, type FormEvent } from "react";
+import { useTranslation } from "react-i18next";
+import { localize } from "../data/localize";
+import { LEADS_WEBHOOK_URL } from "../data/leadsConfig";
+import type { SupportedLanguage } from "../i18n";
+import {
+  ABOUT,
+  AGENT_HOURS,
+  AGENT_NAME,
+  AGENT_OFFICE_ADDRESS,
+  AGENT_PHONE_DIAL,
+  AGENT_PHONE_DISPLAY,
+  AGENT_WHATSAPP_DIGITS,
+  BUYER_INQUIRY_HEAD,
+  TYPE_LABELS,
+  VALUATION_FORM_HEAD,
+  waHref,
+} from "../data/content";
+import type { Persona, PropertyType } from "../data/types";
+
+/**
+ * Best-effort log of the submission to the Leads Google Sheet (see
+ * APPS_SCRIPT_SETUP.md) — so Arik has it even if the visitor never taps
+ * Send in the WhatsApp chat this also opens. Fire-and-forget: a slow or
+ * failed request never blocks or breaks the WhatsApp flow, which is the
+ * part that actually reaches the visitor. "no-cors" means we can't read
+ * the response, but the Apps Script Web App doesn't need us to.
+ *
+ * Uses GET with query params, not POST with a body: a POST to a Web App's
+ * /exec URL hits a redirect on Google's side that can silently downgrade it
+ * to a GET, so doPost() on the script side never actually runs. A GET stays
+ * a GET across that redirect.
+ */
+function logLead(values: {
+  name: string;
+  phone: string;
+  address: string;
+  type: string;
+  message: string;
+  language: SupportedLanguage;
+}) {
+  if (!LEADS_WEBHOOK_URL) return;
+  const params = new URLSearchParams(values);
+  fetch(`${LEADS_WEBHOOK_URL}?${params.toString()}`, { method: "GET", mode: "no-cors" }).catch(() => {
+    /* the visitor already has the WhatsApp chat open regardless */
+  });
+}
+
+const TYPE_KEYS = Object.keys(TYPE_LABELS) as PropertyType[];
+
+const VALUATION_MESSAGE_TEMPLATES: Record<
+  SupportedLanguage,
+  (values: { name: string; phone: string; address: string; typeLabel: string; message: string }) => string
+> = {
+  "en-US": (v) => [
+    "Hello, I'd like a free valuation.",
+    `Name: ${v.name}`,
+    `Phone: ${v.phone}`,
+    `Property address: ${v.address}`,
+    `Property type: ${v.typeLabel}`,
+    v.message ? `Note: ${v.message}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n"),
+  "en-GB": (v) => VALUATION_MESSAGE_TEMPLATES["en-US"](v),
+  he: (v) => [
+    "שלום, אשמח להערכת שווי.",
+    `שם: ${v.name}`,
+    `טלפון: ${v.phone}`,
+    `כתובת הנכס: ${v.address}`,
+    `סוג הנכס: ${v.typeLabel}`,
+    v.message ? `הערה: ${v.message}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n"),
+  fr: (v) => [
+    "Bonjour, je souhaiterais une estimation gratuite.",
+    `Nom: ${v.name}`,
+    `Téléphone: ${v.phone}`,
+    `Adresse du bien: ${v.address}`,
+    `Type de bien: ${v.typeLabel}`,
+    v.message ? `Remarque: ${v.message}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n"),
+  ru: (v) => [
+    "Здравствуйте, хочу получить бесплатную оценку.",
+    `Имя: ${v.name}`,
+    `Телефон: ${v.phone}`,
+    `Адрес объекта: ${v.address}`,
+    `Тип объекта: ${v.typeLabel}`,
+    v.message ? `Примечание: ${v.message}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n"),
+  es: (v) => [
+    "Hola, me gustaría una tasación gratuita.",
+    `Nombre: ${v.name}`,
+    `Teléfono: ${v.phone}`,
+    `Dirección de la propiedad: ${v.address}`,
+    `Tipo de propiedad: ${v.typeLabel}`,
+    v.message ? `Nota: ${v.message}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n"),
+};
+
+const BUYER_MESSAGE_TEMPLATES: Record<
+  SupportedLanguage,
+  (values: { name: string; phone: string; address: string; typeLabel: string; message: string }) => string
+> = {
+  "en-US": (v) => [
+    "Hello, I'm interested in a property and would like more information.",
+    `Name: ${v.name}`,
+    `Phone: ${v.phone}`,
+    `Area of interest: ${v.address}`,
+    `Property type: ${v.typeLabel}`,
+    v.message ? `Note: ${v.message}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n"),
+  "en-GB": (v) => BUYER_MESSAGE_TEMPLATES["en-US"](v),
+  he: (v) => [
+    "שלום, אני מתעניין/ת בנכס ואשמח לפרטים נוספים.",
+    `שם: ${v.name}`,
+    `טלפון: ${v.phone}`,
+    `אזור מעניין: ${v.address}`,
+    `סוג הנכס: ${v.typeLabel}`,
+    v.message ? `הערה: ${v.message}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n"),
+  fr: (v) => [
+    "Bonjour, je suis intéressé(e) par un bien et j'aimerais plus d'informations.",
+    `Nom: ${v.name}`,
+    `Téléphone: ${v.phone}`,
+    `Quartier recherché: ${v.address}`,
+    `Type de bien: ${v.typeLabel}`,
+    v.message ? `Remarque: ${v.message}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n"),
+  ru: (v) => [
+    "Здравствуйте, меня интересует объект недвижимости, хотелось бы получить больше информации.",
+    `Имя: ${v.name}`,
+    `Телефон: ${v.phone}`,
+    `Интересующий район: ${v.address}`,
+    `Тип объекта: ${v.typeLabel}`,
+    v.message ? `Примечание: ${v.message}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n"),
+  es: (v) => [
+    "Hola, estoy interesado/a en una propiedad y me gustaría más información.",
+    `Nombre: ${v.name}`,
+    `Teléfono: ${v.phone}`,
+    `Zona de interés: ${v.address}`,
+    `Tipo de propiedad: ${v.typeLabel}`,
+    v.message ? `Nota: ${v.message}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n"),
+};
+
+function buildContactMessage(
+  language: SupportedLanguage,
+  persona: Persona | null,
+  values: { name: string; phone: string; address: string; type: string; message: string },
+) {
+  const typeLabel = localize(TYPE_LABELS[values.type as PropertyType], language);
+  const templates = persona === "buyer" ? BUYER_MESSAGE_TEMPLATES : VALUATION_MESSAGE_TEMPLATES;
+  return templates[language]({ ...values, typeLabel });
+}
+
+export function ContactSection({ persona = null }: { persona?: Persona | null }) {
+  const { t, i18n } = useTranslation();
+  const language = i18n.resolvedLanguage as SupportedLanguage;
+  const isBuyer = persona === "buyer";
+  const formHead = isBuyer ? BUYER_INQUIRY_HEAD : VALUATION_FORM_HEAD;
+  const addressLabel = isBuyer ? t("contact.form.addressBuyer") : t("contact.form.address");
+  const addressError = isBuyer ? t("contact.form.errorAddressBuyer") : t("contact.form.errorAddress");
+
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [type, setType] = useState<PropertyType>(TYPE_KEYS[0]);
+  const [message, setMessage] = useState("");
+  const [errors, setErrors] = useState<{ name?: string; phone?: string; address?: string }>({});
+  const [sentHref, setSentHref] = useState<string | null>(null);
+
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const nextErrors: typeof errors = {};
+    if (name.trim().length < 2) nextErrors.name = t("contact.form.errorName");
+    if (!/^[0-9+\-\s()]{9,}$/.test(phone.trim())) nextErrors.phone = t("contact.form.errorPhone");
+    if (address.trim().length < 3) nextErrors.address = addressError;
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length > 0) {
+      setSentHref(null);
+      return;
+    }
+
+    const typeLabel = localize(TYPE_LABELS[type], language);
+    logLead({ name, phone, address, type: typeLabel, message, language });
+
+    const waMessage = buildContactMessage(language, persona, { name, phone, address, type, message });
+    const href = waHref(AGENT_WHATSAPP_DIGITS, waMessage);
+    setSentHref(href);
+    window.open(href, "_blank", "noopener,noreferrer");
+  }
+
+  return (
+    <div className="container sec" id="contact">
+      <div className="about">
+        <div>
+          <div className="kick">{localize(ABOUT.kick, language)}</div>
+          <h2 className="sec-title">{localize(ABOUT.h, language)}</h2>
+          {ABOUT.paragraphs.map((p, idx) => (
+            <p className="muted" key={idx} style={{ maxWidth: "44ch", marginBottom: "var(--s2)" }}>
+              {localize(p, language)}
+            </p>
+          ))}
+          <div className="btn-row" style={{ marginTop: "var(--s3)" }}>
+            <a className="btn btn-primary" href={`tel:${AGENT_PHONE_DIAL}`}>
+              {t("common.callNow")} {AGENT_PHONE_DISPLAY}
+            </a>
+            <a
+              className="btn btn-outline"
+              href={waHref(AGENT_WHATSAPP_DIGITS, "")}
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              {t("common.whatsapp")}
+            </a>
+          </div>
+        </div>
+        <div className="slot">{localize(ABOUT.slot, language)}</div>
+      </div>
+
+      <div className="contact-card" style={{ marginTop: "var(--s4)" }}>
+        <p className="loc">{localize(AGENT_NAME, language)}</p>
+        <ul className="contact-row">
+          <li>
+            <span className="contact-row__label">{t("common.callNow")}:</span> {AGENT_PHONE_DISPLAY}
+          </li>
+          <li>
+            <span className="contact-row__label">{t("contact.office")}:</span>{" "}
+            {localize(AGENT_OFFICE_ADDRESS, language)}
+          </li>
+          <li>
+            <span className="contact-row__label">{t("contact.hours")}:</span>{" "}
+            {localize(AGENT_HOURS, language)}
+          </li>
+        </ul>
+      </div>
+
+      <div style={{ marginTop: "var(--s5)" }}>
+        <div className="kick">{localize(formHead.kick, language)}</div>
+        <h2 className="sec-title">{localize(formHead.h, language)}</h2>
+
+        <form className="form" onSubmit={handleSubmit} noValidate>
+          <div className="field">
+            <label htmlFor="vf-name">{t("contact.form.name")}</label>
+            <input
+              className="input"
+              id="vf-name"
+              autoComplete="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <div className="err">{errors.name}</div>
+          </div>
+          <div className="field">
+            <label htmlFor="vf-phone">{t("contact.form.phone")}</label>
+            <input
+              className="input"
+              id="vf-phone"
+              inputMode="tel"
+              autoComplete="tel"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
+            <div className="err">{errors.phone}</div>
+          </div>
+          <div className="field full">
+            <label htmlFor="vf-address">{addressLabel}</label>
+            <input
+              className="input"
+              id="vf-address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+            <div className="err">{errors.address}</div>
+          </div>
+          <div className="field">
+            <label htmlFor="vf-type">{t("contact.form.propertyType")}</label>
+            <select
+              className="input"
+              id="vf-type"
+              value={type}
+              onChange={(e) => setType(e.target.value as PropertyType)}
+            >
+              {TYPE_KEYS.map((key) => (
+                <option value={key} key={key}>
+                  {localize(TYPE_LABELS[key], language)}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="field full">
+            <label htmlFor="vf-message">{t("contact.form.message")}</label>
+            <input className="input" id="vf-message" value={message} onChange={(e) => setMessage(e.target.value)} />
+          </div>
+          <div className="full">
+            <button type="submit" className="btn btn-primary">
+              {t("contact.form.send")}
+            </button>
+          </div>
+          {sentHref ? (
+            <div className="full ok">
+              {t("contact.form.sent")}{" "}
+              <a href={sentHref} target="_blank" rel="noreferrer noopener">
+                {t("common.whatsapp")}
+              </a>
+            </div>
+          ) : null}
+        </form>
+      </div>
+    </div>
+  );
+}
