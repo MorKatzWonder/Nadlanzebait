@@ -7,17 +7,18 @@
  * new row — nothing more. If a submission is malformed it's still logged
  * (as blank fields) rather than dropped, since a lead you can call to
  * clarify beats a lead you never see.
+ *
+ * Uses GET with query-string parameters rather than POST with a JSON body:
+ * a browser POST to a Web App's /exec URL hits a redirect on Google's side,
+ * and that redirect can silently downgrade the POST to a GET, so doPost()
+ * never runs. A GET stays a GET across that redirect, so doGet() reliably
+ * fires instead.
  */
-function doPost(e) {
+function doGet(e) {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Leads")
     || SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
 
-  var data = {};
-  try {
-    data = JSON.parse(e.postData.contents);
-  } catch (err) {
-    data = {};
-  }
+  var data = (e && e.parameter) || {};
 
   sheet.appendRow([
     new Date(),

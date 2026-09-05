@@ -24,6 +24,11 @@ import type { PropertyType } from "../data/types";
  * failed request never blocks or breaks the WhatsApp flow, which is the
  * part that actually reaches the visitor. "no-cors" means we can't read
  * the response, but the Apps Script Web App doesn't need us to.
+ *
+ * Uses GET with query params, not POST with a body: a POST to a Web App's
+ * /exec URL hits a redirect on Google's side that can silently downgrade it
+ * to a GET, so doPost() on the script side never actually runs. A GET stays
+ * a GET across that redirect.
  */
 function logLead(values: {
   name: string;
@@ -34,12 +39,8 @@ function logLead(values: {
   language: SupportedLanguage;
 }) {
   if (!LEADS_WEBHOOK_URL) return;
-  fetch(LEADS_WEBHOOK_URL, {
-    method: "POST",
-    mode: "no-cors",
-    headers: { "Content-Type": "text/plain;charset=utf-8" },
-    body: JSON.stringify(values),
-  }).catch(() => {
+  const params = new URLSearchParams(values);
+  fetch(`${LEADS_WEBHOOK_URL}?${params.toString()}`, { method: "GET", mode: "no-cors" }).catch(() => {
     /* the visitor already has the WhatsApp chat open regardless */
   });
 }
