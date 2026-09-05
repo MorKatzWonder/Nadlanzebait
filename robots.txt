@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://morkatzwonder.github.io/Nadlanzebait/sitemap.xml
+Sitemap: https://nadlanzebait.com/sitemap.xml
