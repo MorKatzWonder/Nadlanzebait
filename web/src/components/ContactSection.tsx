@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { localize } from "../data/localize";
+import { LEADS_WEBHOOK_URL } from "../data/leadsConfig";
 import type { SupportedLanguage } from "../i18n";
 import {
   ABOUT,
@@ -15,6 +16,33 @@ import {
   waHref,
 } from "../data/content";
 import type { PropertyType } from "../data/types";
+
+/**
+ * Best-effort log of the submission to the Leads Google Sheet (see
+ * APPS_SCRIPT_SETUP.md) — so Arik has it even if the visitor never taps
+ * Send in the WhatsApp chat this also opens. Fire-and-forget: a slow or
+ * failed request never blocks or breaks the WhatsApp flow, which is the
+ * part that actually reaches the visitor. "no-cors" means we can't read
+ * the response, but the Apps Script Web App doesn't need us to.
+ */
+function logLead(values: {
+  name: string;
+  phone: string;
+  address: string;
+  type: string;
+  message: string;
+  language: SupportedLanguage;
+}) {
+  if (!LEADS_WEBHOOK_URL) return;
+  fetch(LEADS_WEBHOOK_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify(values),
+  }).catch(() => {
+    /* the visitor already has the WhatsApp chat open regardless */
+  });
+}
 
 const TYPE_KEYS = Object.keys(TYPE_LABELS) as PropertyType[];
 
@@ -70,6 +98,9 @@ export function ContactSection() {
       setSentHref(null);
       return;
     }
+
+    const typeLabel = localize(TYPE_LABELS[type], language);
+    logLead({ name, phone, address, type: typeLabel, message, language });
 
     const waMessage = buildValuationMessage(language, { name, phone, address, type, message });
     const href = waHref(AGENT_WHATSAPP_DIGITS, waMessage);

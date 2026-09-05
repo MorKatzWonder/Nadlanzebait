@@ -1,0 +1,35 @@
+/**
+ * Paste this into the Apps Script editor bound to the "Nadlanzebait — Leads"
+ * Google Sheet (Extensions → Apps Script from within the sheet), then deploy
+ * it as a Web App. See ../../APPS_SCRIPT_SETUP.md for the exact steps.
+ *
+ * Receives a valuation-form submission from the site and appends it as a
+ * new row — nothing more. If a submission is malformed it's still logged
+ * (as blank fields) rather than dropped, since a lead you can call to
+ * clarify beats a lead you never see.
+ */
+function doPost(e) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Leads")
+    || SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
+
+  var data = {};
+  try {
+    data = JSON.parse(e.postData.contents);
+  } catch (err) {
+    data = {};
+  }
+
+  sheet.appendRow([
+    new Date(),
+    data.name || "",
+    data.phone || "",
+    data.address || "",
+    data.type || "",
+    data.message || "",
+    data.language || "",
+  ]);
+
+  return ContentService
+    .createTextOutput(JSON.stringify({ ok: true }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
