@@ -1,0 +1,22 @@
+# Nadlanzebait (נדל״ן זה בית)
+
+> Arik Naim is a real-estate agent working Tel Aviv, Israel: honest
+> valuations, on-site property listings with full detail (no external
+> marketplace links), customer testimonials, and a WhatsApp-first way to
+> reach him. 12 years working the same neighborhoods, 400+ apartments sold,
+> average 28 days to sale, 98% of asking price.
+
+The site is available in English (US), English (UK), Hebrew, French, and
+Russian, and is mobile-first.
+
+## Pages
+
+- [Home](https://morkatzwonder.github.io/Nadlanzebait/): overview, current
+  property listings, client testimonials, and a contact / free-valuation
+  form.
+
+## Contact
+
+- Phone / WhatsApp: +972 50-746-4403
+- Office: Merkaz Baalei Melacha 5, Tel Aviv
+- Hours: Sun–Thu 09:00–20:00, Fri 09:00–13:00

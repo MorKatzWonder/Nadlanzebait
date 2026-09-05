@@ -6,12 +6,15 @@ import { Carousel } from "../components/Carousel";
 import { useTestimonials } from "../data/useSheetData";
 import { localize } from "../data/localize";
 import { HOME_HERO, HOME_STATS, HOME_STEPS, HOME_STEPS_HEAD, TESTIMONIALS_HEAD } from "../data/content";
+import { useDocumentMeta } from "../hooks/useDocumentMeta";
 import type { SupportedLanguage } from "../i18n";
 
 export function Home() {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const language = i18n.resolvedLanguage as SupportedLanguage;
   const testimonials = useTestimonials();
+
+  useDocumentMeta({ title: t("meta.title"), description: t("meta.description") });
 
   return (
     <div>

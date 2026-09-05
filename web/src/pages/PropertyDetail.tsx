@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useListings } from "../data/useSheetData";
+import { useDocumentMeta } from "../hooks/useDocumentMeta";
 import { localize } from "../data/localize";
 import { formatPrice } from "../data/format";
 import type { SupportedLanguage } from "../i18n";
@@ -60,6 +61,33 @@ export function PropertyDetail() {
   const language = i18n.resolvedLanguage as SupportedLanguage;
   const listings = useListings();
   const listing = listings.find((l) => l.id === id);
+
+  useDocumentMeta(
+    listing
+      ? {
+          title: `${localize(TYPE_LABELS[listing.type], language)} · ${localize(listing.street, language)} — ${t("meta.title")}`,
+          description: localize(listing.teaser, language),
+          jsonLd: {
+            "@context": "https://schema.org",
+            "@type": "RealEstateListing",
+            name: `${localize(TYPE_LABELS[listing.type], language)} · ${localize(listing.street, language)}`,
+            url: `https://morkatzwonder.github.io/Nadlanzebait/listings/${listing.id}`,
+            about: {
+              "@type": "Apartment",
+              numberOfRooms: listing.rooms,
+              floorSize: { "@type": "QuantitativeValue", value: listing.sizeSqm, unitCode: "MTK" },
+              address: {
+                "@type": "PostalAddress",
+                streetAddress: localize(listing.street, language),
+                addressLocality: localize(CITY, language),
+                addressCountry: "IL",
+              },
+            },
+            offers: { "@type": "Offer", price: listing.price, priceCurrency: "ILS" },
+          },
+        }
+      : { title: t("listings.notFound"), description: t("meta.description") },
+  );
 
   if (!listing) {
     return (

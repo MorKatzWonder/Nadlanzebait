@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://morkatzwonder.github.io/Nadlanzebait/sitemap.xml
