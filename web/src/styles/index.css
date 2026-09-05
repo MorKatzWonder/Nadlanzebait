@@ -619,6 +619,12 @@ img {
   text-decoration: none;
   display: inline-flex;
   align-items: center;
+  gap: 4px;
+}
+.more__icon {
+  width: 14px;
+  height: 14px;
+  flex: none;
 }
 .more:hover {
   color: var(--g-900);

@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import type { Listing } from "../data/types";
 import { localize } from "../data/localize";
 import { formatPrice } from "../data/format";
+import { ArrowUpRightIcon } from "./Icons";
 import type { SupportedLanguage } from "../i18n";
 import {
   AGENT_PHONE_DIAL,
@@ -77,7 +78,8 @@ export function PropertyCard({ listing }: { listing: Listing }) {
             {t("common.whatsapp")}
           </a>
           <Link to={detailHref} target="_blank" rel="noopener" className="more">
-            {t("listings.allDetails")} ↗
+            {t("listings.allDetails")}
+            <ArrowUpRightIcon className="more__icon" />
           </Link>
         </div>
       </div>
