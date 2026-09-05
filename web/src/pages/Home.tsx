@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { PropertiesSection } from "../components/PropertiesSection";
 import { ContactSection } from "../components/ContactSection";
 import { Carousel } from "../components/Carousel";
-import { testimonials } from "../data/testimonials";
+import { useTestimonials } from "../data/useSheetData";
 import { localize } from "../data/localize";
 import { HOME_HERO, HOME_STATS, HOME_STEPS, HOME_STEPS_HEAD, TESTIMONIALS_HEAD } from "../data/content";
 import type { SupportedLanguage } from "../i18n";
@@ -11,6 +11,7 @@ import type { SupportedLanguage } from "../i18n";
 export function Home() {
   const { i18n } = useTranslation();
   const language = i18n.resolvedLanguage as SupportedLanguage;
+  const testimonials = useTestimonials();
 
   return (
     <div>

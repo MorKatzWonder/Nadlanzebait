@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { listings } from "../data/listings";
+import { useListings } from "../data/useSheetData";
 import { localize } from "../data/localize";
 import { formatPrice } from "../data/format";
 import type { SupportedLanguage } from "../i18n";
@@ -58,6 +58,7 @@ export function PropertyDetail() {
   const { id } = useParams();
   const { t, i18n } = useTranslation();
   const language = i18n.resolvedLanguage as SupportedLanguage;
+  const listings = useListings();
   const listing = listings.find((l) => l.id === id);
 
   if (!listing) {

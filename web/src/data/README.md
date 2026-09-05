@@ -20,14 +20,45 @@ Today the sheet only needs a Hebrew column per field — see "Translation"
 below for how the other four languages get filled in until the sheet itself
 carries per-language columns.
 
-## Wiring up the sheet (not yet built)
+## Wiring up the sheet
 
-1. Publish the Sheet (File → Share → Publish to web, as CSV) so it can be
-   fetched without any backend or API key.
-2. The frontend fetches the published CSV at build time (or on load) and
-   maps rows onto `Listing[]` / `Testimonial[]`, replacing the arrays in
-   this folder. This alone is enough for a working, zero-cost, no-backend
-   site — Arik edits the sheet from his phone and the content updates.
+The fetch/parse side is built (`sheetParse.ts`, `useSheetData.ts`). Two
+Google Sheets already exist with the right columns and six/three example
+rows to copy — "Nadlanzebait — Listings" and "Nadlanzebait — Testimonials"
+— seeded from the sample data in this folder. What's left is two manual
+steps only a human can do in the Google Sheets UI:
+
+1. **Publish each sheet as CSV**: open it → File → Share → Publish to web
+   → choose the sheet/tab → CSV → Publish. Copy the link it gives you.
+2. **Paste the two links into `sheetConfig.ts`** as `LISTINGS_CSV_URL` and
+   `TESTIMONIALS_CSV_URL`.
+
+That's it — `useListings()` / `useTestimonials()` (used by
+`PropertiesSection`, `Home`, `PropertyDetail`) fetch the published CSV on
+page load, parse it, and use it in place of the bundled sample arrays. If
+the URL is left empty, or the fetch/parse fails for any reason (sheet not
+published yet, network hiccup, a row with an unrecognized value), the site
+silently falls back to the sample data — nothing ever breaks.
+
+### Column reference (Listings sheet)
+
+Headers are in Hebrew (the language Arik edits in) and must match exactly
+— see `LISTING_HEADERS` in `sheetParse.ts` for the authoritative list.
+Most are self-explanatory; a few notes:
+
+- **מזהה** (id): free text, used in the listing's URL. Leave blank and one
+  is generated automatically.
+- **סוג נכס** / **שכונה** / **מצב הנכס**: must exactly match one of the
+  Hebrew labels already shown on the live site's filters (e.g. "דירה",
+  "דירת גן", "פלורנטין", "משופצת") — see `TYPE_LABELS` / `NEIGHBORHOOD_LABELS`
+  / `CONDITION_LABELS` in `content.ts` for the full list. An unrecognized
+  value causes that row to be skipped.
+- **מחסן** / **מרתף** / **מעלית שבת** / **גישה לנכים**: "כן" or "לא".
+  Column reference (Testimonials sheet): **מזהה** / **ציטוט** / **חתימה**.
+- **קישורי תמונות** / **מאפיינים** / **נקודות עניין בסביבה**: multiple
+  values separated by " / " (e.g. "משופצת / ממ״ד / מרפסת שמש"). The
+  characteristic/point-of-interest labels must match `CHARACTERISTIC_LABELS`
+  / `POI_LABELS` in `content.ts`, same rule as above.
 
 ## Translation
 

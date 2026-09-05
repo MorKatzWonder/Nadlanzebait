@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { PropertyCard } from "./PropertyCard";
 import { Carousel } from "./Carousel";
-import { listings } from "../data/listings";
+import { useListings } from "../data/useSheetData";
 import { localize } from "../data/localize";
 import { NEIGHBORHOOD_LABELS, PRICE_BANDS, TYPE_LABELS } from "../data/content";
 import type { SupportedLanguage } from "../i18n";
@@ -11,6 +11,7 @@ import type { Neighborhood, PropertyType } from "../data/types";
 export function PropertiesSection() {
   const { t, i18n } = useTranslation();
   const language = i18n.resolvedLanguage as SupportedLanguage;
+  const listings = useListings();
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [neighborhood, setNeighborhood] = useState<Neighborhood | "">("");
   const [priceBandKey, setPriceBandKey] = useState("");
@@ -18,9 +19,9 @@ export function PropertiesSection() {
 
   const availableNeighborhoods = useMemo(
     () => [...new Set(listings.map((l) => l.neighborhood))],
-    [],
+    [listings],
   );
-  const availableTypes = useMemo(() => [...new Set(listings.map((l) => l.type))], []);
+  const availableTypes = useMemo(() => [...new Set(listings.map((l) => l.type))], [listings]);
 
   const priceBand = PRICE_BANDS.find((b) => b.key === priceBandKey);
   const filtered = listings.filter((l) => {
