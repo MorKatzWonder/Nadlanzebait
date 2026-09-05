@@ -16,8 +16,7 @@ import {
   VALUATION_FORM_HEAD,
   waHref,
 } from "../data/content";
-import type { Persona } from "./PersonaSwitch";
-import type { PropertyType } from "../data/types";
+import type { Persona, PropertyType } from "../data/types";
 
 /**
  * Best-effort log of the submission to the Leads Google Sheet (see

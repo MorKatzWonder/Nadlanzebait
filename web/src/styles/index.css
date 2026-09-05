@@ -391,41 +391,6 @@ img {
   padding-block: var(--s5);
 }
 
-.persona-switch {
-  display: inline-flex;
-  gap: 4px;
-  padding: 4px;
-  border-radius: 999px;
-  background: rgba(234, 246, 230, 0.08);
-  border: 1px solid rgba(92, 255, 122, 0.3);
-}
-
-.persona-switch__btn {
-  appearance: none;
-  border: none;
-  background: transparent;
-  color: #c9f5cd;
-  font-size: 14px;
-  font-weight: 500;
-  padding: 8px 20px;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: 0.16s;
-}
-
-.persona-switch__btn:hover {
-  background: rgba(234, 246, 230, 0.12);
-}
-
-.persona-switch__btn.active {
-  background: var(--neon);
-  color: #12300e;
-}
-
-.hero .persona-switch {
-  margin-block-end: var(--s3);
-}
-
 .hero h1 {
   font-size: clamp(30px, 7vw, 62px);
   font-weight: 300;

@@ -10,6 +10,9 @@ export type LocalizedText = Partial<Record<SupportedLanguage, string>> & {
   he: string;
 };
 
+/** Which hero CTA the visitor picked, if any — filters which sections show. */
+export type Persona = "buyer" | "seller";
+
 export type PropertyType =
   | "apt"
   | "garden"

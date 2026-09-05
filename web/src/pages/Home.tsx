@@ -4,12 +4,14 @@ import { useTranslation } from "react-i18next";
 import { PropertiesSection } from "../components/PropertiesSection";
 import { ContactSection } from "../components/ContactSection";
 import { Carousel } from "../components/Carousel";
-import { PersonaSwitch, type Persona } from "../components/PersonaSwitch";
 import { useTestimonials } from "../data/useSheetData";
 import { localize } from "../data/localize";
 import { HOME_HERO, HOME_STATS, HOME_STEPS, HOME_STEPS_HEAD, TESTIMONIALS_HEAD } from "../data/content";
 import { useDocumentMeta } from "../hooks/useDocumentMeta";
 import type { SupportedLanguage } from "../i18n";
+import type { Persona } from "../data/types";
+
+const OUTLINE_STYLE = { borderColor: "rgba(92,255,122,.5)", color: "#c9f5cd" };
 
 export function Home() {
   const { t, i18n } = useTranslation();
@@ -23,7 +25,6 @@ export function Home() {
     <div>
       <div className="band">
         <div className="container hero">
-          <PersonaSwitch value={persona} onChange={setPersona} />
           <div className="kick">{localize(HOME_HERO.kick, language)}</div>
           <h1>
             {localize(HOME_HERO.line1, language)}
@@ -32,15 +33,21 @@ export function Home() {
           </h1>
           <p>{localize(HOME_HERO.body, language)}</p>
           <div className="cta btn-row">
-            <Link to="/#contact" className="btn btn-neon">
-              {localize(HOME_HERO.ctaValuation, language)}
-            </Link>
             <Link
               to="/#properties"
-              className="btn btn-outline"
-              style={{ borderColor: "rgba(92,255,122,.5)", color: "#c9f5cd" }}
+              className={`btn ${persona === "buyer" ? "btn-neon" : "btn-outline"}`}
+              style={persona === "buyer" ? undefined : OUTLINE_STYLE}
+              onClick={() => setPersona("buyer")}
             >
-              {localize(HOME_HERO.ctaProperties, language)}
+              {t("persona.buyer")}
+            </Link>
+            <Link
+              to="/#contact"
+              className={`btn ${persona === "buyer" ? "btn-outline" : "btn-neon"}`}
+              style={persona === "buyer" ? OUTLINE_STYLE : undefined}
+              onClick={() => setPersona("seller")}
+            >
+              {t("persona.seller")}
             </Link>
           </div>
           <div className="stats">
