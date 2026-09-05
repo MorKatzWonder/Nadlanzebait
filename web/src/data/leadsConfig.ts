@@ -6,4 +6,5 @@
  * Left empty, submissions just aren't logged anywhere — the form still
  * opens WhatsApp exactly as before, nothing breaks.
  */
-export const LEADS_WEBHOOK_URL = "";
+export const LEADS_WEBHOOK_URL =
+  "https://script.google.com/macros/s/AKfycbxa0iF2q5wRfnfytQUXqHQyJM-9KUKUScC6T4qhdZkkDCUTCBMnZt2EodlRSV6UeHsqkA/exec";
