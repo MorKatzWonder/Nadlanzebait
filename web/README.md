@@ -13,8 +13,8 @@ own permalink page (`/listings/:id`) that opens in a new tab.
 - [Vite](https://vitejs.dev/) + React + TypeScript
 - [react-router-dom](https://reactrouter.com/) for routing
 - [react-i18next](https://react.i18next.com/) for translations — English
-  (US), English (UK), Hebrew (RTL), French, and Russian (fallback language:
-  Hebrew, since that's the language Arik actually writes in)
+  (US), English (UK), Hebrew (RTL), French, Russian, and Spanish (fallback
+  language: Hebrew, since that's the language Arik actually writes in)
 - Plain CSS (`src/styles/index.css`), mobile-first with a couple of
   breakpoints, using CSS logical properties so it mirrors automatically for
   Hebrew's right-to-left layout. Design system (colors, type, components)

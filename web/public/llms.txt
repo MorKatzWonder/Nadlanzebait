@@ -6,8 +6,8 @@
 > reach him. 12 years working the same neighborhoods, 400+ apartments sold,
 > average 28 days to sale, 98% of asking price.
 
-The site is available in English (US), English (UK), Hebrew, French, and
-Russian, and is mobile-first.
+The site is available in English (US), English (UK), Hebrew, French,
+Russian, and Spanish, and is mobile-first.
 
 ## Pages
 

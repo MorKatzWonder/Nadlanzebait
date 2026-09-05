@@ -24,7 +24,7 @@ export type PropertyType =
  * A closed set here would break the moment Arik lists a property somewhere
  * not on the list — see `Listing.neighborhood`, which is free text (like
  * `street`), not this type. This enum only names the handful of presets the
- * bundled sample data uses, so those get full 5-language translations via
+ * bundled sample data uses, so those get full 6-language translations via
  * `NEIGHBORHOOD_LABELS` in content.ts.
  */
 export type Neighborhood =

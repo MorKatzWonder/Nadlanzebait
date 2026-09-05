@@ -4,11 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**Nadlanzebait** ("Home Real Estate" / נדל״ן זה בית) is Arik Naim's Tel Aviv real-estate agency website: a valuation-focused pitch for sellers, on-site property listings with full detail (no external marketplace links), customer testimonials, and a WhatsApp-first contact/valuation-request flow. The site is mobile-first and ships in English (US), English (UK), Hebrew (RTL), French, and Russian.
+**Nadlanzebait** ("Home Real Estate" / נדל״ן זה בית) is Arik Naim's Tel Aviv real-estate agency website: a valuation-focused pitch for sellers, on-site property listings with full detail (no external marketplace links), customer testimonials, and a WhatsApp-first contact/valuation-request flow. The site is mobile-first and ships in English (US), English (UK), Hebrew (RTL), French, Russian, and Spanish.
 
 ## Current State
 
-The website lives in `web/` (Vite + React + TypeScript). See `web/README.md` for the stack, project structure, and commands, and `web/src/data/README.md` for how listings/testimonials are planned to be sourced from a Google Sheet Arik edits from his phone — fetched as a published CSV, no backend or paid service required. All five languages (English US/UK, Hebrew, French, Russian) are fully translated by hand for the current content — no translation API, backend, or paid service involved. New content added later (e.g. once the Google Sheet is wired up) won't have French/Russian yet: the i18next fallback language is Hebrew, and `localize()` falls back to Hebrew for any per-item content missing a translation, so the site degrades gracefully rather than showing English.
+The website lives in `web/` (Vite + React + TypeScript). See `web/README.md` for the stack, project structure, and commands, and `web/src/data/README.md` for how listings/testimonials are planned to be sourced from a Google Sheet Arik edits from his phone — fetched as a published CSV, no backend or paid service required. All six languages (English US/UK, Hebrew, French, Russian, Spanish) are fully translated by hand for the current content — no translation API, backend, or paid service involved. New content added later (e.g. once the Google Sheet is wired up) won't have French/Russian/Spanish yet: the i18next fallback language is Hebrew, and `localize()` falls back to Hebrew for any per-item content missing a translation, so the site degrades gracefully rather than showing English.
 
 The visual design (colors, typography, component styles, page copy) was handed off from a Claude Design project and ported into the React app — see `web/src/data/content.ts` for the design's copy/labels and `web/src/styles/index.css` for the ported CSS.
 

@@ -7,8 +7,9 @@ import enGB from "./locales/en-GB.json";
 import he from "./locales/he.json";
 import fr from "./locales/fr.json";
 import ru from "./locales/ru.json";
+import es from "./locales/es.json";
 
-export const SUPPORTED_LANGUAGES = ["en-US", "en-GB", "he", "fr", "ru"] as const;
+export const SUPPORTED_LANGUAGES = ["en-US", "en-GB", "he", "fr", "ru", "es"] as const;
 export type SupportedLanguage = (typeof SUPPORTED_LANGUAGES)[number];
 
 export const RTL_LANGUAGES: SupportedLanguage[] = ["he"];
@@ -19,6 +20,7 @@ export const LANGUAGE_LABELS: Record<SupportedLanguage, string> = {
   he: "עברית",
   fr: "Français",
   ru: "Русский",
+  es: "Español",
 };
 
 export function applyDocumentDirection(language: string) {
@@ -45,6 +47,7 @@ i18n
       he: { translation: he },
       fr: { translation: fr },
       ru: { translation: ru },
+      es: { translation: es },
     },
     fallbackLng: "he",
     supportedLngs: SUPPORTED_LANGUAGES as unknown as string[],

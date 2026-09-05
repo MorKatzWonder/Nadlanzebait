@@ -47,33 +47,69 @@ function logLead(values: {
 
 const TYPE_KEYS = Object.keys(TYPE_LABELS) as PropertyType[];
 
+const VALUATION_MESSAGE_TEMPLATES: Record<
+  SupportedLanguage,
+  (values: { name: string; phone: string; address: string; typeLabel: string; message: string }) => string
+> = {
+  "en-US": (v) => [
+    "Hello, I'd like a free valuation.",
+    `Name: ${v.name}`,
+    `Phone: ${v.phone}`,
+    `Property address: ${v.address}`,
+    `Property type: ${v.typeLabel}`,
+    v.message ? `Note: ${v.message}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n"),
+  "en-GB": (v) => VALUATION_MESSAGE_TEMPLATES["en-US"](v),
+  he: (v) => [
+    "שלום, אשמח להערכת שווי.",
+    `שם: ${v.name}`,
+    `טלפון: ${v.phone}`,
+    `כתובת הנכס: ${v.address}`,
+    `סוג הנכס: ${v.typeLabel}`,
+    v.message ? `הערה: ${v.message}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n"),
+  fr: (v) => [
+    "Bonjour, je souhaiterais une estimation gratuite.",
+    `Nom: ${v.name}`,
+    `Téléphone: ${v.phone}`,
+    `Adresse du bien: ${v.address}`,
+    `Type de bien: ${v.typeLabel}`,
+    v.message ? `Remarque: ${v.message}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n"),
+  ru: (v) => [
+    "Здравствуйте, хочу получить бесплатную оценку.",
+    `Имя: ${v.name}`,
+    `Телефон: ${v.phone}`,
+    `Адрес объекта: ${v.address}`,
+    `Тип объекта: ${v.typeLabel}`,
+    v.message ? `Примечание: ${v.message}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n"),
+  es: (v) => [
+    "Hola, me gustaría una tasación gratuita.",
+    `Nombre: ${v.name}`,
+    `Teléfono: ${v.phone}`,
+    `Dirección de la propiedad: ${v.address}`,
+    `Tipo de propiedad: ${v.typeLabel}`,
+    v.message ? `Nota: ${v.message}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n"),
+};
+
 function buildValuationMessage(
   language: SupportedLanguage,
   values: { name: string; phone: string; address: string; type: string; message: string },
 ) {
   const typeLabel = localize(TYPE_LABELS[values.type as PropertyType], language);
-  if (language === "en-US" || language === "en-GB") {
-    return [
-      "Hello, I'd like a free valuation.",
-      `Name: ${values.name}`,
-      `Phone: ${values.phone}`,
-      `Property address: ${values.address}`,
-      `Property type: ${typeLabel}`,
-      values.message ? `Note: ${values.message}` : "",
-    ]
-      .filter(Boolean)
-      .join("\n");
-  }
-  return [
-    "שלום, אשמח להערכת שווי.",
-    `שם: ${values.name}`,
-    `טלפון: ${values.phone}`,
-    `כתובת הנכס: ${values.address}`,
-    `סוג הנכס: ${typeLabel}`,
-    values.message ? `הערה: ${values.message}` : "",
-  ]
-    .filter(Boolean)
-    .join("\n");
+  return VALUATION_MESSAGE_TEMPLATES[language]({ ...values, typeLabel });
 }
 
 export function ContactSection() {

@@ -80,7 +80,7 @@ already been changed in it.
 
 All current content (the sample listings/testimonials here, plus the rest of
 the site's copy in `content.ts` and the UI strings in `i18n/locales/`) is
-translated by hand into all five languages — no translation API, backend, or
+translated by hand into all six languages — no translation API, backend, or
 paid service involved. English (US) and English (UK) are two distinct
 translations, not the same text twice: `content.ts`'s `L()` helper only
 reuses the US wording for GB when nothing actually differs, and writes it

@@ -146,8 +146,8 @@ img {
 }
 
 .brand__mark {
-  width: 26px;
-  height: 26px;
+  width: 52px;
+  height: 52px;
   display: block;
   color: var(--g-600);
   flex: none;
