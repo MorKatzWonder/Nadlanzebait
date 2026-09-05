@@ -11,10 +11,12 @@ import {
   AGENT_PHONE_DIAL,
   AGENT_PHONE_DISPLAY,
   AGENT_WHATSAPP_DIGITS,
+  BUYER_INQUIRY_HEAD,
   TYPE_LABELS,
   VALUATION_FORM_HEAD,
   waHref,
 } from "../data/content";
+import type { Persona } from "./PersonaSwitch";
 import type { PropertyType } from "../data/types";
 
 /**
@@ -104,17 +106,80 @@ const VALUATION_MESSAGE_TEMPLATES: Record<
     .join("\n"),
 };
 
-function buildValuationMessage(
+const BUYER_MESSAGE_TEMPLATES: Record<
+  SupportedLanguage,
+  (values: { name: string; phone: string; address: string; typeLabel: string; message: string }) => string
+> = {
+  "en-US": (v) => [
+    "Hello, I'm interested in a property and would like more information.",
+    `Name: ${v.name}`,
+    `Phone: ${v.phone}`,
+    `Area of interest: ${v.address}`,
+    `Property type: ${v.typeLabel}`,
+    v.message ? `Note: ${v.message}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n"),
+  "en-GB": (v) => BUYER_MESSAGE_TEMPLATES["en-US"](v),
+  he: (v) => [
+    "שלום, אני מתעניין/ת בנכס ואשמח לפרטים נוספים.",
+    `שם: ${v.name}`,
+    `טלפון: ${v.phone}`,
+    `אזור מעניין: ${v.address}`,
+    `סוג הנכס: ${v.typeLabel}`,
+    v.message ? `הערה: ${v.message}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n"),
+  fr: (v) => [
+    "Bonjour, je suis intéressé(e) par un bien et j'aimerais plus d'informations.",
+    `Nom: ${v.name}`,
+    `Téléphone: ${v.phone}`,
+    `Quartier recherché: ${v.address}`,
+    `Type de bien: ${v.typeLabel}`,
+    v.message ? `Remarque: ${v.message}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n"),
+  ru: (v) => [
+    "Здравствуйте, меня интересует объект недвижимости, хотелось бы получить больше информации.",
+    `Имя: ${v.name}`,
+    `Телефон: ${v.phone}`,
+    `Интересующий район: ${v.address}`,
+    `Тип объекта: ${v.typeLabel}`,
+    v.message ? `Примечание: ${v.message}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n"),
+  es: (v) => [
+    "Hola, estoy interesado/a en una propiedad y me gustaría más información.",
+    `Nombre: ${v.name}`,
+    `Teléfono: ${v.phone}`,
+    `Zona de interés: ${v.address}`,
+    `Tipo de propiedad: ${v.typeLabel}`,
+    v.message ? `Nota: ${v.message}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n"),
+};
+
+function buildContactMessage(
   language: SupportedLanguage,
+  persona: Persona | null,
   values: { name: string; phone: string; address: string; type: string; message: string },
 ) {
   const typeLabel = localize(TYPE_LABELS[values.type as PropertyType], language);
-  return VALUATION_MESSAGE_TEMPLATES[language]({ ...values, typeLabel });
+  const templates = persona === "buyer" ? BUYER_MESSAGE_TEMPLATES : VALUATION_MESSAGE_TEMPLATES;
+  return templates[language]({ ...values, typeLabel });
 }
 
-export function ContactSection() {
+export function ContactSection({ persona = null }: { persona?: Persona | null }) {
   const { t, i18n } = useTranslation();
   const language = i18n.resolvedLanguage as SupportedLanguage;
+  const isBuyer = persona === "buyer";
+  const formHead = isBuyer ? BUYER_INQUIRY_HEAD : VALUATION_FORM_HEAD;
+  const addressLabel = isBuyer ? t("contact.form.addressBuyer") : t("contact.form.address");
+  const addressError = isBuyer ? t("contact.form.errorAddressBuyer") : t("contact.form.errorAddress");
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -129,7 +194,7 @@ export function ContactSection() {
     const nextErrors: typeof errors = {};
     if (name.trim().length < 2) nextErrors.name = t("contact.form.errorName");
     if (!/^[0-9+\-\s()]{9,}$/.test(phone.trim())) nextErrors.phone = t("contact.form.errorPhone");
-    if (address.trim().length < 3) nextErrors.address = t("contact.form.errorAddress");
+    if (address.trim().length < 3) nextErrors.address = addressError;
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) {
       setSentHref(null);
@@ -139,7 +204,7 @@ export function ContactSection() {
     const typeLabel = localize(TYPE_LABELS[type], language);
     logLead({ name, phone, address, type: typeLabel, message, language });
 
-    const waMessage = buildValuationMessage(language, { name, phone, address, type, message });
+    const waMessage = buildContactMessage(language, persona, { name, phone, address, type, message });
     const href = waHref(AGENT_WHATSAPP_DIGITS, waMessage);
     setSentHref(href);
     window.open(href, "_blank", "noopener,noreferrer");
@@ -191,8 +256,8 @@ export function ContactSection() {
       </div>
 
       <div style={{ marginTop: "var(--s5)" }}>
-        <div className="kick">{localize(VALUATION_FORM_HEAD.kick, language)}</div>
-        <h2 className="sec-title">{localize(VALUATION_FORM_HEAD.h, language)}</h2>
+        <div className="kick">{localize(formHead.kick, language)}</div>
+        <h2 className="sec-title">{localize(formHead.h, language)}</h2>
 
         <form className="form" onSubmit={handleSubmit} noValidate>
           <div className="field">
@@ -219,7 +284,7 @@ export function ContactSection() {
             <div className="err">{errors.phone}</div>
           </div>
           <div className="field full">
-            <label htmlFor="vf-address">{t("contact.form.address")}</label>
+            <label htmlFor="vf-address">{addressLabel}</label>
             <input
               className="input"
               id="vf-address"

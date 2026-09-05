@@ -9,6 +9,11 @@
     "testimonials": "המלצות",
     "contact": "צור קשר"
   },
+  "persona": {
+    "groupLabel": "אני",
+    "buyer": "קונה",
+    "seller": "מוכר"
+  },
   "common": {
     "callNow": "התקשרו",
     "whatsapp": "וואטסאפ",
@@ -63,12 +68,14 @@
       "name": "שם מלא",
       "phone": "טלפון",
       "address": "כתובת הנכס",
+      "addressBuyer": "אזור מעניין",
       "propertyType": "סוג הנכס",
       "message": "משהו שכדאי שנדע",
       "send": "שלחו בקשה",
       "errorName": "נא למלא שם",
       "errorPhone": "מספר טלפון לא תקין",
       "errorAddress": "נא למלא כתובת",
+      "errorAddressBuyer": "נא למלא אזור",
       "sent": "פותחים וואטסאפ עם הבקשה שלכם — שלחו את ההודעה כדי שנקבל אותה."
     }
   }

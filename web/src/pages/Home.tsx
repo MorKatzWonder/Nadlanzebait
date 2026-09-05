@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { PropertiesSection } from "../components/PropertiesSection";
 import { ContactSection } from "../components/ContactSection";
 import { Carousel } from "../components/Carousel";
+import { PersonaSwitch, type Persona } from "../components/PersonaSwitch";
 import { useTestimonials } from "../data/useSheetData";
 import { localize } from "../data/localize";
 import { HOME_HERO, HOME_STATS, HOME_STEPS, HOME_STEPS_HEAD, TESTIMONIALS_HEAD } from "../data/content";
@@ -13,6 +15,7 @@ export function Home() {
   const { t, i18n } = useTranslation();
   const language = i18n.resolvedLanguage as SupportedLanguage;
   const { items: testimonials, loading: testimonialsLoading } = useTestimonials();
+  const [persona, setPersona] = useState<Persona | null>(null);
 
   useDocumentMeta({ title: t("meta.title"), description: t("meta.description") });
 
@@ -20,6 +23,7 @@ export function Home() {
     <div>
       <div className="band">
         <div className="container hero">
+          <PersonaSwitch value={persona} onChange={setPersona} />
           <div className="kick">{localize(HOME_HERO.kick, language)}</div>
           <h1>
             {localize(HOME_HERO.line1, language)}
@@ -50,33 +54,41 @@ export function Home() {
         </div>
       </div>
 
-      <div className="container sec">
-        <div className="sec-head">
-          <div>
-            <div className="kick">{localize(HOME_STEPS_HEAD.kick, language)}</div>
-            <h2>{localize(HOME_STEPS_HEAD.h, language)}</h2>
-          </div>
-        </div>
-        <div className="steps">
-          {HOME_STEPS.map((step) => (
-            <div className="step" key={step.n}>
-              <div className="n tnum">{step.n}</div>
-              <h3>{localize(step.title, language)}</h3>
-              <p>{localize(step.body, language)}</p>
+      {persona !== "buyer" ? (
+        <>
+          <div className="container sec">
+            <div className="sec-head">
+              <div>
+                <div className="kick">{localize(HOME_STEPS_HEAD.kick, language)}</div>
+                <h2>{localize(HOME_STEPS_HEAD.h, language)}</h2>
+              </div>
             </div>
-          ))}
-        </div>
-      </div>
+            <div className="steps">
+              {HOME_STEPS.map((step) => (
+                <div className="step" key={step.n}>
+                  <div className="n tnum">{step.n}</div>
+                  <h3>{localize(step.title, language)}</h3>
+                  <p>{localize(step.body, language)}</p>
+                </div>
+              ))}
+            </div>
+          </div>
 
-      <div className="container">
-        <div className="rule" />
-      </div>
+          <div className="container">
+            <div className="rule" />
+          </div>
+        </>
+      ) : null}
 
-      <PropertiesSection />
+      {persona !== "seller" ? (
+        <>
+          <PropertiesSection />
 
-      <div className="container">
-        <div className="rule" />
-      </div>
+          <div className="container">
+            <div className="rule" />
+          </div>
+        </>
+      ) : null}
 
       <div className="container sec" id="testimonials">
         <div className="kick">{localize(TESTIMONIALS_HEAD.kick, language)}</div>
@@ -105,7 +117,7 @@ export function Home() {
         <div className="rule" />
       </div>
 
-      <ContactSection />
+      <ContactSection persona={persona} />
     </div>
   );
 }

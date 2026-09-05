@@ -553,6 +553,17 @@ export const VALUATION_FORM_HEAD = {
   }),
 };
 
+export const BUYER_INQUIRY_HEAD = {
+  kick: L({ he: "מתעניינים בנכס", enUS: "Buying", fr: "Achat", ru: "Покупка", es: "Compra" }),
+  h: L({
+    he: "נשמח לחזור אליכם היום",
+    enUS: "We’ll get back to you today",
+    fr: "Nous vous répondrons aujourd'hui",
+    ru: "Мы свяжемся с вами сегодня",
+    es: "Le responderemos hoy",
+  }),
+};
+
 export function waHref(digits: string, message: string): string {
   return `https://wa.me/${digits}?text=${encodeURIComponent(message)}`;
 }

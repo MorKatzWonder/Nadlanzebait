@@ -9,6 +9,11 @@
     "testimonials": "Testimonios",
     "contact": "Contacto"
   },
+  "persona": {
+    "groupLabel": "Soy",
+    "buyer": "Comprador",
+    "seller": "Vendedor"
+  },
   "common": {
     "callNow": "Llamar",
     "whatsapp": "WhatsApp",
@@ -63,12 +68,14 @@
       "name": "Nombre completo",
       "phone": "Teléfono",
       "address": "Dirección de la propiedad",
+      "addressBuyer": "Zona de interés",
       "propertyType": "Tipo de propiedad",
       "message": "Algo que debamos saber",
       "send": "Enviar solicitud",
       "errorName": "Por favor ingrese un nombre",
       "errorPhone": "Número de teléfono inválido",
       "errorAddress": "Por favor ingrese una dirección",
+      "errorAddressBuyer": "Por favor indique una zona",
       "sent": "Abriendo WhatsApp con su solicitud — envíe el mensaje para que la recibamos."
     }
   }

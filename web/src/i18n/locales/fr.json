@@ -9,6 +9,11 @@
     "testimonials": "Avis clients",
     "contact": "Contact"
   },
+  "persona": {
+    "groupLabel": "Je suis",
+    "buyer": "Acheteur",
+    "seller": "Vendeur"
+  },
   "common": {
     "callNow": "Appeler",
     "whatsapp": "WhatsApp",
@@ -63,12 +68,14 @@
       "name": "Nom complet",
       "phone": "Téléphone",
       "address": "Adresse du bien",
+      "addressBuyer": "Quartier recherché",
       "propertyType": "Type de bien",
       "message": "Un détail à nous signaler",
       "send": "Envoyer la demande",
       "errorName": "Veuillez indiquer un nom",
       "errorPhone": "Numéro de téléphone invalide",
       "errorAddress": "Veuillez indiquer une adresse",
+      "errorAddressBuyer": "Veuillez indiquer un quartier",
       "sent": "Ouverture de WhatsApp avec votre demande — envoyez le message pour nous joindre."
     }
   }
