@@ -598,6 +598,29 @@ img {
   color: var(--ink-2);
 }
 
+/* --- loading skeletons (shown while the Google Sheet fetch is in flight,
+   instead of the sample data, so content doesn't flash and reflow once the
+   real listings/testimonials arrive) --- */
+.skeleton-bar {
+  background: var(--paper);
+  border-radius: 4px;
+  animation: skeleton-pulse 1.4s ease-in-out infinite;
+}
+@keyframes skeleton-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-bar {
+    animation: none;
+  }
+}
+
 .cta-row {
   display: flex;
   flex-wrap: wrap;

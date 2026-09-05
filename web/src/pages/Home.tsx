@@ -12,7 +12,7 @@ import type { SupportedLanguage } from "../i18n";
 export function Home() {
   const { t, i18n } = useTranslation();
   const language = i18n.resolvedLanguage as SupportedLanguage;
-  const testimonials = useTestimonials();
+  const { items: testimonials, loading: testimonialsLoading } = useTestimonials();
 
   useDocumentMeta({ title: t("meta.title"), description: t("meta.description") });
 
@@ -82,12 +82,22 @@ export function Home() {
         <div className="kick">{localize(TESTIMONIALS_HEAD.kick, language)}</div>
         <h2 className="sec-title">{localize(TESTIMONIALS_HEAD.h, language)}</h2>
         <Carousel className="quotes">
-          {testimonials.map((testimonial) => (
-            <figure className="quote" key={testimonial.id}>
-              <p>{localize(testimonial.quote, language)}</p>
-              <figcaption className="who">{localize(testimonial.attribution, language)}</figcaption>
-            </figure>
-          ))}
+          {testimonialsLoading
+            ? [0, 1, 2].map((i) => (
+                <figure className="quote" key={i} aria-hidden="true">
+                  <div className="skeleton-bar" style={{ height: 14, width: "90%" }} />
+                  <div className="skeleton-bar" style={{ height: 14, width: "75%", marginTop: 8 }} />
+                  <figcaption className="who">
+                    <div className="skeleton-bar" style={{ height: 12, width: "40%" }} />
+                  </figcaption>
+                </figure>
+              ))
+            : testimonials.map((testimonial) => (
+                <figure className="quote" key={testimonial.id}>
+                  <p>{localize(testimonial.quote, language)}</p>
+                  <figcaption className="who">{localize(testimonial.attribution, language)}</figcaption>
+                </figure>
+              ))}
         </Carousel>
       </div>
 

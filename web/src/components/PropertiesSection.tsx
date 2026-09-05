@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { PropertyCard } from "./PropertyCard";
+import { SkeletonPropertyCard } from "./SkeletonPropertyCard";
 import { Carousel } from "./Carousel";
 import { useListings } from "../data/useSheetData";
 import { localize } from "../data/localize";
@@ -11,7 +12,7 @@ import type { Neighborhood, PropertyType } from "../data/types";
 export function PropertiesSection() {
   const { t, i18n } = useTranslation();
   const language = i18n.resolvedLanguage as SupportedLanguage;
-  const listings = useListings();
+  const { items: listings, loading } = useListings();
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [neighborhood, setNeighborhood] = useState<Neighborhood | "">("");
   const [priceBandKey, setPriceBandKey] = useState("");
@@ -51,7 +52,15 @@ export function PropertiesSection() {
         </button>
       </div>
 
-      {filtersOpen ? (
+      {loading ? (
+        <div style={{ marginTop: "var(--s3)" }}>
+          <div className="grid-cards">
+            {[0, 1, 2].map((i) => (
+              <SkeletonPropertyCard key={i} />
+            ))}
+          </div>
+        </div>
+      ) : filtersOpen ? (
         <div className="filters" id="properties-filters">
           <div className="field">
             <label htmlFor="filter-neighborhood">{t("listings.filters.neighborhood")}</label>
@@ -109,7 +118,7 @@ export function PropertiesSection() {
         </span>
       )}
 
-      {filtered.length === 0 ? (
+      {loading ? null : filtered.length === 0 ? (
         <p className="muted" style={{ marginTop: "var(--s3)" }}>
           {t("listings.filters.none")}
         </p>

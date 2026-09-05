@@ -59,8 +59,8 @@ export function PropertyDetail() {
   const { id } = useParams();
   const { t, i18n } = useTranslation();
   const language = i18n.resolvedLanguage as SupportedLanguage;
-  const listings = useListings();
-  const listing = listings.find((l) => l.id === id);
+  const { items: listings, loading } = useListings();
+  const listing = loading ? undefined : listings.find((l) => l.id === id);
 
   useDocumentMeta(
     listing
@@ -86,8 +86,16 @@ export function PropertyDetail() {
             offers: { "@type": "Offer", price: listing.price, priceCurrency: "ILS" },
           },
         }
-      : { title: t("listings.notFound"), description: t("meta.description") },
+      : { title: t("meta.title"), description: t("meta.description") },
   );
+
+  if (loading) {
+    return (
+      <div className="container sec">
+        <div className="gallery-main gallery-main--empty skeleton-bar" aria-hidden="true" />
+      </div>
+    );
+  }
 
   if (!listing) {
     return (
