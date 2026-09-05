@@ -4,9 +4,10 @@ import { useTranslation } from "react-i18next";
 import { PropertiesSection } from "../components/PropertiesSection";
 import { ContactSection } from "../components/ContactSection";
 import { Carousel } from "../components/Carousel";
+import { StepsAccordion } from "../components/StepsAccordion";
 import { useTestimonials } from "../data/useSheetData";
 import { localize } from "../data/localize";
-import { HOME_HERO, HOME_STATS, HOME_STEPS, HOME_STEPS_HEAD, TESTIMONIALS_HEAD } from "../data/content";
+import { HOME_HERO, HOME_STATS, HOME_STEPS_HEAD, TESTIMONIALS_HEAD } from "../data/content";
 import { useDocumentMeta } from "../hooks/useDocumentMeta";
 import type { SupportedLanguage } from "../i18n";
 import type { Persona } from "../data/types";
@@ -73,15 +74,7 @@ export function Home() {
                 <h2>{localize(HOME_STEPS_HEAD.h, language)}</h2>
               </div>
             </div>
-            <div className="steps">
-              {HOME_STEPS.map((step) => (
-                <div className="step" key={step.n}>
-                  <div className="n tnum">{step.n}</div>
-                  <h3>{localize(step.title, language)}</h3>
-                  <p>{localize(step.body, language)}</p>
-                </div>
-              ))}
-            </div>
+            <StepsAccordion language={language} />
           </div>
 
           <div className="container">

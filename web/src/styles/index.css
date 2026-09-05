@@ -469,24 +469,72 @@ img {
 
 .step {
   border-top: 1px solid var(--line);
-  padding-top: var(--s3);
+  padding-block: var(--s3);
 }
 
-.step .n {
-  font-size: 13px;
-  color: var(--g-400);
+.step__trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  text-align: start;
+  font: inherit;
+  color: inherit;
+}
+
+.step__icon {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--g-400);
+  color: var(--g-600);
+  transition: 0.16s;
+}
+
+.step__icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.step[data-open="true"] .step__icon {
+  background: var(--neon);
+  border-color: var(--neon);
+  color: #12300e;
+}
+
+.step__title {
+  flex: 1;
+  font-size: 18px;
   font-weight: 500;
 }
 
-.step h3 {
-  font-size: 21px;
-  margin-block-start: var(--s2);
+.step__chevron {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  color: var(--ink-3);
+  transition: transform 0.16s;
 }
 
-.step p {
+.step[data-open="true"] .step__chevron {
+  transform: rotate(180deg);
+  color: var(--g-600);
+}
+
+.step__body {
   font-size: 14.5px;
   color: var(--ink-2);
-  margin-block-start: var(--s2);
+  margin-block-start: var(--s3);
+  padding-inline-start: calc(44px + var(--s3));
 }
 
 /* --- listing / property card --- */
