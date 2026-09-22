@@ -79,6 +79,23 @@ feature change going forward — not just when asked.
   robots.txt, llms.txt, per-listing structured data) points at
   `https://www.nadlanzebait.com/`.
 
+**Automatic sheet-content translation**
+- Arik only ever types Hebrew in the Listings/Testimonials sheets. A free
+  Apps Script (`src/data/sheet-translate-apps-script.gs.txt`) now watches
+  for edits and auto-fills English/French/Russian/Spanish versions of
+  every free-text field — teaser, description, exposure direction, status
+  tag, street, an uncommon neighborhood name, testimonial quotes — using
+  Google's free translation service. `sheetParse.ts` reads those columns
+  via `buildLocalizedText()`. Machine translation, not human; Arik can
+  overwrite any specific cell by hand and the script won't touch it again.
+  A blank/untranslated cell still falls back to Hebrew, same graceful
+  degradation as before this existed — nothing on the site depends on this
+  actually being set up.
+- Verified end-to-end with a mocked sheet response: translated columns
+  render correctly per-language on listing cards and in the address line;
+  a deliberately blank translation cell correctly falls back to Hebrew.
+- **Needs setup** — see **Waiting on you** below.
+
 **SEO / AEO foundations** (see `SEO.md` for full detail)
 - Descriptive title/meta description, canonical URL, Open Graph + Twitter
   Card tags, site-wide `RealEstateAgent` JSON-LD in `index.html`.
@@ -115,18 +132,21 @@ feature change going forward — not just when asked.
   - You said you'd do this later — flagging here so it doesn't get lost;
     ask any time and I'll walk through it with you live.
 
+- **Sheet-content translation needs the Apps Script + sheet columns set
+  up.** The code and the script are ready, but this needs the same kind of
+  manual, human-only steps as the Leads webhook: add ~24 new columns to
+  the Listings sheet (8 to Testimonials), paste the script into each
+  sheet's Apps Script editor, and install an "on edit" trigger. Full
+  walkthrough in `SHEET_TRANSLATION_SETUP.md`. Until this is done, sheet
+  content keeps showing Hebrew for non-Hebrew visitors (the pre-existing
+  behavior) — nothing breaks either way, it just isn't translated yet.
+
 ## Not yet implemented / open decisions
 
 - **Multi-platform listing content generator** — turning a sheet row into
   ready-to-post Facebook/Instagram/Twitter/Yad2 copy. Deferred at your
   request until domain + leads were settled; domain is done, leads is the
   item above.
-- **Sheet content auto-translation** — Google Apps Script has a free
-  built-in `LanguageApp.translate()` that could auto-translate a new Hebrew
-  row into the other five languages when Arik adds a listing. Proposed, not
-  built — needs a decision on whether machine-translated listing copy is
-  acceptable quality for a live listing (vs. today's manual-translation-only
-  policy for hand-authored site copy).
 - **Full sitemap** — `sitemap.xml` currently only lists the homepage;
   listing IDs come from a live sheet, so enumerating them needs a build-time
   fetch step.
