@@ -63,6 +63,22 @@ feature change going forward — not just when asked.
   without hitting Send. See **Known issues** below — this part is currently
   broken.
 
+**Custom domain**
+- The site is reachable at `www.nadlanzebait.com` (and `nadlanzebait.com`,
+  which GitHub redirects to `www`), not just the `github.io` URL. DNS at the
+  registrar (apex A records to GitHub Pages' four anycast IPs, `www` CNAME
+  to `morkatzwonder.github.io`) is confirmed correct.
+- **Why it failed the first time**: the DNS records were correct in the
+  registrar's panel, but hadn't finished propagating yet when it was tested
+  — Squarespace's own "domain not connected" placeholder was still showing
+  from the old resolver cache, which looked identical to a real failure.
+  It wasn't a code bug: `vite.config.ts`'s `base` and the `CNAME` file were
+  already set correctly in that first attempt. By the time this was
+  reconnected, DNS had long since settled, and it worked immediately.
+- Every hardcoded absolute URL (canonical, Open Graph, JSON-LD, sitemap,
+  robots.txt, llms.txt, per-listing structured data) points at
+  `https://www.nadlanzebait.com/`.
+
 **SEO / AEO foundations** (see `SEO.md` for full detail)
 - Descriptive title/meta description, canonical URL, Open Graph + Twitter
   Card tags, site-wide `RealEstateAgent` JSON-LD in `index.html`.
@@ -125,6 +141,3 @@ feature change going forward — not just when asked.
   yet since there's no real listing photography (placeholders only).
 - **Real mobile device testing** — verified so far via emulated Playwright
   viewports only, not actual phones.
-- **Custom domain** — `nadlanzebait.com` was connected then fully reverted
-  at your request; the site runs on GitHub Pages' own URL. Can be
-  reconnected if/when wanted.
