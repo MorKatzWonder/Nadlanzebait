@@ -1,0 +1,77 @@
+{
+  "meta": {
+    "title": "נדל״ן זה בית",
+    "description": "נדל״ן זה בית — מכירה וקניה של דירות בתל אביב עם אריק נעים."
+  },
+  "nav": {
+    "home": "בית",
+    "listings": "נכסים",
+    "testimonials": "המלצות",
+    "contact": "צור קשר"
+  },
+  "common": {
+    "callNow": "התקשרו",
+    "whatsapp": "וואטסאפ",
+    "rooms": "חדרים",
+    "sqm": "מ״ר"
+  },
+  "listings": {
+    "title": "נכסים",
+    "photoPlaceholder": "תמונת הנכס",
+    "notFound": "לא מצאנו את הנכס הזה.",
+    "floorOf": "קומה {{floor}} מתוך {{floors}}",
+    "exposureCount": "{{count}} כיווני אוויר",
+    "allDetails": "כל הפרטים",
+    "yes": "יש",
+    "no": "אין",
+    "fields": {
+      "type": "סוג",
+      "rooms": "חדרים",
+      "city": "עיר",
+      "neighborhood": "שכונה",
+      "street": "רחוב",
+      "size": "שטח",
+      "balcony": "מרפסת",
+      "floor": "קומה",
+      "floors": "קומות בבניין",
+      "exposure": "כיווני אוויר",
+      "parking": "חניה",
+      "storage": "מחסן",
+      "basement": "מרתף",
+      "shabbatElevator": "מעלית שבת",
+      "accessible": "נגישות",
+      "yearBuilt": "שנת בנייה",
+      "condition": "מצב",
+      "characteristics": "מאפיינים",
+      "nearby": "בסביבה",
+      "description": "תיאור"
+    },
+    "filters": {
+      "toggle": "סינון",
+      "neighborhood": "שכונה",
+      "priceRange": "טווח מחיר",
+      "type": "סוג נכס",
+      "any": "הכל",
+      "results": "{{count}} נכסים",
+      "none": "אין נכסים שמתאימים לסינון"
+    }
+  },
+  "contact": {
+    "office": "משרד",
+    "hours": "שעות פעילות",
+    "form": {
+      "name": "שם מלא",
+      "phone": "טלפון",
+      "address": "כתובת הנכס",
+      "addressBuyer": "אזור מעניין",
+      "propertyType": "סוג הנכס",
+      "message": "משהו שכדאי שנדע",
+      "send": "שלחו בקשה",
+      "errorName": "נא למלא שם",
+      "errorPhone": "מספר טלפון לא תקין",
+      "errorAddress": "נא למלא כתובת",
+      "errorAddressBuyer": "נא למלא אזור",
+      "sent": "פותחים וואטסאפ עם הבקשה שלכם — שלחו את ההודעה כדי שנקבל אותה."
+    }
+  }
+}

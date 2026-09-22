@@ -1,0 +1,77 @@
+{
+  "meta": {
+    "title": "Home Real Estate",
+    "description": "Home Real Estate — vente et achat d'appartements à Tel Aviv avec Arik Naim."
+  },
+  "nav": {
+    "home": "Accueil",
+    "listings": "Biens",
+    "testimonials": "Avis clients",
+    "contact": "Contact"
+  },
+  "common": {
+    "callNow": "Appeler",
+    "whatsapp": "WhatsApp",
+    "rooms": "pièces",
+    "sqm": "m²"
+  },
+  "listings": {
+    "title": "Biens",
+    "photoPlaceholder": "Photo du bien",
+    "notFound": "Nous n'avons pas trouvé ce bien.",
+    "floorOf": "Étage {{floor}} sur {{floors}}",
+    "exposureCount": "{{count}} expositions",
+    "allDetails": "Tous les détails",
+    "yes": "Oui",
+    "no": "Non",
+    "fields": {
+      "type": "Type",
+      "rooms": "Pièces",
+      "city": "Ville",
+      "neighborhood": "Quartier",
+      "street": "Rue",
+      "size": "Superficie",
+      "balcony": "Balcon",
+      "floor": "Étage",
+      "floors": "Étages de l'immeuble",
+      "exposure": "Exposition",
+      "parking": "Stationnement",
+      "storage": "Cave/Débarras",
+      "basement": "Sous-sol",
+      "shabbatElevator": "Ascenseur du Shabbat",
+      "accessible": "Accessible",
+      "yearBuilt": "Année de construction",
+      "condition": "État",
+      "characteristics": "Caractéristiques",
+      "nearby": "À proximité",
+      "description": "Description"
+    },
+    "filters": {
+      "toggle": "Filtres",
+      "neighborhood": "Quartier",
+      "priceRange": "Fourchette de prix",
+      "type": "Type de bien",
+      "any": "Tous",
+      "results": "{{count}} biens",
+      "none": "Aucun bien ne correspond à ces filtres"
+    }
+  },
+  "contact": {
+    "office": "Bureau",
+    "hours": "Horaires",
+    "form": {
+      "name": "Nom complet",
+      "phone": "Téléphone",
+      "address": "Adresse du bien",
+      "addressBuyer": "Quartier recherché",
+      "propertyType": "Type de bien",
+      "message": "Un détail à nous signaler",
+      "send": "Envoyer la demande",
+      "errorName": "Veuillez indiquer un nom",
+      "errorPhone": "Numéro de téléphone invalide",
+      "errorAddress": "Veuillez indiquer une adresse",
+      "errorAddressBuyer": "Veuillez indiquer un quartier",
+      "sent": "Ouverture de WhatsApp avec votre demande — envoyez le message pour nous joindre."
+    }
+  }
+}

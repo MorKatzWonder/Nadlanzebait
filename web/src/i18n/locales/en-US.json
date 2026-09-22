@@ -1,0 +1,77 @@
+{
+  "meta": {
+    "title": "Home Real Estate",
+    "description": "Home Real Estate — selling and buying apartments in Tel Aviv with Arik Naim."
+  },
+  "nav": {
+    "home": "Home",
+    "listings": "Properties",
+    "testimonials": "Testimonials",
+    "contact": "Contact"
+  },
+  "common": {
+    "callNow": "Call",
+    "whatsapp": "WhatsApp",
+    "rooms": "rooms",
+    "sqm": "m²"
+  },
+  "listings": {
+    "title": "Properties",
+    "photoPlaceholder": "Property photograph",
+    "notFound": "We couldn't find that property.",
+    "floorOf": "Floor {{floor}} of {{floors}}",
+    "exposureCount": "{{count}} exposures",
+    "allDetails": "All details",
+    "yes": "Yes",
+    "no": "No",
+    "fields": {
+      "type": "Type",
+      "rooms": "Rooms",
+      "city": "City",
+      "neighborhood": "Neighborhood",
+      "street": "Street",
+      "size": "Size",
+      "balcony": "Balcony",
+      "floor": "Floor",
+      "floors": "Floors in building",
+      "exposure": "Exposure",
+      "parking": "Parking",
+      "storage": "Storage",
+      "basement": "Basement",
+      "shabbatElevator": "Shabbat elevator",
+      "accessible": "Accessible",
+      "yearBuilt": "Year built",
+      "condition": "Condition",
+      "characteristics": "Characteristics",
+      "nearby": "Nearby",
+      "description": "Description"
+    },
+    "filters": {
+      "toggle": "Filters",
+      "neighborhood": "Neighborhood",
+      "priceRange": "Price range",
+      "type": "Property type",
+      "any": "All",
+      "results": "{{count}} properties",
+      "none": "No properties match these filters"
+    }
+  },
+  "contact": {
+    "office": "Office",
+    "hours": "Hours",
+    "form": {
+      "name": "Full name",
+      "phone": "Phone",
+      "address": "Property address",
+      "addressBuyer": "Area of interest",
+      "propertyType": "Property type",
+      "message": "Anything we should know",
+      "send": "Send request",
+      "errorName": "Please enter a name",
+      "errorPhone": "Invalid phone number",
+      "errorAddress": "Please enter an address",
+      "errorAddressBuyer": "Please enter an area",
+      "sent": "Opening WhatsApp with your request — send the message to reach us."
+    }
+  }
+}

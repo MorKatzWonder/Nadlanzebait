@@ -1,0 +1,77 @@
+{
+  "meta": {
+    "title": "Home Real Estate",
+    "description": "Home Real Estate — venta y compra de apartamentos en Tel Aviv con Arik Naim."
+  },
+  "nav": {
+    "home": "Inicio",
+    "listings": "Propiedades",
+    "testimonials": "Testimonios",
+    "contact": "Contacto"
+  },
+  "common": {
+    "callNow": "Llamar",
+    "whatsapp": "WhatsApp",
+    "rooms": "habitaciones",
+    "sqm": "m²"
+  },
+  "listings": {
+    "title": "Propiedades",
+    "photoPlaceholder": "Fotografía de la propiedad",
+    "notFound": "No pudimos encontrar esa propiedad.",
+    "floorOf": "Piso {{floor}} de {{floors}}",
+    "exposureCount": "{{count}} orientaciones",
+    "allDetails": "Todos los detalles",
+    "yes": "Sí",
+    "no": "No",
+    "fields": {
+      "type": "Tipo",
+      "rooms": "Habitaciones",
+      "city": "Ciudad",
+      "neighborhood": "Barrio",
+      "street": "Calle",
+      "size": "Superficie",
+      "balcony": "Balcón",
+      "floor": "Piso",
+      "floors": "Pisos en el edificio",
+      "exposure": "Orientación",
+      "parking": "Estacionamiento",
+      "storage": "Trastero",
+      "basement": "Sótano",
+      "shabbatElevator": "Ascensor de Shabat",
+      "accessible": "Accesible",
+      "yearBuilt": "Año de construcción",
+      "condition": "Estado",
+      "characteristics": "Características",
+      "nearby": "En la zona",
+      "description": "Descripción"
+    },
+    "filters": {
+      "toggle": "Filtros",
+      "neighborhood": "Barrio",
+      "priceRange": "Rango de precio",
+      "type": "Tipo de propiedad",
+      "any": "Todos",
+      "results": "{{count}} propiedades",
+      "none": "Ninguna propiedad coincide con estos filtros"
+    }
+  },
+  "contact": {
+    "office": "Oficina",
+    "hours": "Horario",
+    "form": {
+      "name": "Nombre completo",
+      "phone": "Teléfono",
+      "address": "Dirección de la propiedad",
+      "addressBuyer": "Zona de interés",
+      "propertyType": "Tipo de propiedad",
+      "message": "Algo que debamos saber",
+      "send": "Enviar solicitud",
+      "errorName": "Por favor ingrese un nombre",
+      "errorPhone": "Número de teléfono inválido",
+      "errorAddress": "Por favor ingrese una dirección",
+      "errorAddressBuyer": "Por favor indique una zona",
+      "sent": "Abriendo WhatsApp con su solicitud — envíe el mensaje para que la recibamos."
+    }
+  }
+}
