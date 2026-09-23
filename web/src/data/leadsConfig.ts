@@ -7,4 +7,4 @@
  * opens WhatsApp exactly as before, nothing breaks.
  */
 export const LEADS_WEBHOOK_URL =
-  "https://script.google.com/macros/s/AKfycbxa0iF2q5wRfnfytQUXqHQyJM-9KUKUScC6T4qhdZkkDCUTCBMnZt2EodlRSV6UeHsqkA/exec";
+  "https://script.google.com/macros/s/AKfycbz8c6tJNqwPioyUcwJHqmvcTQxOZuUVTZnmgBvMm1aVaKZXnzjun3XUbJqGNdu0iEjlkA/exec";
