@@ -108,29 +108,25 @@ feature change going forward — not just when asked.
 
 ## Waiting on you
 
-- **Leads Google Sheet isn't receiving rows — needs the Apps Script setup
-  steps.** Confirmed: WhatsApp opens correctly with the pre-filled message
-  (the part that actually reaches Arik), but submissions aren't showing up
-  in the "Nadlanzebait — Leads" sheet. The site-side request is constructed
-  and fired correctly (verified directly), so the fault is on the Apps
-  Script side — specifically, you haven't yet walked through
-  `APPS_SCRIPT_SETUP.md`'s deployment steps. Likely causes once you do:
-  1. The live deployment is running older code that predates the GET/doGet
-     fix (a code edit alone doesn't take effect until you deploy a **new
-     version** of the existing deployment).
-  2. The Web App's access setting isn't "Anyone" (e.g. it's "Anyone with a
-     Google account", which silently rejects anonymous site visitors).
-  3. The deployment needs re-authorization (Google occasionally requires
-     re-consent after security/account changes).
-  - **Fastest way to diagnose**: open the Apps Script editor for the sheet →
-    **Executions** (left sidebar) → submit the form on the live site → see
-    whether a `doGet` execution shows up and whether it errored.
-  - **Fastest likely fix**: paste `src/data/leads-apps-script.gs.txt` into
-    the Apps Script editor fresh, then **Deploy → Manage deployments → edit
-    (pencil) → Version: New version → Deploy**. Same URL, no site change
-    needed. Full walkthrough in `APPS_SCRIPT_SETUP.md`.
-  - You said you'd do this later — flagging here so it doesn't get lost;
-    ask any time and I'll walk through it with you live.
+- **Leads Google Sheet is still only getting a timestamp, not the rest of
+  the fields — points at the deployment's "Execute as" setting.** WhatsApp
+  itself works correctly (pre-filled message opens fine — the part that
+  actually reaches Arik). Diagnosed this round: hitting the deployed `/exec`
+  URL directly in a browser (bypassing the site entirely) reproduces the
+  exact same symptom — a row with only `new Date()`'s value, everything
+  else blank — which rules out anything on the site side (the request URL
+  and parameters were independently confirmed correct via network capture).
+  That leaves the Apps Script deployment itself: when **Execute as** is set
+  to "User accessing the web app" instead of "Me", `doGet` still runs for
+  an anonymous visitor (hence the date), but `e.parameter` silently comes
+  back empty.
+  - **Fix**: Apps Script editor → **Deploy → Manage deployments** → edit
+    (pencil) → **Execute as: Me** → **Version: New version** → Deploy. Same
+    URL, no site change needed.
+  - You've since pointed `leadsConfig.ts` at a new deployment URL directly
+    (via two direct commits, to `main` and to this PR's branch — merged
+    here without conflict). Still needs testing against that fix once
+    "Execute as" is confirmed set to "Me" on that deployment.
 
 - **Sheet-content translation needs the Apps Script + sheet columns set
   up.** The code and the script are ready, but this needs the same kind of
