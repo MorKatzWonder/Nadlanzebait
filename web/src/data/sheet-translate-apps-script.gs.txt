@@ -1,0 +1,89 @@
+/**
+ * Paste this into Extensions → Apps Script for BOTH the
+ * "Nadlanzebait — Listings" sheet AND the "Nadlanzebait — Testimonials"
+ * sheet (once in each — they're separate spreadsheets with separate bound
+ * scripts). See ../../SHEET_TRANSLATION_SETUP.md for the exact steps,
+ * including the one-time trigger setup this needs.
+ *
+ * What it does: Arik types everything in Hebrew, as always. Whenever he
+ * edits one of the Hebrew columns listed in TRANSLATE_COLUMNS below, this
+ * automatically fills in "<header> (EN)" / "(FR)" / "(RU)" / "(ES)" columns
+ * for that row using Google's free translation service — but only when
+ * that translated cell is still empty, so it never overwrites a correction
+ * typed in by hand. Blank/untranslated cells just mean the site falls back
+ * to showing the Hebrew text for that language, same graceful degradation
+ * used everywhere else — nothing on the site ever breaks because of this.
+ *
+ * The "Translate" menu (Translate → Translate all rows) that appears next
+ * time the sheet is opened backfills every existing row — use it once
+ * after adding the new columns, and again any time you want to re-fill a
+ * cell you've cleared on purpose.
+ */
+
+// Uncomment the ONE line that matches the sheet you're pasting this into,
+// and leave the other commented out.
+
+// --- Listings sheet ---
+var TRANSLATE_COLUMNS = ["רחוב ומספר", "שכונה", "תיאור כיווני אוויר", "תגית סטטוס", "משפט פתיחה", "תיאור מלא"];
+
+// --- Testimonials sheet ---
+// var TRANSLATE_COLUMNS = ["ציטוט", "חתימה"];
+
+var TARGET_LANGUAGES = [
+  { code: "en", suffix: "EN" },
+  { code: "fr", suffix: "FR" },
+  { code: "ru", suffix: "RU" },
+  { code: "es", suffix: "ES" },
+];
+
+function onOpen() {
+  SpreadsheetApp.getUi().createMenu("Translate").addItem("Translate all rows", "translateAllRows").addToUi();
+}
+
+/** Bind this as an installable "On edit" trigger — see the setup doc. */
+function onEditTranslate(e) {
+  var sheet = e.range.getSheet();
+  var header = sheet.getRange(1, e.range.getColumn()).getValue();
+  if (TRANSLATE_COLUMNS.indexOf(header) === -1) return;
+  translateRow(sheet, e.range.getRow());
+}
+
+function translateAllRows() {
+  var sheet = SpreadsheetApp.getActiveSheet();
+  var lastRow = sheet.getLastRow();
+  for (var row = 2; row <= lastRow; row++) {
+    translateRow(sheet, row);
+  }
+}
+
+function translateRow(sheet, row) {
+  if (row < 2) return; // header row
+
+  var headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+  var headerIndex = {};
+  headers.forEach(function (h, i) {
+    headerIndex[h] = i + 1;
+  });
+
+  TRANSLATE_COLUMNS.forEach(function (baseHeader) {
+    var sourceCol = headerIndex[baseHeader];
+    if (!sourceCol) return;
+    var sourceText = sheet.getRange(row, sourceCol).getValue();
+    if (!sourceText) return;
+
+    TARGET_LANGUAGES.forEach(function (lang) {
+      var targetCol = headerIndex[baseHeader + " (" + lang.suffix + ")"];
+      if (!targetCol) return; // that column doesn't exist yet on the sheet
+      var existing = sheet.getRange(row, targetCol).getValue();
+      if (existing) return; // never overwrite a manual correction
+
+      try {
+        var translated = LanguageApp.translate(String(sourceText), "he", lang.code);
+        sheet.getRange(row, targetCol).setValue(translated);
+      } catch (err) {
+        // Translation service hiccup for this cell — leave it blank, the
+        // site falls back to Hebrew for that one field until it's retried.
+      }
+    });
+  });
+}

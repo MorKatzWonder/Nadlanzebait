@@ -67,6 +67,13 @@ Most are self-explanatory; a few notes:
 - **להציג באתר** (Show on site): "כן" or "לא". Leaving it blank still shows
   the listing — it's opt-out, not opt-in, so forgetting to fill it in on a
   new row never hides it by surprise. Only an explicit "לא" hides it.
+- **Translated columns** — a `<column> (EN)` / `(FR)` / `(RU)` / `(ES)`
+  column next to **רחוב ומספר**, **שכונה**, **תיאור כיווני אוויר**,
+  **תגית סטטוס**, **משפט פתיחה**, and **תיאור מלא** (and **ציטוט** /
+  **חתימה** on the Testimonials sheet) is filled in automatically by a
+  script — see **Translation** below and `SHEET_TRANSLATION_SETUP.md`. Arik
+  never edits these directly; a blank one just means that language falls
+  back to the Hebrew text.
 
 ### Removing a listing
 
@@ -83,21 +90,29 @@ already been changed in it.
 
 ## Translation
 
-All current content (the sample listings/testimonials here, plus the rest of
-the site's copy in `content.ts` and the UI strings in `i18n/locales/`) is
-translated by hand into all six languages — no translation API, backend, or
-paid service involved. English (US) and English (UK) are two distinct
-translations, not the same text twice: `content.ts`'s `L()` helper only
-reuses the US wording for GB when nothing actually differs, and writes it
-out separately wherever it does (flat vs. apartment, lift vs. elevator,
-centre vs. center, neighbourhood vs. neighborhood, etc.).
+All *hand-authored* content — the bundled sample listings/testimonials in
+this folder, the rest of the site's copy in `content.ts`, and the UI
+strings in `i18n/locales/` — is translated by hand into all six languages,
+no translation API, backend, or paid service involved. English (US) and
+English (UK) are two distinct translations, not the same text twice:
+`content.ts`'s `L()` helper only reuses the US wording for GB when nothing
+actually differs, and writes it out separately wherever it does (flat vs.
+apartment, lift vs. elevator, centre vs. center, neighbourhood vs.
+neighborhood, etc.).
 
-Content added later that hasn't been translated yet (e.g. once the Google
-Sheet is wired up and Arik adds a new listing in Hebrew) will be missing
-French/Russian until someone translates it. `localize()` in `localize.ts`
-falls back to the Hebrew text in that case, so it degrades gracefully rather
-than breaking, but it's still Hebrew shown to a French/Russian visitor, not
-a real translation. Closing that gap for *future* content (a translation
-API called from a small serverless function, a free-tier service, manual
-translation as part of the sheet workflow, etc.) is a separate step from
-this pass, which only covers what's on the site today.
+*Sheet-sourced* content (what Arik actually types day to day) works
+differently, since he only ever types Hebrew: a free Google Apps Script —
+`sheet-translate-apps-script.gs.txt`, set up per
+`SHEET_TRANSLATION_SETUP.md` — watches the Listings and Testimonials
+sheets and automatically fills in English/French/Russian/Spanish versions
+of every free-text field (teaser, description, exposure direction, status
+tag, street, an uncommon neighborhood name not already in
+`NEIGHBORHOOD_LABELS`, and testimonial quotes/attribution) using Google's
+free translation service. `sheetParse.ts`'s `buildLocalizedText()` reads
+those columns. It's machine translation, not human — good enough for an
+accurate read, occasionally a bit stiff — and Arik can always overwrite a
+specific translated cell by hand; the script never touches a cell that
+already has something in it. A cell that's blank (not translated yet, or
+the script isn't set up for that sheet) falls back to Hebrew via
+`localize()`, same graceful degradation used everywhere else — nothing on
+the site breaks either way.
