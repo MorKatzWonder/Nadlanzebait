@@ -129,6 +129,35 @@ function reverseLabelMap<K extends string>(labels: Record<K, LocalizedText>): Ma
   return map;
 }
 
+/**
+ * Free-text sheet fields (teaser, description, street, etc.) are translated
+ * automatically by the "Translate" Apps Script — see
+ * listings-translate-apps-script.gs.txt — which fills in "<header> (EN)",
+ * "<header> (FR)", "<header> (RU)", "<header> (ES)" columns next to the
+ * Hebrew one Arik types in. The English translation is reused for both
+ * en-US and en-GB (same convention as content.ts's L() helper — only
+ * diverge when British wording actually differs, which machine
+ * translation doesn't know to do). A blank translation column (not
+ * translated yet, or the script isn't set up) just means that language
+ * falls back to Hebrew via localize(), same graceful degradation as
+ * everywhere else in the app.
+ */
+function buildLocalizedText(row: Record<string, string>, baseHeader: string, he: string): LocalizedText {
+  const text: LocalizedText = { he };
+  const en = row[`${baseHeader} (EN)`]?.trim();
+  if (en) {
+    text["en-US"] = en;
+    text["en-GB"] = en;
+  }
+  const fr = row[`${baseHeader} (FR)`]?.trim();
+  if (fr) text.fr = fr;
+  const ru = row[`${baseHeader} (RU)`]?.trim();
+  if (ru) text.ru = ru;
+  const es = row[`${baseHeader} (ES)`]?.trim();
+  if (es) text.es = es;
+  return text;
+}
+
 const TYPE_MAP = reverseLabelMap(TYPE_LABELS);
 const NEIGHBORHOOD_MAP = reverseLabelMap(NEIGHBORHOOD_LABELS);
 const CONDITION_MAP = reverseLabelMap(CONDITION_LABELS);
@@ -163,23 +192,23 @@ function splitMulti(v: string | undefined): string[] {
 /**
  * Unlike type/condition, a neighborhood isn't a closed set — Tel Aviv has far
  * more of them than the handful this app ships translations for. If the text
- * matches one of those presets, use its full 5-language label; otherwise
- * keep the raw Hebrew as-is (same graceful fallback `localize()` already
- * does everywhere else for untranslated content), rather than dropping the
- * whole listing over an unrecognized neighborhood name.
+ * matches one of those presets, use its full 6-language label; otherwise
+ * build a translated LocalizedText from the sheet's own "(EN)"/"(FR)"/"(RU)"/
+ * "(ES)" columns (see buildLocalizedText), rather than dropping the whole
+ * listing over an unrecognized neighborhood name.
  */
-function resolveNeighborhood(raw: string | undefined): LocalizedText | null {
-  const text = (raw ?? "").trim();
+function resolveNeighborhood(row: Record<string, string>): LocalizedText | null {
+  const text = row[LISTING_HEADERS.neighborhood]?.trim();
   if (!text) return null;
   const preset = NEIGHBORHOOD_MAP.get(text);
-  return preset ? NEIGHBORHOOD_LABELS[preset] : { he: text };
+  return preset ? NEIGHBORHOOD_LABELS[preset] : buildLocalizedText(row, LISTING_HEADERS.neighborhood, text);
 }
 
 function rowToListing(row: Record<string, string>, index: number): Listing | null {
   if (isHidden(row[LISTING_HEADERS.visible])) return null;
 
   const type = TYPE_MAP.get(row[LISTING_HEADERS.type] ?? "");
-  const neighborhood = resolveNeighborhood(row[LISTING_HEADERS.neighborhood]);
+  const neighborhood = resolveNeighborhood(row);
   const condition = CONDITION_MAP.get(row[LISTING_HEADERS.condition] ?? "");
   const street = row[LISTING_HEADERS.street];
   if (!type || !neighborhood || !condition || !street) {
@@ -203,7 +232,7 @@ function rowToListing(row: Record<string, string>, index: number): Listing | nul
     id,
     type: type as PropertyType,
     neighborhood,
-    street: { he: street },
+    street: buildLocalizedText(row, LISTING_HEADERS.street, street),
     price: parseNum(row[LISTING_HEADERS.price]),
     rooms: parseNum(row[LISTING_HEADERS.rooms]),
     sizeSqm: parseNum(row[LISTING_HEADERS.sizeSqm]),
@@ -211,7 +240,7 @@ function rowToListing(row: Record<string, string>, index: number): Listing | nul
     floor: parseNum(row[LISTING_HEADERS.floor]),
     floors: parseNum(row[LISTING_HEADERS.floors]),
     exposureCount: parseNum(row[LISTING_HEADERS.exposureCount]),
-    exposureDesc: { he: row[LISTING_HEADERS.exposureDesc] ?? "" },
+    exposureDesc: buildLocalizedText(row, LISTING_HEADERS.exposureDesc, row[LISTING_HEADERS.exposureDesc] ?? ""),
     parking: parseNum(row[LISTING_HEADERS.parking]),
     storage: parseBool(row[LISTING_HEADERS.storage]),
     basement: parseBool(row[LISTING_HEADERS.basement]),
@@ -219,12 +248,12 @@ function rowToListing(row: Record<string, string>, index: number): Listing | nul
     accessible: parseBool(row[LISTING_HEADERS.accessible]),
     yearBuilt: parseNum(row[LISTING_HEADERS.yearBuilt]),
     condition: condition as Condition,
-    status: statusHe ? { he: statusHe } : undefined,
+    status: statusHe ? buildLocalizedText(row, LISTING_HEADERS.status, statusHe) : undefined,
     photos: photos.length > 0 ? photos : undefined,
     characteristics,
     pointsOfInterest,
-    teaser: { he: row[LISTING_HEADERS.teaser] ?? "" },
-    description: { he: row[LISTING_HEADERS.description] ?? "" },
+    teaser: buildLocalizedText(row, LISTING_HEADERS.teaser, row[LISTING_HEADERS.teaser] ?? ""),
+    description: buildLocalizedText(row, LISTING_HEADERS.description, row[LISTING_HEADERS.description] ?? ""),
   };
   return listing;
 }
@@ -235,7 +264,12 @@ function rowToTestimonial(row: Record<string, string>, index: number): Testimoni
   if (!quote || !attribution) return null;
   const id = row[TESTIMONIAL_HEADERS.id]?.trim() || `sheet-t${index}`;
   const audience = AUDIENCE_MAP[row[TESTIMONIAL_HEADERS.audience]?.trim() ?? ""];
-  return { id, quote: { he: quote }, attribution: { he: attribution }, audience };
+  return {
+    id,
+    quote: buildLocalizedText(row, TESTIMONIAL_HEADERS.quote, quote),
+    attribution: buildLocalizedText(row, TESTIMONIAL_HEADERS.attribution, attribution),
+    audience,
+  };
 }
 
 export function parseListingsCsv(csv: string): Listing[] {
