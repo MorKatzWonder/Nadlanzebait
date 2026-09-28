@@ -101,6 +101,59 @@ feature change going forward — not just when asked.
 
 ## Not yet implemented / open decisions
 
+### Legal / compliance gaps (pre-launch checklist review)
+
+Audited against a standard Israeli website-launch checklist. Items marked
+**[I can build]** need no input beyond a go-ahead; **[needs you]** items are
+blocked on information or a decision only you/Arik can provide. Policy text
+should get a quick review by an Israeli lawyer before launch.
+
+- **Accessibility statement page** (הצהרת נגישות) — required for Israeli
+  business sites (Equal Rights for Persons with Disabilities regs, IS 5568);
+  a frequent lawsuit target. **[I can build]** page in all 6 languages +
+  footer link; **[needs you]** accessibility coordinator name/contact
+  (can be Arik) and statement date.
+- **Privacy policy page** (מדיניות פרטיות) — the valuation form collects
+  name/phone/address/message and logs it to the Leads Google Sheet, so one
+  is required under the Privacy Protection Law (incl. Amendment 13). Must
+  name third parties: Google (Sheets/Apps Script, Fonts), WhatsApp/Meta.
+  **[I can build]**.
+- **Consent checkbox on the valuation form** — "I agree to the privacy
+  policy and to being contacted", required before submit, linked to the
+  privacy page. **[I can build]**.
+- **Terms of use page** (תקנון ותנאי שימוש) — incl. disclaimer that listing
+  details/prices are not a binding offer. **[I can build]**.
+- **404 page** — `App.tsx` has no catch-all route, so unknown URLs render
+  an empty layout. Add a translated "page not found" with a link home.
+  **[I can build]**.
+- **Sample testimonials are live** — `TESTIMONIALS_CSV_URL` is empty, so the
+  site shows bundled sample reviews; presenting invented reviews as real is
+  misleading advertising. **[I can build]** hide the section until real
+  testimonials exist; **[needs you]** real testimonials (with the
+  customers' permission).
+- **Broker license number & business ID** — the Real Estate Brokers Law
+  requires the broker's license number on listing advertising; add it plus
+  ע.מ. to the footer/listing pages. **[needs you]** the numbers.
+- **Social links are `#` placeholders** (`SOCIAL_LINKS` in `content.ts`) —
+  swap in real profile URLs or hide the icons. **[I can build]** hiding;
+  **[needs you]** the URLs.
+- **Gallery image alt text** — gallery photos on the listing page use
+  `alt=""`; give them descriptive alt text (street + photo N) for
+  accessibility/SEO. **[I can build]**.
+- **Self-host Google Fonts** — Heebo/Archivo load from Google, sending
+  visitor IPs to a third party; self-hosting removes that and speeds up
+  first paint. Optional (otherwise just disclose it in the privacy
+  policy). **[I can build]**.
+- **Photo copyright** — real listing photos must be Arik's own or licensed.
+  **[needs you]**, once real photos replace the placeholders.
+- **Cookie banner / tracking** — not needed today: no analytics, pixels or
+  cookies. Revisit (banner + cookie policy) if Google Analytics or a Meta
+  Pixel is ever added.
+- Not applicable: refund and shipping policies (no e-commerce).
+
+### Other open items
+
+
 - **Multi-platform listing content generator** — turning a sheet row into
   ready-to-post Facebook/Instagram/Twitter/Yad2 copy. Deferred at your
   request until domain + leads were settled; domain is done, leads is the
