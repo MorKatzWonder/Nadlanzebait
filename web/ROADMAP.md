@@ -1,6 +1,6 @@
 # Roadmap
 
-What's live on [nadlanzebait](https://morkatzwonder.github.io/Nadlanzebait/)
+What's live on [www.nadlanzebait.com](https://www.nadlanzebait.com/)
 today, what's known-broken, and what's still open. Updated as part of every
 feature change going forward — not just when asked.
 
@@ -62,6 +62,43 @@ feature change going forward — not just when asked.
   `APPS_SCRIPT_SETUP.md`) as a fallback in case a visitor closes WhatsApp
   without hitting Send. See **Known issues** below — this part is currently
   broken.
+
+**Legal / compliance** (hand-written in all six languages; Hebrew governs)
+- `/accessibility` — accessibility statement (IS 5568 / WCAG 2.0 AA),
+  coordinator Arik Naim, 050-746-4403.
+- `/privacy` — privacy policy naming everything that touches visitor data
+  (WhatsApp/Meta, Google Sheets + Fonts, GitHub Pages), no cookies/analytics.
+- `/terms` — terms of use: listings aren't a binding offer, valuations are a
+  broker's estimate (not a certified appraisal), fees only under a signed
+  written brokerage order, Israeli law / Tel Aviv courts.
+- Content lives in `src/data/legal.ts`; bump `LEGAL_LAST_UPDATED` whenever
+  the wording changes.
+- Required consent checkbox on the contact form, linking to the privacy
+  policy.
+- Footer legal bar: links to all three pages, broker license no. 3131081 and
+  business reg. no. 037711835.
+- Translated 404 page for unknown in-app routes.
+- Descriptive photo alt text ("street, neighborhood — photo N of M") on the
+  gallery and on listing cards (cards now show the first photo when a
+  listing has one), with lazy loading.
+- Contrast: `--ink-3` and footer label color darkened to meet WCAG AA
+  (they were ~3:1).
+- Deep links (a property page opened in a new tab, a refresh on `/privacy`)
+  load correctly. Root cause of the blank property pages: GitHub Pages serves
+  `404.html` for any path without its own file, and that was a stale
+  hand-copied file pointing at a deleted JS bundle. Permanent fix, in layers:
+  - `npm run build` copies `index.html` to `404.html` every time.
+  - Automatic deploys (`.github/workflows/deploy.yml`): every push to `main`
+    that touches `web/` builds, lints and publishes to `gh-pages` — no more
+    hand deploys. It refuses to publish if `404.html` doesn't match
+    `index.html` or references a missing bundle.
+  - Old bundles in `assets/` are kept on deploy, so a browser holding a
+    cached older page still finds its script.
+  - An error boundary around every page shows a translated "something went
+    wrong — reload" message instead of a blank screen if a page ever
+    crashes.
+- PNG favicons (32/192), an Apple touch icon and `theme-color`, alongside the
+  SVG favicon — Safari and home-screen shortcuts ignore SVG favicons.
 
 **Custom domain**
 - The site is reachable at `www.nadlanzebait.com` (and `nadlanzebait.com`,
@@ -138,6 +175,29 @@ feature change going forward — not just when asked.
   behavior) — nothing breaks either way, it just isn't translated yet.
 
 ## Not yet implemented / open decisions
+
+### Legal / compliance — still open
+
+The rest of the launch-checklist items are built (see **Implemented**).
+What's left:
+
+- **Lawyer review** of the three legal pages before launch.
+- **Real testimonials** — `TESTIMONIALS_CSV_URL` is empty, so the site shows
+  bundled *sample* reviews. Presenting invented reviews as real is
+  misleading advertising — swap in real ones (with the customers'
+  permission) before launch. **[needs you]**
+- **Real social links** — `SOCIAL_LINKS` in `content.ts` are still `#`
+  placeholders. **[needs you]**
+- **Photo copyright** — real listing photos must be Arik's own or licensed.
+  **[needs you]**
+- **Cookie banner / tracking** — not needed today (no analytics, pixels or
+  cookies). Revisit — banner + cookie policy + privacy policy update — if
+  Google Analytics or a Meta Pixel is ever added.
+- Self-hosting Google Fonts — declined for now; disclosed in the privacy
+  policy instead.
+- Not applicable: refund and shipping policies (no e-commerce).
+
+### Other open items
 
 - **Multi-platform listing content generator** — turning a sheet row into
   ready-to-post Facebook/Instagram/Twitter/Yad2 copy. Deferred at your

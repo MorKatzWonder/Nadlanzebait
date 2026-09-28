@@ -54,7 +54,8 @@
       "any": "All",
       "results": "{{count}} properties",
       "none": "No properties match these filters"
-    }
+    },
+    "photoAlt": "{{street}}, {{neighborhood}} — photo {{n}} of {{total}}"
   },
   "contact": {
     "office": "Office",
@@ -71,7 +72,28 @@
       "errorPhone": "Invalid phone number",
       "errorAddress": "Please enter an address",
       "errorAddressBuyer": "Please enter an area",
-      "sent": "Opening WhatsApp with your request — send the message to reach us."
+      "sent": "Opening WhatsApp with your request — send the message to reach us.",
+      "consent": "I've read and agree to the <privacyLink>privacy policy</privacyLink> and to being contacted about my request",
+      "errorConsent": "Please accept the privacy policy to send"
     }
+  },
+  "legal": {
+    "navLabel": "Legal",
+    "accessibility": "Accessibility statement",
+    "privacy": "Privacy policy",
+    "terms": "Terms of use",
+    "lastUpdated": "Last updated",
+    "license": "Broker license no.",
+    "businessId": "Business reg. no."
+  },
+  "notFound": {
+    "title": "Page not found",
+    "body": "The link may be wrong, or the page may have been removed. Let's get you home.",
+    "home": "Back to home"
+  },
+  "pageError": {
+    "title": "Something went wrong loading this page",
+    "body": "Please try reloading. If it keeps happening, you can always reach us on WhatsApp or by phone.",
+    "reload": "Reload"
   }
 }

@@ -54,7 +54,8 @@
       "any": "Todos",
       "results": "{{count}} propiedades",
       "none": "Ninguna propiedad coincide con estos filtros"
-    }
+    },
+    "photoAlt": "{{street}}, {{neighborhood}} — foto {{n}} de {{total}}"
   },
   "contact": {
     "office": "Oficina",
@@ -71,7 +72,28 @@
       "errorPhone": "Número de teléfono inválido",
       "errorAddress": "Por favor ingrese una dirección",
       "errorAddressBuyer": "Por favor indique una zona",
-      "sent": "Abriendo WhatsApp con su solicitud — envíe el mensaje para que la recibamos."
+      "sent": "Abriendo WhatsApp con su solicitud — envíe el mensaje para que la recibamos.",
+      "consent": "He leído y acepto la <privacyLink>política de privacidad</privacyLink> y que me contacten sobre mi solicitud",
+      "errorConsent": "Acepte la política de privacidad para enviar"
     }
+  },
+  "legal": {
+    "navLabel": "Información legal",
+    "accessibility": "Declaración de accesibilidad",
+    "privacy": "Política de privacidad",
+    "terms": "Términos de uso",
+    "lastUpdated": "Última actualización",
+    "license": "Licencia de agente n.º",
+    "businessId": "N.º de registro comercial"
+  },
+  "notFound": {
+    "title": "Página no encontrada",
+    "body": "Puede que el enlace sea incorrecto o que la página se haya eliminado. Volvamos al inicio.",
+    "home": "Volver al inicio"
+  },
+  "pageError": {
+    "title": "Algo salió mal al cargar esta página",
+    "body": "Intente recargarla. Si vuelve a ocurrir, puede contactarnos por WhatsApp o por teléfono.",
+    "reload": "Recargar"
   }
 }

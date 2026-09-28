@@ -28,13 +28,17 @@ function Gallery({ listing, language }: { listing: Listing; language: SupportedL
     return <div className="gallery-main gallery-main--empty">{t("listings.photoPlaceholder")}</div>;
   }
 
+  const photoAlt = (idx: number) =>
+    t("listings.photoAlt", {
+      street: localize(listing.street, language),
+      neighborhood: localize(listing.neighborhood, language),
+      n: idx + 1,
+      total: photos.length,
+    });
+
   return (
     <div className="gallery">
-      <img
-        className="gallery-main"
-        src={photos[selected]}
-        alt={localize(listing.street, language)}
-      />
+      <img className="gallery-main" src={photos[selected]} alt={photoAlt(selected)} />
       {photos.length > 1 ? (
         <div className="gallery-thumbs">
           {photos.map((photo, idx) => (
@@ -43,9 +47,10 @@ function Gallery({ listing, language }: { listing: Listing; language: SupportedL
               key={photo}
               className={`gallery-thumb${idx === selected ? " active" : ""}`}
               onClick={() => setSelected(idx)}
-              aria-label={`${idx + 1}/${photos.length}`}
+              aria-label={photoAlt(idx)}
+              aria-pressed={idx === selected}
             >
-              <img src={photo} alt="" />
+              <img src={photo} alt="" loading="lazy" decoding="async" />
             </button>
           ))}
         </div>

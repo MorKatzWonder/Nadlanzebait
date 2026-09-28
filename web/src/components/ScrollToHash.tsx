@@ -5,13 +5,17 @@ import { useLocation } from "react-router-dom";
  * React Router doesn't scroll to an in-page anchor on navigation by default.
  * This scrolls to the element matching the URL hash whenever it changes —
  * used so nav items like "Testimonials" can link to a section on Home
- * (`/#testimonials`) instead of a standalone page.
+ * (`/#testimonials`) instead of a standalone page. Without a hash it scrolls
+ * to the top, so e.g. the footer's legal links don't open mid-page.
  */
 export function ScrollToHash() {
   const location = useLocation();
 
   useEffect(() => {
-    if (!location.hash) return;
+    if (!location.hash) {
+      window.scrollTo(0, 0);
+      return;
+    }
     const id = location.hash.slice(1);
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: "smooth" });
