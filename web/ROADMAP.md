@@ -63,6 +63,39 @@ feature change going forward — not just when asked.
   without hitting Send. See **Known issues** below — this part is currently
   broken.
 
+**Custom domain**
+- The site is reachable at `www.nadlanzebait.com` (and `nadlanzebait.com`,
+  which GitHub redirects to `www`), not just the `github.io` URL. DNS at the
+  registrar (apex A records to GitHub Pages' four anycast IPs, `www` CNAME
+  to `morkatzwonder.github.io`) is confirmed correct.
+- **Why it failed the first time**: the DNS records were correct in the
+  registrar's panel, but hadn't finished propagating yet when it was tested
+  — Squarespace's own "domain not connected" placeholder was still showing
+  from the old resolver cache, which looked identical to a real failure.
+  It wasn't a code bug: `vite.config.ts`'s `base` and the `CNAME` file were
+  already set correctly in that first attempt. By the time this was
+  reconnected, DNS had long since settled, and it worked immediately.
+- Every hardcoded absolute URL (canonical, Open Graph, JSON-LD, sitemap,
+  robots.txt, llms.txt, per-listing structured data) points at
+  `https://www.nadlanzebait.com/`.
+
+**Automatic sheet-content translation**
+- Arik only ever types Hebrew in the Listings/Testimonials sheets. A free
+  Apps Script (`src/data/sheet-translate-apps-script.gs.txt`) now watches
+  for edits and auto-fills English/French/Russian/Spanish versions of
+  every free-text field — teaser, description, exposure direction, status
+  tag, street, an uncommon neighborhood name, testimonial quotes — using
+  Google's free translation service. `sheetParse.ts` reads those columns
+  via `buildLocalizedText()`. Machine translation, not human; Arik can
+  overwrite any specific cell by hand and the script won't touch it again.
+  A blank/untranslated cell still falls back to Hebrew, same graceful
+  degradation as before this existed — nothing on the site depends on this
+  actually being set up.
+- Verified end-to-end with a mocked sheet response: translated columns
+  render correctly per-language on listing cards and in the address line;
+  a deliberately blank translation cell correctly falls back to Hebrew.
+- **Needs setup** — see **Waiting on you** below.
+
 **SEO / AEO foundations** (see `SEO.md` for full detail)
 - Descriptive title/meta description, canonical URL, Open Graph + Twitter
   Card tags, site-wide `RealEstateAgent` JSON-LD in `index.html`.
@@ -75,29 +108,34 @@ feature change going forward — not just when asked.
 
 ## Waiting on you
 
-- **Leads Google Sheet isn't receiving rows — needs the Apps Script setup
-  steps.** Confirmed: WhatsApp opens correctly with the pre-filled message
-  (the part that actually reaches Arik), but submissions aren't showing up
-  in the "Nadlanzebait — Leads" sheet. The site-side request is constructed
-  and fired correctly (verified directly), so the fault is on the Apps
-  Script side — specifically, you haven't yet walked through
-  `APPS_SCRIPT_SETUP.md`'s deployment steps. Likely causes once you do:
-  1. The live deployment is running older code that predates the GET/doGet
-     fix (a code edit alone doesn't take effect until you deploy a **new
-     version** of the existing deployment).
-  2. The Web App's access setting isn't "Anyone" (e.g. it's "Anyone with a
-     Google account", which silently rejects anonymous site visitors).
-  3. The deployment needs re-authorization (Google occasionally requires
-     re-consent after security/account changes).
-  - **Fastest way to diagnose**: open the Apps Script editor for the sheet →
-    **Executions** (left sidebar) → submit the form on the live site → see
-    whether a `doGet` execution shows up and whether it errored.
-  - **Fastest likely fix**: paste `src/data/leads-apps-script.gs.txt` into
-    the Apps Script editor fresh, then **Deploy → Manage deployments → edit
-    (pencil) → Version: New version → Deploy**. Same URL, no site change
-    needed. Full walkthrough in `APPS_SCRIPT_SETUP.md`.
-  - You said you'd do this later — flagging here so it doesn't get lost;
-    ask any time and I'll walk through it with you live.
+- **Leads Google Sheet is still only getting a timestamp, not the rest of
+  the fields — points at the deployment's "Execute as" setting.** WhatsApp
+  itself works correctly (pre-filled message opens fine — the part that
+  actually reaches Arik). Diagnosed this round: hitting the deployed `/exec`
+  URL directly in a browser (bypassing the site entirely) reproduces the
+  exact same symptom — a row with only `new Date()`'s value, everything
+  else blank — which rules out anything on the site side (the request URL
+  and parameters were independently confirmed correct via network capture).
+  That leaves the Apps Script deployment itself: when **Execute as** is set
+  to "User accessing the web app" instead of "Me", `doGet` still runs for
+  an anonymous visitor (hence the date), but `e.parameter` silently comes
+  back empty.
+  - **Fix**: Apps Script editor → **Deploy → Manage deployments** → edit
+    (pencil) → **Execute as: Me** → **Version: New version** → Deploy. Same
+    URL, no site change needed.
+  - You've since pointed `leadsConfig.ts` at a new deployment URL directly
+    (via two direct commits, to `main` and to this PR's branch — merged
+    here without conflict). Still needs testing against that fix once
+    "Execute as" is confirmed set to "Me" on that deployment.
+
+- **Sheet-content translation needs the Apps Script + sheet columns set
+  up.** The code and the script are ready, but this needs the same kind of
+  manual, human-only steps as the Leads webhook: add ~24 new columns to
+  the Listings sheet (8 to Testimonials), paste the script into each
+  sheet's Apps Script editor, and install an "on edit" trigger. Full
+  walkthrough in `SHEET_TRANSLATION_SETUP.md`. Until this is done, sheet
+  content keeps showing Hebrew for non-Hebrew visitors (the pre-existing
+  behavior) — nothing breaks either way, it just isn't translated yet.
 
 ## Not yet implemented / open decisions
 
@@ -105,12 +143,6 @@ feature change going forward — not just when asked.
   ready-to-post Facebook/Instagram/Twitter/Yad2 copy. Deferred at your
   request until domain + leads were settled; domain is done, leads is the
   item above.
-- **Sheet content auto-translation** — Google Apps Script has a free
-  built-in `LanguageApp.translate()` that could auto-translate a new Hebrew
-  row into the other five languages when Arik adds a listing. Proposed, not
-  built — needs a decision on whether machine-translated listing copy is
-  acceptable quality for a live listing (vs. today's manual-translation-only
-  policy for hand-authored site copy).
 - **Full sitemap** — `sitemap.xml` currently only lists the homepage;
   listing IDs come from a live sheet, so enumerating them needs a build-time
   fetch step.
@@ -125,6 +157,3 @@ feature change going forward — not just when asked.
   yet since there's no real listing photography (placeholders only).
 - **Real mobile device testing** — verified so far via emulated Playwright
   viewports only, not actual phones.
-- **Custom domain** — `nadlanzebait.com` was connected then fully reverted
-  at your request; the site runs on GitHub Pages' own URL. Can be
-  reconnected if/when wanted.
