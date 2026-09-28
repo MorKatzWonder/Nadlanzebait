@@ -84,10 +84,19 @@ feature change going forward — not just when asked.
 - Contrast: `--ink-3` and footer label color darkened to meet WCAG AA
   (they were ~3:1).
 - Deep links (a property page opened in a new tab, a refresh on `/privacy`)
-  load correctly: `npm run build` copies `index.html` to `404.html`, which
-  GitHub Pages serves for any path it doesn't have a file for. Previously a
-  stale hand-copied `404.html` pointed at a deleted JS bundle, so property
-  pages opened in a new tab rendered blank.
+  load correctly. Root cause of the blank property pages: GitHub Pages serves
+  `404.html` for any path without its own file, and that was a stale
+  hand-copied file pointing at a deleted JS bundle. Permanent fix, in layers:
+  - `npm run build` copies `index.html` to `404.html` every time.
+  - Automatic deploys (`.github/workflows/deploy.yml`): every push to `main`
+    that touches `web/` builds, lints and publishes to `gh-pages` — no more
+    hand deploys. It refuses to publish if `404.html` doesn't match
+    `index.html` or references a missing bundle.
+  - Old bundles in `assets/` are kept on deploy, so a browser holding a
+    cached older page still finds its script.
+  - An error boundary around every page shows a translated "something went
+    wrong — reload" message instead of a blank screen if a page ever
+    crashes.
 - PNG favicons (32/192), an Apple touch icon and `theme-color`, alongside the
   SVG favicon — Safari and home-screen shortcuts ignore SVG favicons.
 

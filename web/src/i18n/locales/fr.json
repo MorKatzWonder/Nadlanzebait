@@ -90,5 +90,10 @@
     "title": "Page introuvable",
     "body": "Le lien est peut-être erroné ou la page a été supprimée. Revenons à l'accueil.",
     "home": "Retour à l'accueil"
+  },
+  "pageError": {
+    "title": "Un problème est survenu lors du chargement de la page",
+    "body": "Essayez de recharger. Si le problème persiste, contactez-nous sur WhatsApp ou par téléphone.",
+    "reload": "Recharger"
   }
 }

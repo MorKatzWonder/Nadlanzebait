@@ -90,5 +90,10 @@
     "title": "Page not found",
     "body": "The link may be wrong, or the page may have been removed. Let's get you home.",
     "home": "Back to home"
+  },
+  "pageError": {
+    "title": "Something went wrong loading this page",
+    "body": "Please try reloading. If it keeps happening, you can always reach us on WhatsApp or by phone.",
+    "reload": "Reload"
   }
 }

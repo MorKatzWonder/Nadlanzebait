@@ -90,5 +90,10 @@
     "title": "Página no encontrada",
     "body": "Puede que el enlace sea incorrecto o que la página se haya eliminado. Volvamos al inicio.",
     "home": "Volver al inicio"
+  },
+  "pageError": {
+    "title": "Algo salió mal al cargar esta página",
+    "body": "Intente recargarla. Si vuelve a ocurrir, puede contactarnos por WhatsApp o por teléfono.",
+    "reload": "Recargar"
   }
 }

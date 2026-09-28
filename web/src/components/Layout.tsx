@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { ErrorBoundary } from "./ErrorBoundary";
 import { Logo } from "./Logo";
 import { AGENT_BROKER_LICENSE, AGENT_BUSINESS_ID, AGENT_HOURS, AGENT_NAME, AGENT_OFFICE_ADDRESS, AGENT_PHONE_DIAL, AGENT_PHONE_DISPLAY, AGENT_WHATSAPP_DIGITS, SOCIAL_LINKS, waHref } from "../data/content";
 import { localize } from "../data/localize";
@@ -12,6 +13,7 @@ export function Layout() {
   const { t, i18n } = useTranslation();
   const language = i18n.resolvedLanguage as SupportedLanguage;
   const [navOpen, setNavOpen] = useState(false);
+  const { pathname } = useLocation();
 
   const navLink = ({ isActive }: { isActive: boolean }) => `navlink${isActive ? " active" : ""}`;
 
@@ -71,7 +73,9 @@ export function Layout() {
       </header>
 
       <main>
-        <Outlet />
+        <ErrorBoundary key={pathname}>
+          <Outlet />
+        </ErrorBoundary>
       </main>
 
       <footer className="site-footer">

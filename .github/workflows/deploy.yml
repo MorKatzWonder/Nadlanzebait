@@ -1,0 +1,72 @@
+# Builds web/ and publishes it to the gh-pages branch (which GitHub Pages
+# serves at www.nadlanzebait.com) on every push to main — so nobody deploys
+# by hand, and 404.html can never drift from index.html again.
+#
+# 404.html matters: GitHub Pages serves it for any path without a file of its
+# own (/listings/…, /privacy, a refresh on any page), so it must be an exact
+# copy of the current index.html. `npm run build` makes that copy; the
+# "Verify" step refuses to publish if it's missing or references a script or
+# stylesheet that isn't in the build.
+#
+# Old files in assets/ are kept on purpose: a phone that cached the previous
+# index.html for a few minutes still finds the bundle it points at, instead of
+# getting a blank page.
+name: Deploy site
+
+on:
+  push:
+    branches: [main]
+    paths: ["web/**", ".github/workflows/deploy.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: deploy-gh-pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Build
+        working-directory: web
+        run: |
+          npm ci
+          npm run lint
+          npm run build
+
+      - name: Verify build
+        working-directory: web/dist
+        run: |
+          cmp index.html 404.html
+          test -f CNAME
+          for ref in $(grep -oE '(src|href)="/assets/[^"]+"' index.html | sed -E 's/.*"\/(.*)"/\1/'); do
+            test -f "$ref" || { echo "index.html references missing $ref"; exit 1; }
+          done
+
+      - name: Publish to gh-pages
+        run: |
+          git fetch origin gh-pages --depth=1
+          git worktree add site origin/gh-pages
+          cd site
+          find . -mindepth 1 -maxdepth 1 ! -name .git ! -name assets -exec rm -rf {} +
+          cp -r ../web/dist/. .
+          touch .nojekyll
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Nothing changed."
+            exit 0
+          fi
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -m "Deploy: ${GITHUB_SHA::7} — $(git -C .. log -1 --format=%s)"
+          git push origin HEAD:gh-pages
