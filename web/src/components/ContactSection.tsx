@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from "react";
-import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import { Trans, useTranslation } from "react-i18next";
 import { localize } from "../data/localize";
 import { LEADS_WEBHOOK_URL } from "../data/leadsConfig";
 import type { SupportedLanguage } from "../i18n";
@@ -185,7 +186,8 @@ export function ContactSection({ persona = null }: { persona?: Persona | null })
   const [address, setAddress] = useState("");
   const [type, setType] = useState<PropertyType>(TYPE_KEYS[0]);
   const [message, setMessage] = useState("");
-  const [errors, setErrors] = useState<{ name?: string; phone?: string; address?: string }>({});
+  const [consent, setConsent] = useState(false);
+  const [errors, setErrors] = useState<{ name?: string; phone?: string; address?: string; consent?: string }>({});
   const [sentHref, setSentHref] = useState<string | null>(null);
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -194,6 +196,7 @@ export function ContactSection({ persona = null }: { persona?: Persona | null })
     if (name.trim().length < 2) nextErrors.name = t("contact.form.errorName");
     if (!/^[0-9+\-\s()]{9,}$/.test(phone.trim())) nextErrors.phone = t("contact.form.errorPhone");
     if (address.trim().length < 3) nextErrors.address = addressError;
+    if (!consent) nextErrors.consent = t("contact.form.errorConsent");
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) {
       setSentHref(null);
@@ -310,6 +313,27 @@ export function ContactSection({ persona = null }: { persona?: Persona | null })
           <div className="field full">
             <label htmlFor="vf-message">{t("contact.form.message")}</label>
             <input className="input" id="vf-message" value={message} onChange={(e) => setMessage(e.target.value)} />
+          </div>
+          <div className="field full">
+            <label className="consent" htmlFor="vf-consent">
+              <input
+                type="checkbox"
+                id="vf-consent"
+                checked={consent}
+                onChange={(e) => setConsent(e.target.checked)}
+                aria-invalid={errors.consent ? true : undefined}
+                aria-describedby="vf-consent-err"
+              />
+              <span>
+                <Trans
+                  i18nKey="contact.form.consent"
+                  components={{ privacyLink: <Link to="/privacy" target="_blank" rel="noopener" /> }}
+                />
+              </span>
+            </label>
+            <div className="err" id="vf-consent-err">
+              {errors.consent}
+            </div>
           </div>
           <div className="full">
             <button type="submit" className="btn btn-primary">

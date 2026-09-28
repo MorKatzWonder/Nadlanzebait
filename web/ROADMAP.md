@@ -63,6 +63,27 @@ feature change going forward — not just when asked.
   without hitting Send. See **Known issues** below — this part is currently
   broken.
 
+**Legal / compliance** (hand-written in all six languages; Hebrew governs)
+- `/accessibility` — accessibility statement (IS 5568 / WCAG 2.0 AA),
+  coordinator Arik Naim, 050-746-4403.
+- `/privacy` — privacy policy naming everything that touches visitor data
+  (WhatsApp/Meta, Google Sheets + Fonts, GitHub Pages), no cookies/analytics.
+- `/terms` — terms of use: listings aren't a binding offer, valuations are a
+  broker's estimate (not a certified appraisal), fees only under a signed
+  written brokerage order, Israeli law / Tel Aviv courts.
+- Content lives in `src/data/legal.ts`; bump `LEGAL_LAST_UPDATED` whenever
+  the wording changes.
+- Required consent checkbox on the contact form, linking to the privacy
+  policy.
+- Footer legal bar: links to all three pages, broker license no. 3131081 and
+  business reg. no. 037711835.
+- Translated 404 page for unknown in-app routes.
+- Descriptive photo alt text ("street, neighborhood — photo N of M") on the
+  gallery and on listing cards (cards now show the first photo when a
+  listing has one), with lazy loading.
+- Contrast: `--ink-3` and footer label color darkened to meet WCAG AA
+  (they were ~3:1).
+
 **SEO / AEO foundations** (see `SEO.md` for full detail)
 - Descriptive title/meta description, canonical URL, Open Graph + Twitter
   Card tags, site-wide `RealEstateAgent` JSON-LD in `index.html`.
@@ -101,54 +122,30 @@ feature change going forward — not just when asked.
 
 ## Not yet implemented / open decisions
 
-### Legal / compliance gaps (pre-launch checklist review)
+### Legal / compliance — still open
 
-Audited against a standard Israeli website-launch checklist. Items marked
-**[I can build]** need no input beyond a go-ahead; **[needs you]** items are
-blocked on information or a decision only you/Arik can provide. Policy text
-should get a quick review by an Israeli lawyer before launch.
+The rest of the launch-checklist items are built (see **Implemented**).
+What's left:
 
-- **Accessibility statement page** (הצהרת נגישות) — required for Israeli
-  business sites (Equal Rights for Persons with Disabilities regs, IS 5568);
-  a frequent lawsuit target. **[I can build]** page in all 6 languages +
-  footer link; **[needs you]** accessibility coordinator name/contact
-  (can be Arik) and statement date.
-- **Privacy policy page** (מדיניות פרטיות) — the valuation form collects
-  name/phone/address/message and logs it to the Leads Google Sheet, so one
-  is required under the Privacy Protection Law (incl. Amendment 13). Must
-  name third parties: Google (Sheets/Apps Script, Fonts), WhatsApp/Meta.
-  **[I can build]**.
-- **Consent checkbox on the valuation form** — "I agree to the privacy
-  policy and to being contacted", required before submit, linked to the
-  privacy page. **[I can build]**.
-- **Terms of use page** (תקנון ותנאי שימוש) — incl. disclaimer that listing
-  details/prices are not a binding offer. **[I can build]**.
-- **404 page** — `App.tsx` has no catch-all route, so unknown URLs render
-  an empty layout. Add a translated "page not found" with a link home.
-  **[I can build]**.
-- **Sample testimonials are live** — `TESTIMONIALS_CSV_URL` is empty, so the
-  site shows bundled sample reviews; presenting invented reviews as real is
-  misleading advertising. **[I can build]** hide the section until real
-  testimonials exist; **[needs you]** real testimonials (with the
-  customers' permission).
-- **Broker license number & business ID** — the Real Estate Brokers Law
-  requires the broker's license number on listing advertising; add it plus
-  ע.מ. to the footer/listing pages. **[needs you]** the numbers.
-- **Social links are `#` placeholders** (`SOCIAL_LINKS` in `content.ts`) —
-  swap in real profile URLs or hide the icons. **[I can build]** hiding;
-  **[needs you]** the URLs.
-- **Gallery image alt text** — gallery photos on the listing page use
-  `alt=""`; give them descriptive alt text (street + photo N) for
-  accessibility/SEO. **[I can build]**.
-- **Self-host Google Fonts** — Heebo/Archivo load from Google, sending
-  visitor IPs to a third party; self-hosting removes that and speeds up
-  first paint. Optional (otherwise just disclose it in the privacy
-  policy). **[I can build]**.
+- **Lawyer review** of the three legal pages before launch.
+- **Real testimonials** — `TESTIMONIALS_CSV_URL` is empty, so the site shows
+  bundled *sample* reviews. Presenting invented reviews as real is
+  misleading advertising — swap in real ones (with the customers'
+  permission) before launch. **[needs you]**
+- **Real social links** — `SOCIAL_LINKS` in `content.ts` are still `#`
+  placeholders. **[needs you]**
 - **Photo copyright** — real listing photos must be Arik's own or licensed.
-  **[needs you]**, once real photos replace the placeholders.
-- **Cookie banner / tracking** — not needed today: no analytics, pixels or
-  cookies. Revisit (banner + cookie policy) if Google Analytics or a Meta
-  Pixel is ever added.
+  **[needs you]**
+- **Direct-load 404 on GitHub Pages** — the in-app 404 shows for bad links
+  clicked *inside* the site, but a mistyped URL loaded directly (or a
+  refresh on `/privacy`, `/listings/…`) gets GitHub's own 404 page, since
+  Pages doesn't know it's an SPA. Fix: a `public/404.html` that redirects
+  into the app.
+- **Cookie banner / tracking** — not needed today (no analytics, pixels or
+  cookies). Revisit — banner + cookie policy + privacy policy update — if
+  Google Analytics or a Meta Pixel is ever added.
+- Self-hosting Google Fonts — declined for now; disclosed in the privacy
+  policy instead.
 - Not applicable: refund and shipping policies (no e-commerce).
 
 ### Other open items

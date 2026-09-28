@@ -54,7 +54,8 @@
       "any": "Tous",
       "results": "{{count}} biens",
       "none": "Aucun bien ne correspond à ces filtres"
-    }
+    },
+    "photoAlt": "{{street}}, {{neighborhood}} — photo {{n}} sur {{total}}"
   },
   "contact": {
     "office": "Bureau",
@@ -71,7 +72,23 @@
       "errorPhone": "Numéro de téléphone invalide",
       "errorAddress": "Veuillez indiquer une adresse",
       "errorAddressBuyer": "Veuillez indiquer un quartier",
-      "sent": "Ouverture de WhatsApp avec votre demande — envoyez le message pour nous joindre."
+      "sent": "Ouverture de WhatsApp avec votre demande — envoyez le message pour nous joindre.",
+      "consent": "J'ai lu et j'accepte la <privacyLink>politique de confidentialité</privacyLink> et d'être recontacté(e) au sujet de ma demande",
+      "errorConsent": "Veuillez accepter la politique de confidentialité pour envoyer"
     }
+  },
+  "legal": {
+    "navLabel": "Mentions légales",
+    "accessibility": "Déclaration d'accessibilité",
+    "privacy": "Politique de confidentialité",
+    "terms": "Conditions d'utilisation",
+    "lastUpdated": "Dernière mise à jour",
+    "license": "Licence d'agent n°",
+    "businessId": "N° d'entreprise"
+  },
+  "notFound": {
+    "title": "Page introuvable",
+    "body": "Le lien est peut-être erroné ou la page a été supprimée. Revenons à l'accueil.",
+    "home": "Retour à l'accueil"
   }
 }

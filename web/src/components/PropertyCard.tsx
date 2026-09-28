@@ -35,7 +35,22 @@ export function PropertyCard({ listing }: { listing: Listing }) {
         {listing.status ? (
           <span className="tag tag-status st">{localize(listing.status, language)}</span>
         ) : null}
-        {t("listings.photoPlaceholder")}
+        {listing.photos?.length ? (
+          <img
+            className="ph__img"
+            src={listing.photos[0]}
+            alt={t("listings.photoAlt", {
+              street: localize(listing.street, language),
+              neighborhood: localize(listing.neighborhood, language),
+              n: 1,
+              total: listing.photos.length,
+            })}
+            loading="lazy"
+            decoding="async"
+          />
+        ) : (
+          t("listings.photoPlaceholder")
+        )}
       </Link>
       <div className="card-body">
         <Link

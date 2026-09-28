@@ -3,7 +3,7 @@ import { Link, NavLink, Outlet } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { Logo } from "./Logo";
-import { AGENT_HOURS, AGENT_NAME, AGENT_OFFICE_ADDRESS, AGENT_PHONE_DIAL, AGENT_PHONE_DISPLAY, AGENT_WHATSAPP_DIGITS, SOCIAL_LINKS, waHref } from "../data/content";
+import { AGENT_BROKER_LICENSE, AGENT_BUSINESS_ID, AGENT_HOURS, AGENT_NAME, AGENT_OFFICE_ADDRESS, AGENT_PHONE_DIAL, AGENT_PHONE_DISPLAY, AGENT_WHATSAPP_DIGITS, SOCIAL_LINKS, waHref } from "../data/content";
 import { localize } from "../data/localize";
 import { FacebookIcon, InstagramIcon, TikTokIcon } from "./SocialIcons";
 import type { SupportedLanguage } from "../i18n";
@@ -112,6 +112,18 @@ export function Layout() {
               <br />
               {localize(AGENT_HOURS, language)}
             </div>
+          </div>
+        </div>
+        <div className="container">
+          <div className="site-footer__legal">
+            <nav className="site-footer__legal-links" aria-label={t("legal.navLabel")}>
+              <Link to="/accessibility">{t("legal.accessibility")}</Link>
+              <Link to="/privacy">{t("legal.privacy")}</Link>
+              <Link to="/terms">{t("legal.terms")}</Link>
+            </nav>
+            <p className="site-footer__ids tnum">
+              {t("legal.license")} {AGENT_BROKER_LICENSE} · {t("legal.businessId")} {AGENT_BUSINESS_ID}
+            </p>
           </div>
         </div>
       </footer>
