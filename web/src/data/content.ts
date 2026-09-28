@@ -9,7 +9,7 @@ import type {
 } from "./types";
 
 /** Builds a fully-translated LocalizedText. enGB defaults to enUS when the wording doesn't differ. */
-function L(parts: { he: string; enUS: string; enGB?: string; fr: string; ru: string; es: string }): LocalizedText {
+export function L(parts: { he: string; enUS: string; enGB?: string; fr: string; ru: string; es: string }): LocalizedText {
   return {
     he: parts.he,
     "en-US": parts.enUS,
@@ -38,6 +38,10 @@ export const AGENT_NAME: LocalizedText = L({
 export const AGENT_PHONE_DISPLAY = "050-746-4403";
 export const AGENT_PHONE_DIAL = "+972507464403";
 export const AGENT_WHATSAPP_DIGITS = "972507464403";
+/** Real-estate broker license — the Real Estate Brokers Law requires it on listing advertising. */
+export const AGENT_BROKER_LICENSE = "3131081";
+/** Business registration number (עוסק מורשה). */
+export const AGENT_BUSINESS_ID = "037711835";
 
 /** Placeholder until Arik creates these accounts — swap in the real profile URLs. */
 export const SOCIAL_LINKS = {
